@@ -31,8 +31,12 @@ MATCHER_P(RGBColorEq, expected, "") {
 
 #if CONFIG_COLOR_BLUE
 const RGBColor onColor = { .red = 0, .green = 0, .blue = LED_BRIGHTNESS };
-#else
+#elif CONFIG_COLOR_GREEN
 const RGBColor onColor = { .red = 0, .green = LED_BRIGHTNESS, .blue = 0 };
+#elif CONFIG_COLOR_RED
+const RGBColor onColor = { .red = LED_BRIGHTNESS, .green = 0, .blue = 0 };
+#elif CONFIG_COLOR_PURPLE
+const RGBColor onColor = { .red = LED_BRIGHTNESS / 2, .green = 0, .blue = LED_BRIGHTNESS };
 #endif
 const RGBColor offColor = { .red = 0, .green = 0, .blue = 0 };
 
@@ -48,7 +52,6 @@ std::ostream& operator<<(std::ostream& os, const RGBColor& color)
 *
 * .. test:: light_controller.test_light_stays_off
 *    :id: TS_LC-006
-*    :results: [[tr_link('title', 'case')]]
 *    :tests: SWDD_LC-001, SWDD_LC-004
 *
 * @endrst
@@ -71,7 +74,6 @@ TEST(light_controller, test_light_stays_off)
 *
 * .. test:: light_controller.test_light_on_and_off
 *    :id: TS_LC-001
-*    :results: [[tr_link('title', 'case')]]
 *    :tests: SWDD_LC-001, SWDD_LC-003, SWDD_LC-004
 *
 * @endrst
@@ -111,7 +113,6 @@ TEST(light_controller, test_light_on_and_off)
 *
 * .. test:: light_controller.test_light_on_very_bright
 *    :id: TS_LC-005
-*    :results: [[tr_link('title', 'case')]]
 *    :tests: SWDD_LC-005
 *
 * @endrst
@@ -140,7 +141,6 @@ TEST(light_controller, test_light_on_very_bright)
 *
 * .. test:: light_controller.test_light_blinking
 *    :id: TS_LC-002
-*    :results: [[tr_link('title', 'case')]]
 *    :tests: SWDD_LC-002
 *
 * @endrst
@@ -206,7 +206,6 @@ std::ostream& operator<<(std::ostream& os, const TestParam& param)
 *
 * .. test:: light_controller.test_correct_blink_period
 *    :id: TS_LC-004
-*    :results: [[tr_link('title', 'case')]]
 *    :tests: SWDD_LC-002
 *
 * @endrst
@@ -233,7 +232,6 @@ TEST(light_controller, test_correct_blink_period)
 *
 * .. test:: BlinkPeriodTests/BlinkPeriodTest.CalculatesCorrectBlinkPeriod/*
 *    :id: TS_LC-003
-*    :results: [[tr_link('title', 'case')]]
 *    :tests: SWDD_LC-002
 *
 * @endrst

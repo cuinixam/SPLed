@@ -10,7 +10,7 @@ day = datetime.date.today()
 # meta data #################################################################
 
 project = "SPLed"
-copyright = f"{day.year} Marquardt GmbH"
+copyright = f"{day.year} Avengineers"
 release = f"{day}"
 
 # file handling #############################################################
@@ -20,8 +20,16 @@ templates_path = [
     "doc/_tmpl",
 ]
 
-exclude_patterns = ["README.md", "build/modules", "build/deps", ".venv", ".git"]
-include_patterns = ["index.rst", "references.rst", "doc/**"]
+exclude_patterns = [
+    "README.md",
+    "build/modules",
+    "build/deps",
+    ".venv",
+    ".git",
+    "**/test_results.rst",  # We renamed this file, but nobody deletes it.
+]
+
+include_patterns = ["index.rst", "coverage.rst", "definitions.rst", "doc/**"]
 
 # configuration of built-in stuff ###########################################
 # @see https://www.sphinx-doc.org/en/master/usage/configuration.html
@@ -84,6 +92,9 @@ def tr_link(app, need, needs, first_option_name, second_option_name, *args, **kw
 
     links = []
     for need_target in needs.values():
+        # Skip linking to itself
+        if need_target["id"] == need["id"]:
+            continue
         if second_option_name not in need_target:
             continue
 
@@ -102,7 +113,6 @@ def tr_link(app, need, needs, first_option_name, second_option_name, *args, **kw
 
 needs_functions = [tr_link]
 
-# todo #######################################################################
 extensions.append("sphinx.ext.todo")
 
 # Render Your Data Readable ##################################################
@@ -112,9 +122,26 @@ extensions.append("sphinxcontrib.datatemplates")
 
 # needs_types - this option allows the setup of own need types like bugs, user_stories and more.
 needs_types = [
-    dict(directive="spec", title="Specification", prefix="S_", color="#FEDCD2", style="node"),
-    dict(directive="impl", title="Implementation", prefix="I_", color="#DF744A", style="node"),
-    dict(directive="test", title="Test Case", prefix="T_", color="#DCB239", style="node"),
+    dict(
+        directive="req", title="Requirement", prefix="R_", color="#BFD8D2", style="node"
+    ),
+    dict(
+        directive="spec",
+        title="Specification",
+        prefix="S_",
+        color="#FEDCD2",
+        style="node",
+    ),
+    dict(
+        directive="impl",
+        title="Implementation",
+        prefix="I_",
+        color="#DF744A",
+        style="node",
+    ),
+    dict(
+        directive="test", title="Test Case", prefix="T_", color="#DCB239", style="node"
+    ),
 ]
 
 
@@ -131,6 +158,11 @@ needs_extra_links = [
     # SWE.4 BP.5: link from Test Case (Unit test specification) to Test Result (Unit test result)
     {"option": "results", "incoming": "is resulted from", "outgoing": "results"},
 ]
+
+# Link tests results to the test cases
+needs_global_options = {
+    "results": "[[tr_link('title', 'case')]]",
+}
 
 # Check if the SPHINX_BUILD_CONFIGURATION_FILE environment variable exists
 # and if so, load the JSON file and set the 'html_context' variable

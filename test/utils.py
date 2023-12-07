@@ -1,16 +1,18 @@
-import os
+import json
 from subprocess import Popen, PIPE, STDOUT
 from pathlib import Path
-import pathlib
 import subprocess
-import time
 from typing import Dict, List, Optional
-import os.path
-from junitparser import JUnitXml
+import zipfile
 
 
 class CommandLineExecutor:
-    def __init__(self, cmd: str | List[str], cwd: Optional[Path] = None, env: Dict[str, str] = None):
+    def __init__(
+        self,
+        cmd: str | List[str],
+        cwd: Optional[Path] = None,
+        env: Dict[str, str] = None,
+    ):
         """
         A class for executing command line commands.
 
@@ -25,14 +27,23 @@ class CommandLineExecutor:
 
     def execute(self) -> subprocess.CompletedProcess:
         """
-        Executes the command and returns a CompletedProcess object.
+        Executes the given command.
 
         Returns:
         - A subprocess.CompletedProcess object representing the result of the command execution.
         """
         try:
             print(f"Running command: {self.command}")
-            with Popen(self.command, cwd=str(self.current_working_directory or Path.cwd()), stdout=PIPE, stderr=STDOUT, bufsize=1, text=True, env=self.env, universal_newlines=True) as process:
+            with Popen(
+                self.command,
+                cwd=str(self.current_working_directory or Path.cwd()),
+                stdout=PIPE,
+                stderr=STDOUT,
+                bufsize=1,
+                text=True,
+                env=self.env,
+                universal_newlines=True,
+            ) as process:
                 for line in process.stdout:
                     print(line, end="")
         except Exception:
@@ -40,138 +51,169 @@ class CommandLineExecutor:
         return process
 
 
-def build_unittests_and_expect_success(variant):
-    delete_gcov_data_files(variant)
+# TODO: Determine expected artifacts out of the feature model. Currently, they are hardcoded in the test.
+class ArtifactsCollection:
+    def __init__(self, artifacts: list[str]):
+        self.artifacts = artifacts
 
-    """Unit tests execution shall be successful."""
-    assert 0 == (
-        CommandLineExecutor(
-            [
-                "build.bat",
-                "-buildKit",
-                "test",
-                "-variants",
-                variant,
-                "-target",
-                "unittests",
-                "-reconfigure",
-            ]
+    def __iter__(self):
+        return iter(self.artifacts)
+
+    def assert_exists_in(self, directory: Path):
+        for artifact in self.artifacts:
+            assert (directory / artifact).exists()
+
+
+# TODO: Determine expected artifacts out of the feature model. Currently, they are hardcoded in the test.
+class ComponentReportsCollection(ArtifactsCollection):
+    def __init__(
+        self, modules: list[str], report_types: list[str] = ["html", "coverage"]
+    ):
+        artifacts = []
+        for module in modules:
+            for report_type in report_types:
+                artifacts.append(f"src/{module}/reports/{report_type}")
+        super().__init__(artifacts)
+
+    def assert_exists_in(self, directory: Path):
+        for artifact in self.artifacts:
+            assert (directory / artifact / "index.html").exists()
+
+
+class SplBuild:
+    """Class for building, expecting and archiving artifacts in an SPL repository."""
+
+    def __init__(
+        self, variant: str, build_kit: str, expected_artifacts: ArtifactsCollection
+    ):
+        """
+        Initialize a SplBuild instance.
+
+        Args:
+            variant (str): The build variant.
+            build_kit (str): The build kit.
+            expected_artifacts (ArtifactsCollection): The artifacts expected to be created by the build.
+
+        """
+        self.variant = variant
+        self.build_kit = build_kit
+        self.expected_artifacts = expected_artifacts
+
+    @property
+    def build_dir(self):
+        """
+        Get the build directory.
+
+        Returns:
+            Path: The build directory path.
+
+        """
+        return Path(f"build/{self.variant}/{self.build_kit}")
+
+    def create_artifacts_json(self):
+        """
+        Create a JSON file listing the collected artifacts.
+
+        Returns:
+            Path: The path to the created JSON file.
+
+        Raises:
+            Exception: If there is an error creating the JSON file.
+
+        """
+        json_content = {
+            "variant": self.variant,
+            "build_kit": self.build_kit,
+            "artifacts": self.expected_artifacts.artifacts,
+        }
+        json_path = self.build_dir / "artifacts.json"
+
+        # Delete the file if it already exists
+        if json_path.exists():
+            json_path.unlink()
+
+        try:
+            with open(json_path, "w") as bom_file:
+                json.dump(json_content, bom_file, indent=4)
+            print(f"JSON file created at: {json_path}")
+            return json_path
+        except Exception as e:
+            print(f"Error creating JSON file: {e}")
+            raise e
+
+    def create_artifacts_zip(self):
+        """
+        Create a zip file containing the collected artifacts.
+
+        Returns:
+            Path: The path to the created zip file.
+
+        Raises:
+            Exception: If there is an error creating the zip file.
+
+        """
+        zip_path = self.build_dir / "artifacts.zip"
+
+        # Delete the file if it already exists
+        if zip_path.exists():
+            zip_path.unlink()
+
+        try:
+            with zipfile.ZipFile(zip_path, "w") as zip_file:
+                for expected_artifact in self.expected_artifacts:
+                    artifact_path: Path = self.build_dir / expected_artifact
+                    if artifact_path.is_dir():
+                        for artifact in artifact_path.glob("**/*"):
+                            if artifact.is_file():
+                                zip_file.write(
+                                    artifact,
+                                    arcname=artifact.relative_to(self.build_dir),
+                                )
+                    else:
+                        zip_file.write(artifact_path, arcname=expected_artifact)
+            print(f"Zip file created at: {zip_path}")
+            return zip_path
+        except Exception as e:
+            print(f"Error creating artifacts zip file: {e}")
+            raise e
+
+    def execute(self, target: str, strict: bool, archive: bool) -> int:
+        """
+        Build the target and therefore the expected artifacts.
+
+        Args:
+            target (str): The build target.
+            strict (bool): Whether to check for expected artifacts.
+            archive (bool): Whether to create an artifacts zip file.
+
+        Returns:
+            int: 0 in case of success.
+
+        """
+        assert (
+            0
+            == CommandLineExecutor(
+                [
+                    "build.bat",
+                    "-buildKit",
+                    self.build_kit,
+                    "-variants",
+                    self.variant,
+                    "-target",
+                    target,
+                    "-reconfigure",
+                ]
+            )
+            .execute()
+            .returncode
         )
-        .execute()
-        .returncode
-    )
 
-    """Coverage report shall be created"""
-    assert os.path.isfile(f"build/{variant}/test/reports/coverage/index.html")
+        assert self.create_artifacts_json().exists()
 
+        if strict:
+            self.expected_artifacts.assert_exists_in(self.build_dir)
 
-def build_reports_and_expect_success(variant):
-    delete_gcov_data_files(variant)
+        if archive:
+            assert self.create_artifacts_zip().exists()
 
-    """Reports generation shall be successful."""
-    assert 0 == (
-        CommandLineExecutor(
-            [
-                "build.bat",
-                "-buildKit",
-                "test",
-                "-variants",
-                variant,
-                "-target",
-                "all",
-                "-reconfigure",
-            ]
-        )
-        .execute()
-        .returncode
-    )
-
-
-def get_scoop_app_directory(app_name: str) -> Optional[Path]:
-    command = f"scoop which {app_name}"
-    process = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
-    output, _ = process.communicate()
-    app_path = output.decode().strip()
-    if app_path:
-        return Path(os.path.expanduser(app_path)).parent.absolute()
-    return None
-
-
-def find_junit_reports(variant) -> List[Path]:
-    out_dir = Path(f"build/{variant}/test/src")
-    junit_reports = []
-    for junit_report in out_dir.glob("**/junit.xml"):
-        print(f"Found junit report: {junit_report}")
-        junit_reports.append(junit_report)
-    return junit_reports
-
-
-def delete_gcov_data_files(variant) -> None:
-    """
-    Deletes all .gcda files found in the build directory for the specified variant.
-
-    Args:
-        variant (str): The build variant to clean up.
-
-    Returns:
-        None
-    """
-    out_dir = pathlib.Path(f"build/{variant}/test/src")
-
-    for file in out_dir.glob("**/*.gcda"):
-        print(f"Found coverage file: {file}")
-        file.unlink()
-
-
-def create_variant_specific_junit_report(variant: str, junit_report_file: Path):
-    test_name = variant.replace("\\", "/").replace("/", "_")
-    xml = JUnitXml.fromfile(str(junit_report_file))
-    for suite in xml:
-        suite.name = f"{test_name}"
-    xml.write()
-
-
-def build_and_expect_default(variant: str, prepackaging_artifacts_basenames: List[str] = [], target: str = "all"):
-    """build wrapper shall build target and related outputs."""
-
-    while True:
-        result = CommandLineExecutor(["build.bat", "-variants", variant, "-target", target, "-reconfigure"]).execute()
-
-        stdout_and_stderr_content = str(result.stderr) if result.stderr else ""
-        if result.stdout:
-            stdout_and_stderr_content += str(result.stdout)
-        if result.returncode:
-            if stdout_and_stderr_content:
-                if "GHS_LMHOST = N/A" in stdout_and_stderr_content or "No valid floating license" in stdout_and_stderr_content:
-                    print("Probably a license issue, retrying ...")
-                    time.sleep(10)
-                else:
-                    break
-            else:
-                break
-        else:
-            break
-
-    assert 0 == result.returncode
-    for file_type in ["exe"]:
-        # TODO: excuse me what? Why is the executable name hardcoded here?
-        expect_binary(variant, file_name=f"spled.{file_type}")
-    for file_type in ["hex", "bin", "crc"]:
-        for artifact_basename in prepackaging_artifacts_basenames:
-            expect_binary(variant, file_name=f"{artifact_basename}.{file_type}")
-
-
-def expect_binary(variant, bin_type="elf", suffix="", file_name=""):
-    """Hex file of given configuration shall exist."""
-    assert_expected_file_exists(get_artifact_name(variant, bin_type, suffix, file_name))
-
-
-def assert_expected_file_exists(expected_file):
-    assert os.path.isfile(expected_file)
-
-
-@staticmethod
-def get_artifact_name(variant, bin_type="elf", suffix="", file_name="") -> Path:
-    """Hex file of given configuration shall exist."""
-    file = file_name if file_name else f"{variant.replace('/', '_')}{suffix}.{bin_type}"
-    return Path(f"build/{variant}/prod/{file}")
+        return 0

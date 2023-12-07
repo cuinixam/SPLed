@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.24.0)
 cmake_policy(VERSION 3.24)
 
 # configure the current variant to be build
-set(VARIANT ${VARIANT} CACHE STRING "Variant to build.")
 set(BUILD_KIT prod CACHE STRING "Target Group to build.")
 
 include(${CMAKE_SOURCE_DIR}/variants/${VARIANT}/config.cmake)
@@ -12,7 +11,7 @@ if(BUILD_KIT STREQUAL prod)
     project(${VARIANT} C ASM)
 else()
     project(${VARIANT} C ASM CXX)
-    set(VARIANT_ADDITIONAL_COMPILE_C_FLAGS -Dstatic=)
+    set(VARIANT_ADDITIONAL_COMPILE_C_FLAGS -Dstatic= -save-temps)
 endif()
 
 # Fetch all external dependencies into modules directory
@@ -24,7 +23,7 @@ include(FetchContent)
 FetchContent_Declare(
     spl-core
     GIT_REPOSITORY https://git.marquardt.de/scm/sple/spl-core.git
-    GIT_TAG v3.10.0
+    GIT_TAG v3.11.3
 )
 FetchContent_MakeAvailable(spl-core)
 
