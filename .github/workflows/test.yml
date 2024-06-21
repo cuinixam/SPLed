@@ -24,10 +24,10 @@ jobs:
           USER_PATH_FIRST: 1
         run: |
           .\build.ps1 -install
-          .\build.ps1 -target selftests
+          .\build.ps1 -selftests
         shell: powershell
       - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        uses: EnricoMi/publish-unit-test-result-action/windows@v2
         if: always()
         with:
           files: |
