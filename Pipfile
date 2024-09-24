@@ -4,28 +4,14 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-spl-core = "*"
-jinja2 = "*"
-pytest = "*"
-pytest-env = "*"
-testfixtures = "*"
-junitparser = "*"
-mashumaro = "*"
-loguru = "*"
-black = "*"
-flake8 = "*"
-sphinx = "*"
-sphinx-rtd-theme = "*"
-sphinxcontrib-mermaid = "*"
-sphinx-needs = "*"
-sphinxcontrib-plantuml = "*"
-sphinx-test-reports = "*"
-doxysphinx = "*"
-sphinx-rtd-size = "*"
-sphinxcontrib-datatemplates = "*"
-pyelftools = "*"
-py-app-dev = "*"
-pytest-mock = "*"
+spl-core = ">=5.0.0"
+pytest = ">=8.3"
+pytest-env = ">=1.1.5"
+pipenv = ">=2024.0.3"
+testfixtures = ">=8.3"
+pip-system-certs = ">=4.0"
 
 [requires]
 python_version = "3.11"
+
+[dev-packages]
