@@ -37,7 +37,7 @@ if (Test-Path -Path $buildFolder) {
     $directoriesToCopy = Get-ChildItem -Path $fullBuildFolder -Directory -Recurse -Filter "reports" -Depth 6
     foreach ($directory in $directoriesToCopy) {
         # We want to copy Sphinx and GCOVR output
-        foreach ($subDirectory in "html", "coverage") {
+        foreach ($subDirectory in "html", "coverage", "static_analysis") {
             $sourePath = Join-Path $directory.FullName $subDirectory
             if (Test-Path -Path $sourePath) {
                 # Calculate the target path and get rid of the extra sub dir reports

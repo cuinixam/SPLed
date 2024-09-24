@@ -1,0 +1,11 @@
+{
+    "tool": "polyspace",
+    "components": [],
+    "paths": [
+        "src/*"
+    ],
+    "polyspace_settings": {
+        "compiler_config_file": "variants/CustA/Disco/clang.xml",
+        "license_timeout": 3600
+    }
+}

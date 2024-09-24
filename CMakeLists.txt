@@ -23,7 +23,7 @@ include(FetchContent)
 FetchContent_Declare(
     spl-core
     GIT_REPOSITORY https://git.marquardt.de/scm/sple/spl-core.git
-    GIT_TAG v5.0.0
+    GIT_TAG v6.1.1
 )
 FetchContent_MakeAvailable(spl-core)
 
@@ -35,6 +35,8 @@ set(SPL_GTEST_TAG v1.14.0)
 include(${spl-core_SOURCE_DIR}/cmake/spl.cmake)
 
 include(${CMAKE_SOURCE_DIR}/variants/${VARIANT}/parts.cmake)
+
+include(".venv/Lib/site-packages/sple_static_analysis_extension/index.cmake")
 
 # add all components' include paths to all components
 foreach(component_name ${COMPONENT_NAMES})
