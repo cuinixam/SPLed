@@ -1,0 +1,14 @@
+{
+    "buckets": [
+        {
+            "Name": "sple",
+            "Source": "https://git.marquardt.de/scm/sple/scoop-bucket.git"
+        }
+    ],
+    "apps": [
+        {
+            "Source": "sple",
+            "Name": "polyspace_bf"
+        }
+    ]
+}

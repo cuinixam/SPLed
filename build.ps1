@@ -6,6 +6,8 @@
 param(
     [Parameter(Mandatory = $false, HelpMessage = 'Install all dependencies required to build. (Switch, default: false)')]
     [switch]$install = $false,
+    [Parameter(Mandatory = $false, HelpMessage = 'Install optional dependencies. (Switch, default: false)')]
+    [switch]$installOptional = $false,
     [Parameter(Mandatory = $false, HelpMessage = 'Run all CI tests (python tests with pytest) (Switch, default: false)')]
     [switch]$selftests = $false,
     [Parameter(Mandatory = $false, HelpMessage = 'Build the target.')]
@@ -271,11 +273,12 @@ function New-Directory {
 }
 
 function Get-User-Menu-Selection {
-    if ((-Not $install) -and (-Not $build) -and (-Not $command) -and (-Not $selftests)) {
+    if ((-Not $install) -and (-Not $installOptional) -and (-Not $build) -and (-Not $command) -and (-Not $selftests)) {
         Clear-Host
         Write-Information -Tags "Info:" -MessageData "None of the following command line options was given:"
         Write-Information -Tags "Info:" -MessageData ("(1) -install: installation of mandatory dependencies")
-        Write-Information -Tags "Info:" -MessageData ("(2) -build: execute CMake build")
+        Write-Information -Tags "Info:" -MessageData ("(2) -installOptional: installation of optional dependencies")
+        Write-Information -Tags "Info:" -MessageData ("(3) -build: execute CMake build")
         return(Read-Host "Please make a selection")
     }
 }
@@ -309,10 +312,14 @@ try {
 
     switch ($selectedOption) {
         '1' {
-            Write-Information -Tags "Info:" -MessageData "Installing Dependencies ..."
+            Write-Information -Tags "Info:" -MessageData "Installing mandatory dependencies ..."
             $install = $true
         }
         '2' {
+            Write-Information -Tags "Info:" -MessageData "Installing optional dependencies ..."
+            $installOptional = $true
+        }
+        '3' {
             Write-Information -Tags "Info:" -MessageData "Building ..."
             $build = $true
         }
@@ -334,6 +341,10 @@ try {
         }
 
         Write-Host -ForegroundColor Black -BackgroundColor Blue "For installation changes to take effect, please close and re-open your current terminal."
+    }
+
+    if ($installOptional) {
+        Invoke-CommandLine "scoop import scoopfile-optional.json"
     }
 
     if ($build) {

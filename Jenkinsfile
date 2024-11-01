@@ -22,7 +22,7 @@ node('SPLE') {
         // Build and deploy docs
         def additionalOptions = params.CLEAN_BUILD ? "-clean" : ""
         bat """
-call build.bat ${additionalOptions} -install || exit /b 1
+call build.bat ${additionalOptions} -install -installOptional || exit /b 1
 call build.bat ${additionalOptions} -selftests || exit /b 0
 """
         junit allowEmptyResults: false, keepLongStdio: false, testResults: 'test/output/test-report.xml,build/**/test/src/**/junit.xml'
