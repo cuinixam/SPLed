@@ -32,7 +32,5 @@ class Test_CustB__Sleep(BaseVariantTestRunner):
         # Assert
         self.assert_artifact_exists(
             dir=spl_build.build_dir,
-            artifact=Path(
-                f"reports/static_analysis/{self.variant.replace('/', '_')}_sca.html"
-            ),
+            artifact=Path("reports/static_analysis/index.html"),
         )
