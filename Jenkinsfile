@@ -1,3 +1,20 @@
+def triggers = []
+def param_default_static_analysis = false
+
+if (env.BRANCH_NAME == 'develop') {
+    // TODO: replace with parameterizedCron (Parameterized Scheduler Plugin)
+    //triggers = [parameterizedCron('H 0 * * * %CLEAN_BUILD=true;BUILD=true;REPORTS=true;STATIC_ANALYSIS=true')]
+    triggers = [cron('H 0 * * *')]
+    param_default_static_analysis = true
+}
+
+echo 'Printing all parameters:'
+params.each { param ->
+    echo "${param.key} = ${param.value}"
+}
+
+echo "env.BRANCH_NAME = ${env.BRANCH_NAME}"
+
 properties([
     buildDiscarder(logRotator(numToKeepStr: '20')),
     disableConcurrentBuilds(),
@@ -18,15 +35,12 @@ properties([
             name: 'REPORTS'
         ),
         booleanParam(
-            defaultValue: false,
+            defaultValue: param_default_static_analysis,
             description: 'Run static code analysis',
             name: 'STATIC_ANALYSIS'
         )
     ]),
-    // TODO: replace with parameterizedCron (Parameterized Scheduler Plugin)
-    pipelineTriggers([
-        cron('H 0 * * *')
-    ])
+    pipelineTriggers(triggers)
 ])
 
 node('SPLE') {
