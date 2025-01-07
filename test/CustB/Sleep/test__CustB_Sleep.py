@@ -34,3 +34,8 @@ class Test_CustB__Sleep(BaseVariantTestRunner):
             dir=spl_build.build_dir,
             artifact=Path("reports/static_analysis/index.html"),
         )
+
+        self.assert_artifact_exists(
+            dir=spl_build.build_dir,
+            artifact=Path("reports/static_analysis/index.xml"),
+        )
