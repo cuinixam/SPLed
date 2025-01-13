@@ -298,7 +298,7 @@ function Get-User-Menu-Selection {
 
 function Invoke-Bootstrap {
     # Download bootstrap scripts from external repository
-    Invoke-RestMethod -Uri https://git.marquardt.de/projects/SPLE/repos/bootstrap-installer/raw/install.ps1?at=refs%2Ftags%2Fv1.14.0 | Invoke-Expression
+    Invoke-RestMethod -Uri https://git.marquardt.de/projects/SPLE/repos/bootstrap-installer/raw/install.ps1?at=refs%2Ftags%2Fv1.15.1 | Invoke-Expression
     # Execute bootstrap script
     . .\.bootstrap\bootstrap.ps1
     # For incremental build: clean up virtual environment from old dependencies

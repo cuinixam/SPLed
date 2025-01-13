@@ -23,7 +23,7 @@ include(FetchContent)
 FetchContent_Declare(
     spl-core
     GIT_REPOSITORY https://git.marquardt.de/scm/sple/spl-core.git
-    GIT_TAG v6.1.1
+    GIT_TAG v6.2.0
 )
 FetchContent_MakeAvailable(spl-core)
 
