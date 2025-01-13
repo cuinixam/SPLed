@@ -2,10 +2,7 @@ def triggers = []
 def param_default_static_analysis = false
 
 if (env.BRANCH_NAME == 'develop') {
-    // TODO: replace with parameterizedCron (Parameterized Scheduler Plugin)
-    //triggers = [parameterizedCron('H 0 * * * %CLEAN_BUILD=true;BUILD=true;REPORTS=true;STATIC_ANALYSIS=true')]
-    triggers = [cron('H 0 * * *')]
-    param_default_static_analysis = true
+    triggers = [parameterizedCron('H 0 * * * %CLEAN_BUILD=true;BUILD=true;REPORTS=true;STATIC_ANALYSIS=true')]
 }
 
 echo 'Printing all parameters:'
@@ -18,6 +15,8 @@ echo "env.BRANCH_NAME = ${env.BRANCH_NAME}"
 properties([
     buildDiscarder(logRotator(numToKeepStr: '20')),
     disableConcurrentBuilds(),
+    // Defaults are for PR (Pull Request) builds
+    // see parameterizedCron settings above for branch specific settings
     parameters([
         booleanParam(
             defaultValue: false,
@@ -35,7 +34,7 @@ properties([
             name: 'REPORTS'
         ),
         booleanParam(
-            defaultValue: param_default_static_analysis,
+            defaultValue: false,
             description: 'Run static code analysis',
             name: 'STATIC_ANALYSIS'
         )
