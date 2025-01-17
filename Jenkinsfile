@@ -1,5 +1,4 @@
 def triggers = []
-def param_default_static_analysis = false
 
 if (env.BRANCH_NAME == 'develop') {
     triggers = [parameterizedCron('H 0 * * * %CLEAN_BUILD=true;BUILD=true;REPORTS=true;STATIC_ANALYSIS=true')]
@@ -44,19 +43,21 @@ properties([
 
 node('SPLE') {
     ws('sple/spled') {
-        stage('init') {
+        def cleanOption = params.CLEAN_BUILD ? "-clean" : ""
+
+        stage('Checkout Code') {
             // git should use the Windows Store (certificates), but this fails sometimes
             bat 'git config --global http.sslVerify false'
             checkout scm
-
-            // Initial SPLE setup
-            bat 'powershell.exe -NonInteractive -ExecutionPolicy Bypass -Command "irm https://git.marquardt.de/projects/SPLE/repos/sple-setup/raw/bin/install.ps1 | iex"'
         }
 
-        stage('test') {
-            // Build and deploy docs
-            def additionalOptions = params.CLEAN_BUILD ? "-clean" : ""
+        stage('Installation of Dependencies') {
+            // Initial SPLE setup
+            bat 'powershell.exe -NonInteractive -ExecutionPolicy Bypass -Command "irm https://git.marquardt.de/projects/SPLE/repos/sple-setup/raw/bin/install.ps1 | iex"'
+            bat "call build.bat ${cleanOption} -install -installOptional || exit /b 1"
+        }
 
+        stage('Execute Tests') {
             // Create a list of markers for the test run
             def testMarkers = []
 
@@ -72,18 +73,21 @@ node('SPLE') {
                 testMarkers.add('static_analysis')
             }
 
-            bat """
-call build.bat ${additionalOptions} -install -installOptional || exit /b 1
-call build.bat ${additionalOptions} -selftests -marker "${testMarkers.join(' or ')}" || exit /b 0
-"""
+            def markerOption = testMarkers.size() > 0 ? "-marker \"${testMarkers.join(' or ')}\"" : ""
 
+            bat "call build.bat ${cleanOption} -selftests ${markerOption} || exit /b 1"
+        }
+
+        stage('Deploy Test Results') {
             junit allowEmptyResults: false, keepLongStdio: false, testResults: 'test/output/test-report.xml,build/**/test/src/**/junit.xml'
         }
 
-        dir('build') {
-            archiveArtifacts(
-                artifacts: '**/prod/spled.exe,**/test/reports.html,**/prod/reports.html'
-            )
+        stage('Deploy Artifacts'){
+            dir('build') {
+                archiveArtifacts(
+                    artifacts: '**/prod/spled.exe,**/test/reports.html,**/prod/reports.html'
+                )
+            }
         }
     }
 }

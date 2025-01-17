@@ -26,14 +26,16 @@ class Test_CustA__Disco(BaseVariantTestRunner):
         spl_build: SplBuild = SplBuild(variant=self.variant, build_kit="prod")
 
         # Act
-        assert 0 == spl_build.execute(target="static_analysis")
+        ret_code = spl_build.execute(target="static_analysis")
 
         # Assert
+        assert ret_code == 0
+
         self.assert_artifact_exists(
             dir=spl_build.build_dir,
             artifact=Path("reports/static_analysis/index.html"),
         )
-        
+
         self.assert_artifact_exists(
             dir=spl_build.build_dir,
             artifact=Path("reports/static_analysis/ps_results.json"),
