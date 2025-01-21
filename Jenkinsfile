@@ -75,7 +75,9 @@ node('SPLE') {
 
             def markerOption = testMarkers.size() > 0 ? "-marker \"${testMarkers.join(' or ')}\"" : ""
 
-            bat "call build.bat ${cleanOption} -selftests ${markerOption} || exit /b 1"
+            withCredentials([string(credentialsId: 'POLYSPACE_ACCESS_LOGIN', variable: 'POLYSPACE_ACCESS_LOGIN')]) {
+                bat "call build.bat ${cleanOption} -selftests ${markerOption} || exit /b 1"
+            }
         }
 
         stage('Deploy Test Results') {

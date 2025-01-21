@@ -5,7 +5,15 @@
         "src/*"
     ],
     "polyspace_settings": {
-        "compiler_config_file": "variants/CustA/Disco/clang.xml",
-        "license_timeout": 3600
+        "options_file": "variants/CustA/Disco/ps_options_file_wo_sources.txt",
+        "license_timeout": 3600,
+        "access_settings": {
+            "scheduler": "mqde01polyspc02.marquardt.de",
+            "host": "mqde01polyacc02.marquardt.de",
+            "port": "9443",
+            "credentials_file": "variants/CustA/Disco/polyspace_credentials.txt",
+            "parent_project": "SPLE/SPLED/LocalResults",
+            "access_root_dir": "SPLE"
+        }
     }
 }
