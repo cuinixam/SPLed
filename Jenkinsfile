@@ -14,8 +14,7 @@ echo "env.BRANCH_NAME = ${env.BRANCH_NAME}"
 properties([
     buildDiscarder(logRotator(numToKeepStr: '20')),
     disableConcurrentBuilds(),
-    // Defaults are for PR (Pull Request) builds
-    // see parameterizedCron settings above for branch specific settings
+    // Defaults are for builds triggered by SCM events (push, creation of branch or pull request)
     parameters([
         booleanParam(
             defaultValue: false,
@@ -36,14 +35,33 @@ properties([
             defaultValue: false,
             description: 'Run static code analysis',
             name: 'STATIC_ANALYSIS'
+        ),
+        booleanParam(
+            defaultValue: false,
+            description: 'Perform a build on a blank SPLE agent?',
+            name: 'SPLE_BLANK_AGENT'
         )
     ]),
     pipelineTriggers(triggers)
 ])
 
-node('SPLE') {
-    ws('sple/spled') {
+def nodeName = params.SPLE_BLANK_AGENT ? 'SPLE_BLANK' : 'SPLE'
+
+node(nodeName) {
+    ws("sple\\spled") {
         def cleanOption = params.CLEAN_BUILD ? "-clean" : ""
+
+        if (params.SPLE_BLANK_AGENT) {
+            // currently there is no blank agent available in our Jenkins instance
+            // so we have to clean the agent manually
+            // 1. clean workspace
+            cleanWs()
+            // 2. wipe any previous installations of the SPLE Platform Toolset
+            bat '''
+if exist "%USERPROFILE%\\.sple-setup" rmdir /s /q "%USERPROFILE%\\.sple-setup"
+if exist "%USERPROFILE%\\scoop" rmdir /s /q "%USERPROFILE%\\scoop"
+'''
+        }
 
         stage('Checkout Code') {
             // git should use the Windows Store (certificates), but this fails sometimes
