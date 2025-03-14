@@ -19,20 +19,12 @@ set(FETCHCONTENT_BASE_DIR ${CMAKE_SOURCE_DIR}/build/modules CACHE INTERNAL "")
 set(FETCHCONTENT_QUIET FALSE)
 include(FetchContent)
 
-# Fetch spl-core
-FetchContent_Declare(
-    spl-core
-    GIT_REPOSITORY https://git.marquardt.de/scm/sple/spl-core.git
-    GIT_TAG v6.3.1
-)
-FetchContent_MakeAvailable(spl-core)
-
 # Global config for spl-core
 set(SPL_GTEST_URL https://git.marquardt.de/scm/sple/googletest.git)
 set(SPL_GTEST_TAG v1.14.0)
 
 # Include spl-core
-include(${spl-core_SOURCE_DIR}/cmake/spl.cmake)
+include(".venv/Lib/site-packages/spl_core/spl.cmake")
 
 include(${CMAKE_SOURCE_DIR}/variants/${VARIANT}/parts.cmake)
 

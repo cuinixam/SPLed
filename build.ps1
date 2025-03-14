@@ -304,6 +304,8 @@ try {
 
         # bootstrap environment
         Invoke-Bootstrap
+
+        Write-Host -ForegroundColor Black -BackgroundColor Blue "For installation changes to take effect, please close and re-open your current terminal."
     }
 
     # Load bootstrap's utility functions

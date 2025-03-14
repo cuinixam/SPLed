@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "cf033f8c55cb16c22c5a83d22e44726b06d24581ba53d8968336b342f5c5774b"
+            "sha256": "ef972b4761392663ae8a78a66db8384d40fd84c977093f59e7fb5a17494af418"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -1873,12 +1873,12 @@
         },
         "spl-core": {
             "hashes": [
-                "sha256:461f086a2ed4e1913fceafb6466b979e9961a89cf9b5c506febaf7de5d8936fa",
-                "sha256:97325116fd4f866d11b6bb7562181b37e3c26f38350c126798cfa98e922416d8"
+                "sha256:8a54069e647398612b4164559f92c36fc2d51579df0266432577bc6aba867d32",
+                "sha256:fd586e9f58211fb852d8b1e4fc753d3d43caf0e75e046238c5f8ed870f858992"
             ],
             "index": "marquardt_pypi",
             "markers": "python_version >= '3.10' and python_version < '3.12'",
-            "version": "==6.4.1"
+            "version": "==6.5.0"
         },
         "sple-static-analysis-extension": {
             "hashes": [
