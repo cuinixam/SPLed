@@ -10,7 +10,7 @@ pytest-env = ">=1.1.5"
 pipenv = ">=2024.0.3"
 testfixtures = ">=8.3"
 pip-system-certs = ">=4.0"
-sple-static-analysis-extension = "==v0.11.0"
+sple-static-analysis-extension = ">=1.2"
 
 [requires]
 python_version = "3.11"
