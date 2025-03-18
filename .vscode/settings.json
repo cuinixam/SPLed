@@ -129,5 +129,6 @@
     "peacock.color": "#215732",
     "editor.formatOnSave": true,
     "restructuredtext.pythonRecommendation.disabled": true,
-    "files.insertFinalNewline": true
+    "files.insertFinalNewline": true,
+    "cmake.options.statusBarVisibility": "compact"
 }
