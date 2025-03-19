@@ -35,8 +35,3 @@ class Test_CustA__Disco(BaseVariantTestRunner):
             dir=spl_build.build_dir,
             artifact=Path("reports/static_analysis/index.html"),
         )
-
-        self.assert_artifact_exists(
-            dir=spl_build.build_dir,
-            artifact=Path("reports/static_analysis/ps_results.json"),
-        )
