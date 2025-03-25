@@ -50,6 +50,19 @@
                 "kind": "build",
                 "isDefault": false
             }
+        },
+        {
+            "label": "generate payc options file",
+            "command": ".venv/Scripts/sple_static_analysis.exe",
+            "args": ["generate-ps-options-file", "--project-root-dir", "${workspaceFolder}", "--variant", "${input:variant}", "--build-kit", "prod", "--payc", "--output-folder", "./build"],
+            "type": "shell",
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
         }
     ],
     "inputs": [
