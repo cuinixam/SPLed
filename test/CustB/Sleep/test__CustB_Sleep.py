@@ -32,10 +32,10 @@ class Test_CustB__Sleep(BaseVariantTestRunner):
         # Assert
         self.assert_artifact_exists(
             dir=spl_build.build_dir,
-            artifact=Path("reports/static_analysis/index.html"),
+            artifact=Path("reports/static_analysis/cppcheck/index.html"),
         )
 
         self.assert_artifact_exists(
             dir=spl_build.build_dir,
-            artifact=Path("reports/static_analysis/index.xml"),
+            artifact=Path("reports/static_analysis/cppcheck/index.xml"),
         )

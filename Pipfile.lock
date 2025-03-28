@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "746056b78c7cc0288d95ca06ec87a3c8c9f3522bafc6ff5c59fc60e6ed204800"
+            "sha256": "38a794cfa74a9aa30c070eb1d932823ea3f6b6bf71c27fa210f98db7d744d2aa"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -1551,11 +1551,11 @@
         },
         "rich": {
             "hashes": [
-                "sha256:439594978a49a09530cff7ebc4b5c7103ef57baf48d5ea3184f21d9a2befa098",
-                "sha256:6049d5e6ec054bf2779ab3358186963bac2ea89175919d699e378b99738c2a90"
+                "sha256:1c9491e1951aac09caffd42f448ee3d04e58923ffe14993f6e83068dc395d7e0",
+                "sha256:82f1bc23a6a21ebca4ae0c45af9bdbc492ed20231dcb63f297d6d1021a9d5725"
             ],
             "markers": "python_full_version >= '3.8.0'",
-            "version": "==13.9.4"
+            "version": "==14.0.0"
         },
         "rpds-py": {
             "hashes": [
@@ -1904,14 +1904,20 @@
         },
         "sple-static-analysis-extension": {
             "hashes": [
-                "sha256:496692b219fea4d54d58df7b37276ed39ad44ba469f1162fb3351119429567c8",
-                "sha256:6affaa288fbb9729d29db81c99d365c8e9d8f0fbf72a6837171991c9d20cc8e1",
-                "sha256:9090952c9d91cdbe02bedffc43cd9c5098463162bb20d14ac2abdf68d34fea19",
-                "sha256:ff88789e9cb01409476c7c047a607a169a96859b9a82abbfd6f4202d690a3dc0"
+                "sha256:11cf96f2b112fe885cf552eabf2a8163fdf2eb0a4a6f96f72634dde5aded7a42",
+                "sha256:147b03a88d3ae4b9b30124c186f914c29cb61dd857bc4493f45a1352c53569b0",
+                "sha256:4a2f65452fa713d7eb109389683f586e9c58cc474a4aaf8fb3c5af375fd873f9",
+                "sha256:4a88c5a01ef6d2a2ffc7cd1a6663cf1a36a5842ab7263a86f653190346001dd9",
+                "sha256:6febec2c30c89c851f6490e1e9a6124c86b4be000490a99e866d62c85b957cb1",
+                "sha256:7e53504842d782325874a44466ee35a302ccccdaeeca0caebe167de0b7868597",
+                "sha256:86f015705c7d9b3115663ebe7861740dabcdb7bb60428c4d876076cce07b711a",
+                "sha256:b7731a1759e256d2c96b41fdcd7b79ad444e1b5ee94748d5923107f8f093d309",
+                "sha256:d7ec52cfecb0b60696fc57fc79cc366157884c6b4788ac55673ededf4db1cfdc",
+                "sha256:e5e4990c309187b68ca4e9dafee4db64e4e9663c4a5ca4e3a2fecaf428e4b8d8"
             ],
             "index": "marquardt_pypi",
             "markers": "python_version >= '3.10' and python_version < '4.0'",
-            "version": "==1.3.1"
+            "version": "==1.4.0"
         },
         "testfixtures": {
             "hashes": [

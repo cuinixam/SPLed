@@ -33,5 +33,5 @@ class Test_CustA__Disco(BaseVariantTestRunner):
 
         self.assert_artifact_exists(
             dir=spl_build.build_dir,
-            artifact=Path("reports/static_analysis/index.html"),
+            artifact=Path("reports/static_analysis/polyspace_bug_finder/index.html"),
         )
