@@ -5,15 +5,12 @@
         "src/*"
     ],
     "polyspace_settings": {
-        "options_file": "variants/CustA/Disco/ps_options_file_wo_sources.txt",
+        "options_file": "variants/CustA/Disco/static_analysis_sca_polyspace_options_file.txt",
         "license_timeout": 3600,
         "access_settings": {
             "scheduler": "mqde01polyspc02.marquardt.de",
             "host": "mqde01polyacc02.marquardt.de",
-            "port": "9443",
-            "credentials_file": "variants/CustA/Disco/polyspace_credentials.txt",
-            "parent_project": "SPLE/SPLED/LocalResults",
-            "access_root_dir": "SPLE"
+            "port": "9443"
         }
     }
 }

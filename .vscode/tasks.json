@@ -28,8 +28,9 @@
             "problemMatcher": []
         },
         {
-            "label": "open report html",
-            "command": "${workspaceFolder}/build/${input:variant}/test/src/${input:component}/reports/html/index.html",
+            "label": "Open variant test report",
+            "detail": "Open the variant's overall test report in your web browser",
+            "command": "${workspaceFolder}/build/${input:variant}/test/reports/html/index.html",
             "type": "shell",
             "presentation": {
                 "reveal": "always"
@@ -40,8 +41,9 @@
             }
         },
         {
-            "label": "open coverage report",
-            "command": "${workspaceFolder}/build/${input:variant}/test/src/${input:component}/reports/coverage/index.html",
+            "label": "Open variant coverage report",
+            "detail": "Open the variant's overall coverage report in your web browser",
+            "command": "${workspaceFolder}/build/${input:variant}/test/reports/coverage/index.html",
             "type": "shell",
             "presentation": {
                 "reveal": "always"
@@ -52,9 +54,71 @@
             }
         },
         {
-            "label": "generate payc options file",
+            "label": "Open component test report",
+            "detail": "Open the component's test report in your web browser",
+            "command": "${workspaceFolder}/build/${input:variant}/test/${input:component}/reports/html/index.html",
+            "type": "shell",
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "Open component coverage report",
+            "detail": "Open the component's coverage report in your web browser",
+            "command": "${workspaceFolder}/build/${input:variant}/test/${input:component}/reports/coverage/index.html",
+            "type": "shell",
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "Generate PAYC options file",
+            "detail": "Generate Polyspace-As-You-Code options file for the selected variant",
             "command": ".venv/Scripts/sple_static_analysis.exe",
-            "args": ["generate-ps-options-file", "--project-root-dir", "${workspaceFolder}", "--variant", "${input:variant}", "--build-kit", "prod", "--payc", "--output-folder", "./build"],
+            "args": [
+                "generate-ps-options-file",
+                "--project-root-dir",
+                "${workspaceFolder}",
+                "--variant",
+                "${input:variant}",
+                "--build-kit",
+                "prod",
+                "--payc",
+                "--output-folder",
+                "./build"
+            ],
+            "type": "shell",
+            "presentation": {
+                "reveal": "always"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "Generate Polyspace BF options file",
+            "detail": "Generate Polyspace Bug Finder options file for the selected variant",
+            "command": ".venv/Scripts/sple_static_analysis.exe",
+            "args": [
+                "generate-ps-options-file",
+                "--project-root-dir",
+                "${workspaceFolder}",
+                "--variant",
+                "${input:variant}",
+                "--build-kit",
+                "prod",
+                "--output-folder",
+                "./variants/${input:variant}"
+            ],
             "type": "shell",
             "presentation": {
                 "reveal": "always"
@@ -81,16 +145,17 @@
             "id": "component",
             "description": "Which component do you want to select?",
             "options": [
-                "brightness_controller",
-                "console_interface",
-                "keyboard_interface",
-                "light_controller",
-                "main",
-                "main_control_knob",
-                "power_signal_processing",
-                "rte",
-                "spled",
-                "examples/component_a"
+                "src/brightness_controller",
+                "src/console_interface",
+                "src/examples/check_abort",
+                "src/examples/component_a",
+                "src/keyboard_interface",
+                "src/light_controller",
+                "src/main",
+                "src/main_control_knob",
+                "src/power_signal_processing",
+                "src/rte",
+                "src/spled"
             ]
         }
     ]
