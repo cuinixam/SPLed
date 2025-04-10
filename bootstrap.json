@@ -8,5 +8,6 @@
     "scoop_config": {
         "scoop_repo": "https://git.marquardt.de/scm/sple/scoop.git",
         "scoop_branch": "develop"
-    }
+    },
+    "scoop_ignore_scoopfile": true
 }
