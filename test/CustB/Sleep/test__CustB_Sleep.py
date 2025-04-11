@@ -21,10 +21,24 @@ class Test_CustB__Sleep(BaseVariantTestRunner):
     def expected_build_artifacts(self):
         return [Path("spled.exe"), Path("compile_commands.json")]
 
+    @pytest.mark.build
+    def test_build(self):
+        super().test_build(build_type="Debug")
+
+    @pytest.mark.unittests
+    def test_unittests(self):
+        super().test_unittests(build_type="Debug")
+
+    @pytest.mark.reports
+    def test_reports(self):
+        super().test_reports(build_type="Debug")
+
     @pytest.mark.static_analysis
     def test_static_analysis(self):
         # Arrange
-        spl_build: SplBuild = SplBuild(variant=self.variant, build_kit="prod")
+        spl_build: SplBuild = SplBuild(
+            variant=self.variant, build_kit="prod", build_type="Debug"
+        )
 
         # Act
         assert 0 == spl_build.execute(target="static_analysis")
