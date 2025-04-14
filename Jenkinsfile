@@ -105,7 +105,7 @@ if exist "%USERPROFILE%\\scoop" rmdir /s /q "%USERPROFILE%\\scoop"
         stage('Deploy Artifacts'){
             dir('build') {
                 archiveArtifacts(
-                    artifacts: '**/prod/spled.exe,**/test/reports.html,**/prod/reports.html'
+                    artifacts: '**/prod/Debug/spled.exe,**/test/Debug/reports.html,**/prod/Debug/reports.html'
                 )
             }
         }
