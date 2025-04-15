@@ -37,3 +37,6 @@ __pycache__/
 
 # Drawio Backup Files
 *.drawio.bkp
+
+# Generated files from sple-static-analysis-extension
+variants/**/ps_configure_options_file.txt

@@ -5,7 +5,8 @@
         "src/*"
     ],
     "polyspace_settings": {
-        "options_file": "variants/CustA/Disco/static_analysis_sca_polyspace_options_file.txt",
+        "options_file": "variants/CustA/Disco/sca_options_file.txt",
+        "checkers_activation_file": "variants/CustA/Disco/static_analysis_ps_rules_defects.xml",
         "license_timeout": 3600,
         "access_settings": {
             "scheduler": "mqde01polyspc02.marquardt.de",

@@ -91,6 +91,8 @@
                 "${input:variant}",
                 "--build-kit",
                 "prod",
+                "--build-type",
+                "Debug",
                 "--payc",
                 "--output-folder",
                 "./build"
@@ -116,6 +118,8 @@
                 "${input:variant}",
                 "--build-kit",
                 "prod",
+                "--build-type",
+                "Debug",
                 "--output-folder",
                 "./variants/${input:variant}"
             ],
