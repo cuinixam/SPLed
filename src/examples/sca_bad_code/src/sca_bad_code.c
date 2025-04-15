@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 void memory_leak() {
-    int* ptr = (int*)malloc(sizeof(int) * 10);
+    int* ptr = (int*)malloc(sizeof(int) * 10); /* polyspace MISRA-C3:D4.12 "I like dynamic memory!" */ /* polyspace MISRA-C3:21.3 "And I want to use malloc() to get it." */
     // Memory is allocated but not freed
 }
 

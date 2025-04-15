@@ -3,9 +3,10 @@
  * @brief Module to control light based on power state.
  */
 
+#include "autoconf.h"
 #include "light_controller.h"
 #include "rte.h"
-#include "autoconf.h"
+#include <stdint.h>
 
  /**
   * @rst
@@ -22,15 +23,13 @@ typedef enum {
     LIGHT_ON    /**< Represents a state where the light is turned on with a specific color. */
 } LightState;
 
-static LightState currentLightState = LIGHT_OFF;  /**< Current state of the light. */
 #if CONFIG_BLINKING_RATE_AUTO_ADJUSTABLE 
-static int blinkCounter = 0;
 static boolean blinkState = FALSE;
 #endif
-const RGBColor OFF_COLOR = { .red = 0, .green = 0, .blue = 0 };
+static const RGBColor OFF_COLOR = { .red = 0, .green = 0, .blue = 0 };
 
-static unsigned int getBrightnessValue() {
-#if CONFIG_BRIGHTNESS_ADJUSTMENT
+static uint8_t getBrightnessValue(void) {
+#ifdef CONFIG_BRIGHTNESS_ADJUSTMENT
     /**
      * @rst
      * .. impl:: Variable brightness
@@ -67,7 +66,7 @@ static void turnLightOff(void) {
  */
 static void turnLightOn(void) {
     RGBColor color = OFF_COLOR;
-#if CONFIG_COLOR_BLUE
+#if defined(CONFIG_COLOR_BLUE)
     color.blue = getBrightnessValue();
 #elif CONFIG_COLOR_GREEN
     color.green = getBrightnessValue();
@@ -92,9 +91,9 @@ static void turnLightOn(void) {
  *    :implements: SWDD_LC-002
  * @endrst
  */
-SPLE_TESTABLE_STATIC unsigned int calculateBlinkPeriod(percentage_t mainKnobValue) {
+SPLE_TESTABLE_STATIC uint8_t calculateBlinkPeriod(percentage_t mainKnobValue) {
     // Calculate blink period based on main knob value
-    unsigned int blinkPeriod = 100 - (mainKnobValue); // Adjust this formula as needed
+    uint8_t blinkPeriod = 100 - (mainKnobValue); // Adjust this formula as needed
 
     // Ensure there's a minimum blink period
     blinkPeriod = (blinkPeriod > 10) ? blinkPeriod : 10; // Adjust the minimum period as needed
@@ -117,10 +116,12 @@ SPLE_TESTABLE_STATIC unsigned int calculateBlinkPeriod(percentage_t mainKnobValu
  */
 void lightController(void) {
 
-    PowerState powerState = RteGetPowerState();
+    PowerState currentPowerState = RteGetPowerState();
+    static LightState currentLightState = LIGHT_OFF;  /**< Current state of the light. */
 #if CONFIG_BLINKING_RATE_AUTO_ADJUSTABLE 
+    static uint8_t blinkCounter = 0;
     percentage_t mainKnobValue = RteGetMainKnobValue();
-    unsigned int blinkPeriod = calculateBlinkPeriod(mainKnobValue);
+    uint32_t blinkPeriod = calculateBlinkPeriod(mainKnobValue);
 #endif
 
 #if LOGGING_ENABLED
@@ -129,21 +130,21 @@ void lightController(void) {
 
     switch (currentLightState) {
     case LIGHT_OFF:
-#if CONFIG_BLINKING_RATE_AUTO_ADJUSTABLE 
+#if CONFIG_BLINKING_RATE_AUTO_ADJUSTABLE
         blinkCounter = 0;
 #endif
-        if (powerState != POWER_STATE_OFF) {
+        if (currentPowerState != POWER_STATE_OFF) {
             turnLightOn();
             currentLightState = LIGHT_ON;
         }
         break;
 
     default: // LIGHT_ON
-        if (powerState == POWER_STATE_OFF) {
+        if (currentPowerState == POWER_STATE_OFF) {
             turnLightOff();
             currentLightState = LIGHT_OFF;
         }
-#if CONFIG_BLINKING_RATE_AUTO_ADJUSTABLE 
+#if CONFIG_BLINKING_RATE_AUTO_ADJUSTABLE
         else {
             blinkCounter++;
             if (blinkCounter >= blinkPeriod) {
@@ -158,7 +159,7 @@ void lightController(void) {
             }
         }
 #endif
-#if CONFIG_BRIGHTNESS_ADJUSTMENT
+#ifdef CONFIG_BRIGHTNESS_ADJUSTMENT
         else {
             turnLightOn();
         }

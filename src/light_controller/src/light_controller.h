@@ -1,6 +1,6 @@
-#ifndef __light_controller_h__
-#define __light_controller_h__
+#ifndef LIGHT_CONTROLLER_H
+#define LIGHT_CONTROLLER_H
 
 void lightController(void);
 
-#endif // __light_controller_h__
+#endif // LIGHT_CONTROLLER_H

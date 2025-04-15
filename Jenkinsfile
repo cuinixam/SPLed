@@ -99,7 +99,7 @@ if exist "%USERPROFILE%\\scoop" rmdir /s /q "%USERPROFILE%\\scoop"
         }
 
         stage('Deploy Test Results') {
-            junit allowEmptyResults: false, keepLongStdio: false, testResults: 'test/output/test-report.xml,build/**/test/src/**/junit.xml'
+            junit allowEmptyResults: false, keepLongStdio: false, testResults: 'test/output/test-report.xml,build/**/test/Debug/src/**/junit.xml'
         }
 
         stage('Deploy Artifacts'){

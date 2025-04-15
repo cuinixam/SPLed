@@ -18,13 +18,13 @@ param(
     [string]$command = "",
     [Parameter(Mandatory = $false, HelpMessage = 'Clean build, wipe out all build artifacts. (Switch, default: false)')]
     [switch]$clean = $false,
-    [Parameter(Mandatory = $false, HelpMessage = 'Build kit to be used. (String, default: "prod")')]
+    [Parameter(Mandatory = $false, HelpMessage = 'Build kit to be used. (String: "prod" or "test", default: "prod")')]
     [string]$buildKit = "prod",
-    [Parameter(Mandatory = $false, HelpMessage = 'Type of build. (String, default: "Debug")')]
+    [Parameter(Mandatory = $false, HelpMessage = 'Type of build (String, default: "Debug")')]
     [string]$buildType = "Debug",
     [Parameter(Mandatory = $false, HelpMessage = 'Target to be built. (String, default: "all")')]
     [string]$target = "all",
-    [Parameter(Mandatory = $false, HelpMessage = 'Variants (of the product) to be built (List of strings, leave empty to be asked or "all" for automatic build of all variants)')]
+    [Parameter(Mandatory = $false, HelpMessage = 'Variants (of the product) to be built. (List of strings, leave empty to be asked or "all" for automatic build of all variants)')]
     [string[]]$variants = $null,
     [Parameter(Mandatory = $false, HelpMessage = 'filter for self tests, e.g. "Disco or test_CustA__Disco.py" (see https://docs.pytest.org/en/stable/usage.html).')]
     [string]$filter = "",
@@ -72,7 +72,7 @@ function Invoke-Build-System {
         [Parameter(Mandatory = $false)]
         [string]$buildKit = "prod",
         [Parameter(Mandatory = $false)]
-        [string]$buildType = "Release",
+        [string]$buildType = "Debug",
         [Parameter(Mandatory = $true)]
         [string]$target = "all",
         [Parameter(Mandatory = $false)]

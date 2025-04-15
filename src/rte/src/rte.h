@@ -3,8 +3,10 @@
  * @brief Runtime environment (RTE) interface for power and light functionalities.
  */
 
-#ifndef __rte_h__
-#define __rte_h__
+#ifndef RTE_H
+#define RTE_H
+
+#include <stdint.h>
 
  /** @brief Boolean type definition. */
 typedef unsigned char boolean;
@@ -40,17 +42,18 @@ typedef enum {
 /**
  * @brief Struct representing an RGB color.
  */
+
 typedef struct {
-    int red; /**< The red component of the color. */
-    int green; /**< The green component of the color. */
-    int blue; /**< The blue component of the color. */
+    uint8_t red; /**< The red component of the color. */
+    uint8_t green; /**< The green component of the color. */
+    uint8_t blue; /**< The blue component of the color. */
 } RGBColor;
 
 /**
  * @typedef Percentage
  * @brief Represents a positive percentage value ranging from 0 to 100.
  */
-typedef unsigned int percentage_t;
+typedef uint8_t percentage_t;
 
 /**
  * @brief Set the current power state.
@@ -164,4 +167,4 @@ unsigned int RteGetBrightnessValue(void);
 void RteLoggerPrintToConsole(LogLevel level, const char* message, ...);
 #endif
 
-#endif // __rte_h__
+#endif // RTE_H
