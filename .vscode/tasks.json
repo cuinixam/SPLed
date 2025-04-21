@@ -82,20 +82,10 @@
         {
             "label": "Generate PAYC options file",
             "detail": "Generate Polyspace-As-You-Code options file for the selected variant",
-            "command": ".venv/Scripts/sple_static_analysis.exe",
+            "command": "./build.ps1",
             "args": [
-                "generate-ps-options-file",
-                "--project-root-dir",
-                "${workspaceFolder}",
-                "--variant",
-                "${input:variant}",
-                "--build-kit",
-                "prod",
-                "--build-type",
-                "Debug",
-                "--payc",
-                "--output-folder",
-                "./build"
+                "-command",
+                "sple_static_analysis.exe generate-ps-options-file --project-root-dir ${workspaceFolder} --variant ${input:variant} --build-kit prod --build-type Debug --payc --output-folder ./build"
             ],
             "type": "shell",
             "presentation": {
@@ -109,19 +99,10 @@
         {
             "label": "Generate Polyspace BF options file",
             "detail": "Generate Polyspace Bug Finder options file for the selected variant",
-            "command": ".venv/Scripts/sple_static_analysis.exe",
+            "command": "./build.ps1",
             "args": [
-                "generate-ps-options-file",
-                "--project-root-dir",
-                "${workspaceFolder}",
-                "--variant",
-                "${input:variant}",
-                "--build-kit",
-                "prod",
-                "--build-type",
-                "Debug",
-                "--output-folder",
-                "./variants/${input:variant}"
+                "-command",
+                "sple_static_analysis.exe generate-ps-options-file --project-root-dir ${workspaceFolder} --variant ${input:variant} --build-kit prod --build-type Debug --output-folder ./variants/${input:variant}"
             ],
             "type": "shell",
             "presentation": {

@@ -326,10 +326,6 @@ try {
     # Load environment setup script
     . .\build\env_setup.ps1
 
-    if (Test-RunningInCIorTestEnvironment -or $Env:USER_PATH_FIRST) {
-        Initialize-EnvPath
-    }
-
     if ($installOptional) {
         Import-ScoopFile "scoopfile-optional.json"
     }
