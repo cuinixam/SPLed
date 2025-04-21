@@ -411,9 +411,9 @@
 -D _pascal=__attribute__((__pascal__))
 -D _stdcall=__attribute__((__stdcall__))
 -D _thiscall=__attribute__((__thiscall__))
--I %COMPILER_BIN_PATH%/../../14.2.0-19.1.1-12.0.0-r2/include
--I %COMPILER_BIN_PATH%/../../14.2.0-19.1.1-12.0.0-r2/lib/clang/19/include
--I %COMPILER_BIN_PATH%/../../14.2.0-19.1.1-12.0.0-r2/x86_64-w64-mingw32/include
+-I %COMPILER_BIN_PATH%/../include
+-I %COMPILER_BIN_PATH%/../lib/clang/19/include
+-I %COMPILER_BIN_PATH%/../x86_64-w64-mingw32/include
 -align 128
 -c-version c17
 -compiler clang13.x
