@@ -4,7 +4,7 @@ from spl_core.test_utils.base_variant_test_runner import BaseVariantTestRunner
 from spl_core.test_utils.spl_build import SplBuild
 
 
-class Test_CustB__Sleep(BaseVariantTestRunner):
+class Test_Disco(BaseVariantTestRunner):
     @property
     def component_paths(self):
         return [
@@ -14,7 +14,6 @@ class Test_CustB__Sleep(BaseVariantTestRunner):
             Path("src/keyboard_interface"),
             # Path("src/console_interface"),
             Path("src/main_control_knob"),
-            Path("src/brightness_controller"),
         ]
 
     @property
@@ -41,15 +40,12 @@ class Test_CustB__Sleep(BaseVariantTestRunner):
         )
 
         # Act
-        assert 0 == spl_build.execute(target="static_analysis")
+        ret_code = spl_build.execute(target="static_analysis")
 
         # Assert
-        self.assert_artifact_exists(
-            dir=spl_build.build_dir,
-            artifact=Path("reports/static_analysis/cppcheck/index.html"),
-        )
+        assert ret_code == 0
 
         self.assert_artifact_exists(
             dir=spl_build.build_dir,
-            artifact=Path("reports/static_analysis/cppcheck/index.xml"),
+            artifact=Path("reports/static_analysis/polyspace_bug_finder/index.html"),
         )

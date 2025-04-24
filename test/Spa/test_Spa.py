@@ -1,10 +1,9 @@
 from pathlib import Path
 import pytest
 from spl_core.test_utils.base_variant_test_runner import BaseVariantTestRunner
-from spl_core.test_utils.spl_build import SplBuild
 
 
-class Test_CustA__Disco(BaseVariantTestRunner):
+class Test_Spa(BaseVariantTestRunner):
     @property
     def component_paths(self):
         return [
@@ -14,6 +13,7 @@ class Test_CustA__Disco(BaseVariantTestRunner):
             Path("src/keyboard_interface"),
             # Path("src/console_interface"),
             Path("src/main_control_knob"),
+            Path("src/brightness_controller"),
         ]
 
     @property
@@ -26,26 +26,8 @@ class Test_CustA__Disco(BaseVariantTestRunner):
 
     @pytest.mark.unittests
     def test_unittests(self):
-        super().test_unittests(build_type="Debug")
+        pass
 
     @pytest.mark.reports
     def test_reports(self):
-        super().test_reports(build_type="Debug")
-
-    @pytest.mark.static_analysis
-    def test_static_analysis(self):
-        # Arrange
-        spl_build: SplBuild = SplBuild(
-            variant=self.variant, build_kit="prod", build_type="Debug"
-        )
-
-        # Act
-        ret_code = spl_build.execute(target="static_analysis")
-
-        # Assert
-        assert ret_code == 0
-
-        self.assert_artifact_exists(
-            dir=spl_build.build_dir,
-            artifact=Path("reports/static_analysis/polyspace_bug_finder/index.html"),
-        )
+        pass

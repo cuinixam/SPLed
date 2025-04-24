@@ -19,7 +19,7 @@
             "label": "Configure variant",
             "detail": "Feature configuration using KConfig",
             "type": "shell",
-            "command": "pipenv run guiconfig",
+            "command": "guiconfig",
             "options": {
                 "env": {
                     "KCONFIG_CONFIG": "variants/${input:variant}/config.txt"
@@ -120,8 +120,9 @@
             "id": "variant",
             "description": "Which variant do you want to select?",
             "options": [
-                "CustA/Disco",
-                "CustB/Sleep",
+                "Disco",
+                "Sleep",
+                "Spa",
                 "Base/Dev"
             ]
         },

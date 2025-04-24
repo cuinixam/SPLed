@@ -1,6 +1,6 @@
 {
     "python_version": "3.11",
-    "python_package_manager": "pipenv>=2024.0.3",
+    "python_package_manager": "poetry>=2.1.0",
     "scoop_installer": "https://git.marquardt.de/projects/SPLE/repos/scoopinstall/raw/install.ps1?at=refs%2Ftags%2Fv1.0.0",
     "scoop_installer_with_repo_arg": true,
     "scoop_default_bucket_base_url": "https://git.marquardt.de/projects/SPLE/repos/scoop-bucket/raw",

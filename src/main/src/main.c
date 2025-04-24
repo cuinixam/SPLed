@@ -1,10 +1,9 @@
 #include "autoconf.h"
-#include "spled.h"
-#include <stdint.h>
+#include "os.h"
 
-int32_t main(void) {
-    while (1)
-    {
-        spled();
-    }
+int main(void) {
+
+    OsRun();
+
+    return 0;
 }

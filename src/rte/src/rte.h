@@ -8,6 +8,8 @@
 
 #include <stdint.h>
 
+#include "autoconf.h"
+
  /** @brief Boolean type definition. */
 typedef unsigned char boolean;
 
@@ -30,6 +32,10 @@ typedef enum {
     LOG_LEVEL_ERROR = 3
 } LogLevel;
 #endif
+
+/** @brief Configure the brightness adjustment task period use to calculate transition times. */
+#define BRIGHTNESS_TASK_PERIOD CONFIG_OS_TASK_PERIOD
+
 
 /**
  * @brief Enumerated type for power states.
@@ -54,6 +60,12 @@ typedef struct {
  * @brief Represents a positive percentage value ranging from 0 to 100.
  */
 typedef uint8_t percentage_t;
+
+/**
+ * @typedef Brightness
+ * @brief Represents a brightness value ranging from 0 to 255.
+ */
+typedef unsigned int brightness_t;
 
 /**
  * @brief Set the current power state.
@@ -143,7 +155,7 @@ percentage_t RteGetMainKnobValue(void);
  *
  * @note Values greater than 255 will be clamped to 255.
  */
-void RteSetBrightnessValue(unsigned int value);
+void RteSetBrightnessValue(brightness_t value);
 
 /**
  * @brief Gets the value of the brightness.
@@ -152,8 +164,27 @@ void RteSetBrightnessValue(unsigned int value);
  *
  * @return The percentage value of the brightness, between 0 and 255 (inclusive).
  */
-unsigned int RteGetBrightnessValue(void);
+brightness_t RteGetBrightnessValue(void);
 
+#ifdef CONFIG_BRIGHTNESS_ADJUSTMENT_PERIOD
+/**
+ * @brief Sets the brightness adjustment counter.
+ *
+ * This function sets the brightness adjustment counter to the specified value.
+ *
+ * @param[in] counter The value to set for the brightness adjustment counter.
+ */
+void RteSetBrightnessAdjustmentCounter(unsigned int counter);
+
+/**
+ * @brief Gets the brightness adjustment counter.
+ *
+ * This function retrieves the current value of the brightness adjustment counter.
+ *
+ * @param[out] counter A pointer to an integer where the current brightness adjustment counter will be stored.
+ */
+void RteGetBrightnessAdjustmentCounter(unsigned int* counter);
+#endif // CONFIG_BRIGHTNESS_ADJUSTMENT_PERIOD
 
 #if LOGGING_ENABLED
 /**
