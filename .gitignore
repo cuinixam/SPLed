@@ -5,7 +5,7 @@
 /test/output
 
 # credentials file for polyspace access
-/variants/CustA/Disco/polyspace_credentials.txt
+polyspace_credentials.txt
 
 # What: Python: byte-compiled / optimized / DLL files
 # Why: automatically created by Python during script execution
