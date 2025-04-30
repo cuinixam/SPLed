@@ -10,7 +10,7 @@ class Test_Spa(BaseVariantTestRunner):
             # Path("src/spled"),
             Path("src/power_signal_processing"),
             Path("src/light_controller"),
-            Path("src/keyboard_interface"),
+            Path("src/power_button"),
             # Path("src/console_interface"),
             Path("src/main_control_knob"),
             Path("src/brightness_controller"),

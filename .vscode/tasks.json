@@ -135,7 +135,7 @@
                 "src/console_interface",
                 "src/examples/check_abort",
                 "src/examples/component_a",
-                "src/keyboard_interface",
+                "src/power_button",
                 "src/light_controller",
                 "src/main",
                 "src/main_control_knob",

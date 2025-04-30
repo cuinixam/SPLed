@@ -1,9 +1,9 @@
 /**
- * @file keyboard_interface.c
- * @brief Module to interface with keyboard and debounce specific key presses/releases.
+ * @file power_button.c
+ * @brief Module to interface with power button keyboard
  */
 
-#include "keyboard_interface.h"
+#include "power_button.h"
 #include "rte.h"
 
  /**
@@ -25,13 +25,13 @@ static unsigned int releaseCounter = 0; /**< Counter for key releases. */
  *
  * This function utilizes a state machine to debounce key presses and releases.
  * It must be called periodically to process the debouncing. The behavior is controlled
- * by two configuration parameters: CFG_DEBOUNCE_PRESS and CFG_DEBOUNCE_RELEASE which determine
+ * by two configuration parameters: POWER_BUTTON_PRESS_DEBOUNCE and POWER_BUTTON_RELEASE_DEBOUNCE which determine
  * how many consecutive calls with the key pressed/released are required to acknowledge the
  * state transition.
  */
-void keyboardInterface() {
+void powerButton() {
     boolean powerKeyPressed = FALSE;
-    boolean keyStatus = RteIsKeyPressed(TARGET_KEY);
+    boolean keyStatus = RteIsKeyPressed(POWER_BUTTON_KEY);
 
     // Update the counters
     if (keyStatus) {
@@ -46,13 +46,13 @@ void keyboardInterface() {
 
     switch (currentState) {
     case INIT:
-        if (pressCounter >= CFG_DEBOUNCE_PRESS) {
+        if (pressCounter >= POWER_BUTTON_PRESS_DEBOUNCE) {
             powerKeyPressed = TRUE;
             currentState = PRESSED;
             releaseCounter = 0; // reset the counter after transition
             pressCounter = 0; // reset the counter after transition
         }
-        else if (releaseCounter >= CFG_DEBOUNCE_RELEASE) {
+        else if (releaseCounter >= POWER_BUTTON_RELEASE_DEBOUNCE) {
             currentState = RELEASED;
             releaseCounter = 0; // reset the counter after transition
             pressCounter = 0; // reset the counter after transition
@@ -60,7 +60,7 @@ void keyboardInterface() {
         break;
 
     case PRESSED:
-        if (releaseCounter >= CFG_DEBOUNCE_RELEASE) {
+        if (releaseCounter >= POWER_BUTTON_RELEASE_DEBOUNCE) {
             currentState = RELEASED;
             releaseCounter = 0; // reset the counter after transition
         }
@@ -68,7 +68,7 @@ void keyboardInterface() {
         break;
 
     case RELEASED:
-        if (pressCounter >= CFG_DEBOUNCE_PRESS) {
+        if (pressCounter >= POWER_BUTTON_PRESS_DEBOUNCE) {
             powerKeyPressed = TRUE;
             currentState = PRESSED;
             pressCounter = 0; // reset the counter after transition

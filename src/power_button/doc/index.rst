@@ -1,7 +1,7 @@
 Software Detailed Design
 ========================
 
-This module interfaces with the keyboard and detects specific key presses, primarily focusing on the TARGET_KEY.
+This module interfaces with the keyboard and detects specific key presses, primarily focusing on the POWER_BUTTON_KEY.
 
 .. _module-header:
 
@@ -10,7 +10,7 @@ Module Header
 
 .. code-block:: c
 
-   #include "keyboard_interface.h"
+   #include "power_button.h"
    #include "rte.h"
 
 .. _function-description:
@@ -18,25 +18,25 @@ Module Header
 Function Description
 --------------------
 
-.. c:function:: void keyboardInterface(void)
+.. c:function:: void powerButton(void)
 
-.. spec:: Monitor TARGET_KEY
+.. spec:: Monitor POWER_BUTTON_KEY
    :id: SWDD_KI-001
    :integrity: B
 
-    The function should be called periodically to detect state changes of the TARGET_KEY.
+    The function should be called periodically to detect state changes of the POWER_BUTTON_KEY.
 
 .. spec:: Key Pressed Event
    :id: SWDD_KI-002
    :integrity: C
 
-    If the TARGET_KEY was just pressed, RteSetPowerKeyPressed will be called with TRUE.
+    If the POWER_BUTTON_KEY was just pressed, RteSetPowerKeyPressed will be called with TRUE.
 
 .. spec:: Key Released Event
    :id: SWDD_KI-003
    :integrity: C
 
-    If the TARGET_KEY was just released or remains pressed, RteSetPowerKeyPressed will be called with FALSE.
+    If the POWER_BUTTON_KEY was just released or remains pressed, RteSetPowerKeyPressed will be called with FALSE.
 
 
 Function Flow
@@ -46,7 +46,7 @@ Function Flow
 
    graph TD
       Start[Start]
-      CheckKey[Check if TARGET_KEY is pressed]
+      CheckKey[Check if POWER_BUTTON_KEY is pressed]
       WasKeyPressed{Was key pressed in previous state?}
       KeyPressEvent[Send Key Pressed Event]
       KeyReleaseEvent[Send Key Released Event]
