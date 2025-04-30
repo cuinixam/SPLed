@@ -26,8 +26,8 @@ class Test_Spa(BaseVariantTestRunner):
 
     @pytest.mark.unittests
     def test_unittests(self):
-        pass
+        super().test_unittests(build_type="Debug")
 
     @pytest.mark.reports
     def test_reports(self):
-        pass
+        super().test_reports(build_type="Debug")

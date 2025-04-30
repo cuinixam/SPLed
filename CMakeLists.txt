@@ -28,7 +28,9 @@ include(".venv/Lib/site-packages/spl_core/spl.cmake")
 
 include(${CMAKE_SOURCE_DIR}/variants/${VARIANT}/parts.cmake)
 
-include(".venv/Lib/site-packages/sple_static_analysis_extension/index.cmake")
+if(BUILD_KIT STREQUAL prod)
+    include(".venv/Lib/site-packages/sple_static_analysis_extension/index.cmake")
+endif()
 
 # add all components' include paths to all components
 foreach(component_name ${COMPONENT_NAMES})

@@ -6,7 +6,7 @@ menu "Features"
     config BLINKING
         bool "Blinking Feature"
         default n
-    
+
     choice BRIGHTNESS_ADJUSTMENT
         depends on !BLINKING
         prompt "Select brightness adjustment mode"
@@ -17,7 +17,7 @@ menu "Features"
                 bool "Automatically adjustable"
     endchoice
 
-    config BRIGHTNESS_ADJUSTMENT_IS_ENABLED
+    config BRIGHTNESS_ADJUSTMENT_ENABLED
         # Internal config. Not visible for the user in the menuconfig.
         bool
         default y if BRIGHTNESS_ADJUSTMENT_MANUAL || BRIGHTNESS_ADJUSTMENT_AUTOMATIC

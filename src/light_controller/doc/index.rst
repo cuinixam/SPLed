@@ -7,39 +7,30 @@ Software Detailed Design
 Introduction
 ------------
 
-The Light Controller module is responsible for managing the behavior of a light based on the system's power state. This document outlines the design considerations and the high-level structure of the module.
+The Light Controller is responsible for managing the behavior of the LED based on the system's power state.
 
 Design Considerations
 ---------------------
 
 .. spec:: State Management
-   :id: SWDD_LC-001
-   :integrity: B
+   :id: SWDD_LC-100
 
     The light can be in one of two states: ON or OFF. The state transitions are triggered by changes in the system's power state.
 
 {% if config.BLINKING %}
 .. spec::  Blinking Behavior
-    :id: SWDD_LC-002
-    :integrity: B
+    :id: SWDD_LC-101
 
     When the light is ON, it may exhibit a blinking behavior. The blinking rate is configurable and is determined based on an external input (main knob value).
 {% endif %}
 
 .. spec:: Color Management
-    :id: SWDD_LC-003
+    :id: SWDD_LC-102
 
-    The color of the light when it is ON is specified as an RGB value.
+    The color of the light is specified as an RGB value.
 
-{% if config.BRIGHTNESS_ADJUSTMENT %}
-.. spec::  Brightness Adjustment
-    :id: SWDD_LC-005
-
-    When the light is ON, it may have a variable brightness. The brightness value is determined based on an external input (main knob value).
-{% endif %}
-
-.. spec:: Configurable color
-    :id: SWDD_LC-006
+.. spec:: Configurable Color
+    :id: SWDD_LC-103
 
     The color of the light shall be fixed but configurable.
     *Note:* The color is configurable in the sense that it is specified as a configuration parameter. The color is not configurable at runtime.
@@ -47,27 +38,43 @@ Design Considerations
 Interfaces
 ----------
 
-1. **External Functions**:
-    - ``RteSetLightValue``: Function to set the light color.
-    - ``RteGetPowerState``: Function to get the current power state.
-    - ``RteGetMainKnobValue``: Function to get the main knob value.
+.. spec:: Runnable
+   :id: SWDD_LC-200
 
-2. **Internal Functions**:
-    - ``turnLightOff``: Internal function to turn the light off.
-    - ``turnLightOn``: Internal function to turn the light on.
+    The Light Controller is be called by its runnable ``lightController()``.
+
+.. spec:: Power State Input
+   :id: SWDD_LC-201
+
+    The Light Controller uses the RTE interface ``RteGetPowerState()`` to get the current power state.
+
+.. spec:: Light Color Output
+   :id: SWDD_LC-202
+
+    The Light Controller uses the RTE interface ``RteSetLightValue()`` to set the light color.
+
 {% if config.BLINKING %}
-    - ``calculateBlinkPeriod``: Internal function to calculate the blink period.
+.. spec:: Main Knob Input
+   :id: SWDD_LC-203
+
+    The Light Controller uses the RTE interface ``RteGetMainKnobValue()`` to get the main knob value for controlling the blinking rate.
 {% endif %}
-    - ``lightController``: Main interface function to control the light behavior.
+
+{% if config.BRIGHTNESS_ADJUSTMENT %}
+.. spec::  Brightness Adjustment
+    :id: SWDD_LC-204
+
+    The Light Controller uses the RTE interface ``RteGetBrightnessValue()`` to get the required brightness value for the light.
+{% endif %}
 
 
 Internal Behavior
 -----------------
 
 .. spec::  State Machine
-    :id: SWDD_LC-004
+    :id: SWDD_LC-300
 
-    The light controller module is implemented as a state machine. The state machine is shown below.
+    The Light Controller is implemented as a state machine. The state machine is shown below.
 
 .. mermaid::
 

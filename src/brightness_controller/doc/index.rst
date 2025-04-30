@@ -37,23 +37,23 @@ Interfaces
 .. spec:: Runnable
    :id: SWDD_BC-200
 
-    The Brightness Controller shall be called by its runnable ``brightnessController()``.
+    The Brightness Controller is be called by its runnable ``brightnessController()``.
 
 {% if config.BRIGHTNESS_ADJUSTMENT_MANUAL %}
 .. spec:: Main Knob Input
    :id: SWDD_BC-201
 
-    The Brightness Controller shall use the RTE interface ``RteGetMainKnobValue()`` for manual brightness adjustment.
+    The Brightness Controller is use the RTE interface ``RteGetMainKnobValue()`` for manual brightness adjustment.
 {% endif %}
 
 .. spec:: Brightness Value Output
    :id: SWDD_BC-202
 
-    The Brightness Controller shall use the RTE interface ``RteSetBrightnessValue()`` to set the brightness value.
+    The Brightness Controller is use the RTE interface ``RteSetBrightnessValue()`` to set the brightness value.
 
 {% if config.BRIGHTNESS_ADJUSTMENT_AUTOMATIC %}
 .. spec:: Periodic Dimming Counter Output
    :id: SWDD_BC-203
 
-    The Brightness Controller shall use the RTE interface ``RteSetBrightnessAdjustmentCounter()`` to set the brightness adjustment counter.
+    The Brightness Controller is use the RTE interface ``RteSetBrightnessAdjustmentCounter()`` to set the brightness adjustment counter.
 {% endif %}
