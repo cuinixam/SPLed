@@ -30,7 +30,7 @@
         {
             "label": "Open variant test report",
             "detail": "Open the variant's overall test report in your web browser",
-            "command": "${workspaceFolder}/build/${input:variant}/test/reports/html/index.html",
+            "command": "${workspaceFolder}/build/${input:variant}/test/Debug/reports/html/index.html",
             "type": "shell",
             "presentation": {
                 "reveal": "always"
@@ -43,7 +43,7 @@
         {
             "label": "Open variant coverage report",
             "detail": "Open the variant's overall coverage report in your web browser",
-            "command": "${workspaceFolder}/build/${input:variant}/test/reports/coverage/index.html",
+            "command": "${workspaceFolder}/build/${input:variant}/test/Debug/reports/coverage/index.html",
             "type": "shell",
             "presentation": {
                 "reveal": "always"
@@ -56,7 +56,7 @@
         {
             "label": "Open component test report",
             "detail": "Open the component's test report in your web browser",
-            "command": "${workspaceFolder}/build/${input:variant}/test/${input:component}/reports/html/index.html",
+            "command": "${workspaceFolder}/build/${input:variant}/test/Debug/${input:component}/reports/html/index.html",
             "type": "shell",
             "presentation": {
                 "reveal": "always"
@@ -69,7 +69,7 @@
         {
             "label": "Open component coverage report",
             "detail": "Open the component's coverage report in your web browser",
-            "command": "${workspaceFolder}/build/${input:variant}/test/${input:component}/reports/coverage/index.html",
+            "command": "${workspaceFolder}/build/${input:variant}/test/Debug/${input:component}/reports/coverage/index.html",
             "type": "shell",
             "presentation": {
                 "reveal": "always"
