@@ -5,8 +5,8 @@
 static void OsTask(void)
 {
     spled();
-    // Delay in miliseconds
-    usleep(CONFIG_OS_TASK_PERIOD * 1000);
+    // Delay in microseconds
+    usleep(CONFIG_OS_TASK_PERIOD * 1000); // CONFIG_OS_TASK_PERIOD is in milliseconds
 }
 
 void OsRun(void)

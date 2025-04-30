@@ -1,6 +1,6 @@
-#ifndef __os_h__
-#define __os_h__
+#ifndef OS_H
+#define OS_H
 
 extern void OsRun(void);
 
-#endif // __os_h__
+#endif /* OS_H */

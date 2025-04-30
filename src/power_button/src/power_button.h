@@ -8,4 +8,4 @@
 
 void powerButton();
 
-#endif // POWER_BUTTON_H
+#endif /* POWER_BUTTON_H */

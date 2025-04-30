@@ -1,7 +1,8 @@
 #include <gtest/gtest.h>
 using namespace testing;
 
-extern "C" {
+extern "C"
+{
 #include "autoconf.h"
 #include "spled.h"
 }

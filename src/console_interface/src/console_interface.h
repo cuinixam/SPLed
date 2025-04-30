@@ -1,8 +1,8 @@
-#ifndef __console_interface_h__
-#define __console_interface_h__
+#ifndef CONSOLE_INTERFACE_H
+#define CONSOLE_INTERFACE_H
 
 #include "rte.h"
 
 void consoleInterface(void);
 
-#endif // __console_interface_h__
+#endif /* CONSOLE_INTERFACE_H */

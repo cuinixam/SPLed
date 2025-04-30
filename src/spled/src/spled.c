@@ -10,7 +10,8 @@
 #include "brightness_controller.h"
 #endif
 
-void spled(void) {
+void spled(void)
+{
     powerButton();
     powerSignalProcessing();
     mainControlKnob();

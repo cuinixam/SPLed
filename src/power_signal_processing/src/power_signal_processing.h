@@ -1,6 +1,6 @@
-#ifndef __power_signal_processing_h__
-#define __power_signal_processing_h__
+#ifndef POWER_SIGNAL_PROCESSING_H
+#define POWER_SIGNAL_PROCESSING_H
 
 void powerSignalProcessing(void);
 
-#endif // __power_signal_processing_h__
+#endif /* POWER_SIGNAL_PROCESSING_H */

@@ -1,6 +1,6 @@
-#ifndef __spled_h__
-#define __spled_h__
+#ifndef SPLED_H
+#define SPLED_H
 
 void spled(void);
 
-#endif // __spled_h__
+#endif /* SPLED_H */

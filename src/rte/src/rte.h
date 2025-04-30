@@ -10,7 +10,7 @@
 
 #include "autoconf.h"
 
- /** @brief Boolean type definition. */
+/** @brief Boolean type definition. */
 typedef unsigned char boolean;
 
 /** @brief Macro for boolean TRUE. */
@@ -25,7 +25,8 @@ typedef unsigned char boolean;
 /**
  * @brief Enumerated type for log levels.
  */
-typedef enum {
+typedef enum
+{
     LOG_LEVEL_DEBUG = 0,
     LOG_LEVEL_INFO = 1,
     LOG_LEVEL_WARNING = 2,
@@ -36,23 +37,24 @@ typedef enum {
 /** @brief Configure the brightness adjustment task period use to calculate transition times. */
 #define BRIGHTNESS_TASK_PERIOD CONFIG_OS_TASK_PERIOD
 
-
 /**
  * @brief Enumerated type for power states.
  */
-typedef enum {
+typedef enum
+{
     POWER_STATE_OFF = 0, /**< Power is turned off. */
-    POWER_STATE_ON = 1  /**< Power is turned on. */
+    POWER_STATE_ON = 1   /**< Power is turned on. */
 } PowerState;
 
 /**
  * @brief Struct representing an RGB color.
  */
 
-typedef struct {
-    uint8_t red; /**< The red component of the color. */
+typedef struct
+{
+    uint8_t red;   /**< The red component of the color. */
     uint8_t green; /**< The green component of the color. */
-    uint8_t blue; /**< The blue component of the color. */
+    uint8_t blue;  /**< The blue component of the color. */
 } RGBColor;
 
 /**
@@ -111,7 +113,7 @@ void RteSetLightValue(RGBColor value);
  *
  * @param value A pointer to an RGBColor struct to store the current light value in.
  */
-void RteGetLightValue(RGBColor* value);
+void RteGetLightValue(RGBColor *value);
 
 /**
  * @brief Check if the given key is currently pressed.
@@ -183,7 +185,7 @@ void RteSetBrightnessAdjustmentCounter(unsigned int counter);
  *
  * @param[out] counter A pointer to an integer where the current brightness adjustment counter will be stored.
  */
-void RteGetBrightnessAdjustmentCounter(unsigned int* counter);
+void RteGetBrightnessAdjustmentCounter(unsigned int *counter);
 #endif // CONFIG_BRIGHTNESS_ADJUSTMENT_PERIOD
 
 #if LOGGING_ENABLED
@@ -195,7 +197,7 @@ void RteGetBrightnessAdjustmentCounter(unsigned int* counter);
  * @param[in] level The log level of the message.
  * @param[in] message The message to print.
  */
-void RteLoggerPrintToConsole(LogLevel level, const char* message, ...);
+void RteLoggerPrintToConsole(LogLevel level, const char *message, ...);
 #endif
 
 #endif // RTE_H
