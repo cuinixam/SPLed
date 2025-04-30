@@ -10,7 +10,7 @@ menu "Features"
     choice BRIGHTNESS_ADJUSTMENT
         depends on !BLINKING
         prompt "Select brightness adjustment mode"
-            config BRIGHTNESS_ADJUSTMENT_MANUALLY
+            config BRIGHTNESS_ADJUSTMENT_MANUAL
                 bool "Manually adjustable"
 
             config BRIGHTNESS_ADJUSTMENT_AUTOMATIC
@@ -20,7 +20,7 @@ menu "Features"
     config BRIGHTNESS_ADJUSTMENT_IS_ENABLED
         # Internal config. Not visible for the user in the menuconfig.
         bool
-        default y if BRIGHTNESS_ADJUSTMENT_MANUALLY || BRIGHTNESS_ADJUSTMENT_AUTOMATIC
+        default y if BRIGHTNESS_ADJUSTMENT_MANUAL || BRIGHTNESS_ADJUSTMENT_AUTOMATIC
 
     config BRIGHTNESS_ADJUSTMENT_PERIOD
         int "Brightness Adjustment Period (in seconds)"

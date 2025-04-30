@@ -7,27 +7,53 @@ Software Detailed Design
 Introduction
 ------------
 
-The Brightness Controller component is responsible for adjusting the brightness of a light based on a knob input.
-This document outlines the design considerations and the high-level structure of the module.
+The Brightness Controller is responsible for adjusting the brightness of the LED.
 
 Design Considerations
 ---------------------
 
 .. spec:: Brightness Value
-   :id: SWDD_BC-001
-   :integrity: B
+   :id: SWDD_BC-100
 
     The brightness of the light is represented by an integer value from 0 up to 255.
 
-.. spec::  Brightness Adjustment
-    :id: SWDD_BC-002
-    :integrity: B
+{% if config.BRIGHTNESS_ADJUSTMENT_MANUAL %}
+.. spec::  Manual Brightness Adjustment
+    :id: SWDD_BC-101
 
     The brightness of the light is adjustable by an external input (main knob value in percentage).
+{% endif %}
 
+{% if config.BRIGHTNESS_ADJUSTMENT_AUTOMATIC %}
+.. spec:: Automatic Brightness Adjustment
+    :id: SWDD_BC-102
+
+    The brightness of the light is automatically adjusted based on a given period.
+{% endif %}
 
 Interfaces
 ----------
 
-- ``RteSetBrightnessValue``: Function to update the value of the light brightness.
-- ``RteGetMainKnobValue``: Function to get the main knob value to increase or decrease the brightness accordingly.
+.. spec:: Runnable
+   :id: SWDD_BC-200
+
+    The Brightness Controller shall be called by its runnable ``brightnessController()``.
+
+{% if config.BRIGHTNESS_ADJUSTMENT_MANUAL %}
+.. spec:: Main Knob Input
+   :id: SWDD_BC-201
+
+    The Brightness Controller shall use the RTE interface ``RteGetMainKnobValue()`` for manual brightness adjustment.
+{% endif %}
+
+.. spec:: Brightness Value Output
+   :id: SWDD_BC-202
+
+    The Brightness Controller shall use the RTE interface ``RteSetBrightnessValue()`` to set the brightness value.
+
+{% if config.BRIGHTNESS_ADJUSTMENT_AUTOMATIC %}
+.. spec:: Periodic Dimming Counter Output
+   :id: SWDD_BC-203
+
+    The Brightness Controller shall use the RTE interface ``RteSetBrightnessAdjustmentCounter()`` to set the brightness adjustment counter.
+{% endif %}

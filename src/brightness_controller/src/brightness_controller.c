@@ -1,72 +1,91 @@
 /**
  * @file brightness_controller.c
  * @brief Module to control the brightness.
-*/
+ */
 
 #include "brightness_controller.h"
 #include "rte.h"
 
-#ifdef CONFIG_BRIGHTNESS_ADJUSTMENT_PERIOD
+#ifdef CONFIG_BRIGHTNESS_ADJUSTMENT_AUTOMATIC
 
-#define BRIGHTNESS_PERIOD_TICKS ((unsigned int)((CONFIG_BRIGHTNESS_ADJUSTMENT_PERIOD*1000) / BRIGHTNESS_TASK_PERIOD))
+#define BRIGHTNESS_PERIOD_TICKS ((unsigned int)((CONFIG_BRIGHTNESS_ADJUSTMENT_PERIOD * 1000) / BRIGHTNESS_TASK_PERIOD))
 
-brightness_t periodicBrightnessAdjustment(BrightnessAdjustmentData* data) {
+/**
+ * @rst
+ * .. impl:: Periodic Brightness Adjustment
+ *    :id: SWIMPL_BC-001
+ *    :implements: SWDD_BC-100, SWDD_BC-102
+ * @endrst
+ */
+SPLE_TESTABLE_STATIC brightness_t periodicBrightnessAdjustment(BrightnessAdjustmentData *data)
+{
     brightness_t brightnessValue = 0;
 
-    if (data->timeCounter < data->halfPeriod) {
+    if (data->ticksCounter < data->halfPeriod)
+    {
         // Ramp up linearly from min to max
-        brightnessValue = data->minBrightness + ((data->maxBrightness - data->minBrightness) * data->timeCounter) / data->halfPeriod;
+        brightnessValue = data->minBrightness + ((data->maxBrightness - data->minBrightness) * data->ticksCounter) / data->halfPeriod;
     }
-    else {
+    else
+    {
         // Ramp down linearly from max to min
-        brightnessValue = data->maxBrightness - ((data->maxBrightness - data->minBrightness) * (data->timeCounter - data->halfPeriod)) / data->halfPeriod;
+        brightnessValue = data->maxBrightness - ((data->maxBrightness - data->minBrightness) * (data->ticksCounter - data->halfPeriod)) / data->halfPeriod;
     }
 
-    // Increment and reset timeCounter based on the period
-    data->timeCounter = (data->timeCounter + 1) % data->period;
+    // Increment and reset ticksCounter based on the period
+    data->ticksCounter = (data->ticksCounter + 1) % data->period;
 
     return brightnessValue;
 }
 
-#else
+#else /* CONFIG_BRIGHTNESS_ADJUSTMENT_AUTOMATIC */
 
-/*!
-* @rst
-*
-* .. impl:: Brightness Calculation
-*    :id: SWIMPL_BC-001
-*    :implements: SWDD_BC-001, SWDD_BC-002
-* @endrst
-*/
-brightness_t manualBrightnessAdjustment(void) {
+/**
+ * @rst
+ * .. impl:: Manual Brightness Adjustment
+ *    :id: SWIMPL_BC-002
+ *    :implements: SWDD_BC-100, SWDD_BC-101, SWDD_BC-201
+ * @endrst
+ */
+static brightness_t manualBrightnessAdjustment(void)
+{
     percentage_t mainKnobValue = RteGetMainKnobValue();
     brightness_t brightnessValue = 0;
 
-    if (mainKnobValue == 0) {
+    if (mainKnobValue == 0)
+    {
         brightnessValue = 0;
     }
-    else {
+    else
+    {
         brightnessValue = (mainKnobValue * 255) / 100;
     }
     return brightnessValue;
 }
 
-#endif
+#endif /* CONFIG_BRIGHTNESS_ADJUSTMENT_AUTOMATIC */
 
-void brightnessController(void) {
+/**
+ * @rst
+ * .. impl:: Brightness Controller runnable
+ *    :id: SWIMPL_BC-003
+ *    :implements: SWDD_BC-200, SWDD_BC-202, SWDD_BC-203
+ * @endrst
+ */
+void brightnessController(void)
+{
     brightness_t brightnessValue = 0;
 #ifdef CONFIG_BRIGHTNESS_ADJUSTMENT_AUTOMATIC
     static BrightnessAdjustmentData data = {
-        .timeCounter = 0,
+        .ticksCounter = 0,
         .period = BRIGHTNESS_PERIOD_TICKS,
         .halfPeriod = BRIGHTNESS_PERIOD_TICKS / 2,
         .maxBrightness = 200,
-        .minBrightness = 50
-    };
+        .minBrightness = 50};
 
     brightnessValue = periodicBrightnessAdjustment(&data);
-    RteSetBrightnessAdjustmentCounter(data.timeCounter);
-#elif defined(CONFIG_BRIGHTNESS_ADJUSTMENT_MANUALLY)
+    RteSetBrightnessAdjustmentCounter(data.ticksCounter);
+#elif defined(CONFIG_BRIGHTNESS_ADJUSTMENT_MANUAL)
     brightnessValue = manualBrightnessAdjustment();
 #endif
     RteSetBrightnessValue(brightnessValue);
