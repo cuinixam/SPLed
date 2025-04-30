@@ -3225,14 +3225,14 @@ reference = "marquardt-pypi"
 
 [[package]]
 name = "spl-core"
-version = "7.2.2"
+version = "7.2.4"
 description = "Software Product Line Support for CMake"
 optional = false
 python-versions = ">=3.10,<3.12"
 groups = ["main"]
 files = [
-    {file = "spl_core-7.2.2-py3-none-any.whl", hash = "sha256:dfc144163ea87f7053795504a1a17800371d1b7fb417231c6866c35eb75f8de9"},
-    {file = "spl_core-7.2.2.tar.gz", hash = "sha256:14a4af362a8c8effdecd379e777c0437b7463eca16b9f5bb3b0b1d43d5387dda"},
+    {file = "spl_core-7.2.4-py3-none-any.whl", hash = "sha256:8c50f9f23218f6e7b75fe3704a117ca67e3a15c664d3bf203a5f2dda61ac24f2"},
+    {file = "spl_core-7.2.4.tar.gz", hash = "sha256:207b93c0f67de114a6a533852b523035b37f8e322971a9cd52816050f88fcc8f"},
 ]
 
 [package.dependencies]

@@ -21,7 +21,7 @@ include(FetchContent)
 
 # Global config for spl-core
 set(SPL_GTEST_URL https://git.marquardt.de/scm/sple/googletest.git)
-set(SPL_GTEST_TAG v1.14.0)
+set(SPL_GTEST_TAG v1.16.0)
 
 # Include spl-core
 include(".venv/Lib/site-packages/spl_core/spl.cmake")
