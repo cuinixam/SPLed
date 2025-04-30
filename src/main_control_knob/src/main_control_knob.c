@@ -6,11 +6,15 @@
 #include "main_control_knob.h"
 #include "rte.h"
 
+#define CONTROL_KEY_UP 0x26
+#define CONTROL_KEY_DOWN 0x28
+#define KNOB_UPDATE_INCREMENT 2u
+
 /**
  * @rst
  * .. impl:: Main Control Knob's main function
  *    :id: SWIMPL_MCK-001
- *    :implements: SWDD_MCK-001
+ *    :implements: SWDD_MCK-100, SWDD_MCK-101, SWDD_MCK-200, SWDD_MCK-201, SWDD_MCK-202, SWDD_MCK-203
  * @endrst
  */
 void mainControlKnob(void)

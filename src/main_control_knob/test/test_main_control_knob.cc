@@ -5,113 +5,74 @@
 #include <gtest/gtest.h>
 using namespace testing;
 
-extern "C" {
+extern "C"
+{
 #include "main_control_knob.h"
 }
 
 #include "mockup_src_main_control_knob.h"
 
-
-/*!
-* @rst
-*
-* .. test:: main_control_knob.test_main_arrow_up_increases_value
-*    :id: TS_MCK-001
-*    :tests: SWDD_MCK-001
-*
-* @endrst
-*/
-TEST(main_control_knob, test_main_arrow_up_increases_value)
+// Define a struct to hold the parameters for testing mainControlKnob
+struct MainControlKnobParameters
 {
-    CREATE_MOCK(mymock);
+    const char *description;
+    bool arrowUpPressed;
+    bool arrowDownPressed;
+    int initialKnobValue;
+    int expectedKnobValue;
+};
 
-    // Simulate Arrow Up key press.
-    EXPECT_CALL(mymock, RteIsKeyPressed(0x26)).WillOnce(Return(TRUE));
-    // Set initial knob value
-    EXPECT_CALL(mymock, RteGetMainKnobValue()).WillOnce(Return(50));
-    // Verify that knob value was increased.
-    EXPECT_CALL(mymock, RteSetMainKnobValue(52));
-
-    // Call the function to handle knob input.
-    mainControlKnob();
-
+// Override the cout operator for TestParam so that it can be printed in the test output
+std::ostream &operator<<(std::ostream &os, const MainControlKnobParameters &param)
+{
+    os << param.description;
+    return os;
 }
 
-
-
-/*!
-* @rst
-*
-* .. test:: main_control_knob.test_main_arrow_down_decreases_value
-*    :id: TS_MCK-002
-*    :tests: SWDD_MCK-002
-*
-* @endrst
-*/
-TEST(main_control_knob, test_main_arrow_down_decreases_value)
+// Define a test fixture class
+class MainControlKnobTest : public ::testing::TestWithParam<struct MainControlKnobParameters>
 {
+};
+
+/**
+ * @rst
+ * .. test:: MainControlKnobTests/MainControlKnobTest.HandleKnobInput/*
+ *    :id: TS_MCK-001
+ *    :tests: SWDD_MCK-100, SWDD_MCK-101, SWDD_MCK-200, SWDD_MCK-201, SWDD_MCK-202, SWDD_MCK-203
+ * @endrst
+ */
+TEST_P(MainControlKnobTest, HandleKnobInput)
+{
+    /* Arrange */
+    MainControlKnobParameters param = GetParam();
+
     CREATE_MOCK(mymock);
 
-    // Simulate Arrow Down key press.
-    EXPECT_CALL(mymock, RteIsKeyPressed(0x26)).WillOnce(Return(FALSE)); // Arrow Up not pressed.
-    EXPECT_CALL(mymock, RteIsKeyPressed(0x28)).WillOnce(Return(TRUE)); // Arrow Down pressed.
-    // Set initial knob value
-    EXPECT_CALL(mymock, RteGetMainKnobValue()).WillOnce(Return(50));
-    // Verify that knob value was decreased.
-    EXPECT_CALL(mymock, RteSetMainKnobValue(48));
+    EXPECT_CALL(mymock, RteIsKeyPressed(0x26)).WillOnce(Return(param.arrowUpPressed)); // Arrow Up
+    if (param.arrowUpPressed)
+    {
+        EXPECT_CALL(mymock, RteIsKeyPressed(0x28)).Times(0); // Arrow Down should not be pressed
+    }
+    else
+    {
+        EXPECT_CALL(mymock, RteIsKeyPressed(0x28)).WillOnce(Return(param.arrowDownPressed)); // Arrow Down
+    }
+    EXPECT_CALL(mymock, RteGetMainKnobValue()).WillOnce(Return(param.initialKnobValue));
+    EXPECT_CALL(mymock, RteSetMainKnobValue(param.expectedKnobValue));
 
-    // Call the function to handle knob input.
+    /* Act */
     mainControlKnob();
-
 }
 
-/*!
-* @rst
-*
-* .. test:: main_control_knob.test_main_does_not_decrease_bellow_zero
-*    :id: TS_MCK-003
-*    :tests: SWDD_MCK-002
-*
-* @endrst
-*/
-TEST(main_control_knob, test_main_does_not_decrease_bellow_zero)
-{
-    CREATE_MOCK(mymock);
-
-    // Simulate Arrow Down key press.
-    EXPECT_CALL(mymock, RteIsKeyPressed(0x26)).WillOnce(Return(FALSE)); // Arrow Up not pressed.
-    EXPECT_CALL(mymock, RteIsKeyPressed(0x28)).WillOnce(Return(TRUE)); // Arrow Down pressed.
-    // Set initial knob value
-    EXPECT_CALL(mymock, RteGetMainKnobValue()).WillOnce(Return(1));
-    // Verify that knob value was decreased.
-    EXPECT_CALL(mymock, RteSetMainKnobValue(0));
-
-    // Call the function to handle knob input.
-    mainControlKnob();
-
-}
-
-/*!
-* @rst
-*
-* .. test:: main_control_knob.test_main_does_not_increase_over_one_hundred
-*    :id: TS_MCK-004
-*    :tests: SWDD_MCK-001
-*
-* @endrst
-*/
-TEST(main_control_knob, test_main_does_not_increase_over_one_hundred)
-{
-    CREATE_MOCK(mymock);
-
-    // Simulate Arrow Up key press.
-    EXPECT_CALL(mymock, RteIsKeyPressed(0x26)).WillOnce(Return(TRUE)); // Arrow Up pressed.
-    // Set initial knob value
-    EXPECT_CALL(mymock, RteGetMainKnobValue()).WillOnce(Return(99));
-    // Verify that knob value was decreased.
-    EXPECT_CALL(mymock, RteSetMainKnobValue(100));
-
-    // Call the function to handle knob input.
-    mainControlKnob();
-
-}
+// Instantiate the test suite with a set of parameters
+INSTANTIATE_TEST_SUITE_P(
+    MainControlKnobTests,
+    MainControlKnobTest,
+    ::testing::Values(
+        MainControlKnobParameters{"Arrow Up increases value", true, false, 50, 52},
+        MainControlKnobParameters{"Arrow Down decreases value", false, true, 50, 48},
+        MainControlKnobParameters{"Does not decrease below zero", false, true, 1, 0},
+        MainControlKnobParameters{"Does not decrease below zero if already zero", false, true, 0, 0},
+        MainControlKnobParameters{"Does not increase over 100", true, false, 99, 100},
+        MainControlKnobParameters{"Does not increase over 100 if already 100", true, false, 100, 100},
+        MainControlKnobParameters{"No key pressed, value remains the same", false, false, 50, 50}));
