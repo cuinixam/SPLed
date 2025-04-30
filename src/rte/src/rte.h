@@ -86,14 +86,14 @@ PowerState RteGetPowerState(void);
  *
  * @return TRUE if the power key was pressed, FALSE otherwise.
  */
-boolean RteGetPowerKeyPressed(void);
+boolean RteGetPowerKeyPressedEvent(void);
 
 /**
  * @brief Set the state of the power key being pressed.
  *
  * @param value The state to set for the power key press.
  */
-void RteSetPowerKeyPressed(boolean value);
+void RteSetPowerKeyPressedEvent(boolean value);
 
 /**
  * @brief Sets the value of the RGB light.

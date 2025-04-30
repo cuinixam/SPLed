@@ -4,7 +4,7 @@
 #include "autoconf.h"
 
 static PowerState currentPowerState = POWER_STATE_OFF;
-static boolean powerKeyPressed = FALSE;
+static boolean powerKeyPressedEvent = FALSE;
 static boolean arrowUpKeyPressed = FALSE;
 static boolean arrowDownKeyPressed = FALSE;
 static RGBColor lightValue = {
@@ -27,12 +27,12 @@ PowerState RteGetPowerState(void) {
     return currentPowerState;
 }
 
-void RteSetPowerKeyPressed(boolean value) {
-    powerKeyPressed = value;
+void RteSetPowerKeyPressedEvent(boolean value) {
+    powerKeyPressedEvent = value;
 }
 
-boolean RteGetPowerKeyPressed() {
-    return powerKeyPressed;
+boolean RteGetPowerKeyPressedEvent() {
+    return powerKeyPressedEvent;
 }
 
 void RteSetLightValue(RGBColor value) {

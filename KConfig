@@ -7,21 +7,6 @@ menu "Features"
         bool "Blinking Feature"
         default n
     
-    if BLINKING
-        choice BLINKING_RATE
-            prompt "Select Blinking Mode"
-            default BLINKING_RATE_FIXED
-            config BLINKING_RATE_FIXED
-                bool "Fixed"
-
-            config BLINKING_RATE_MANUALLY_ADJUSTABLE
-                bool "Manually adjustable"
-
-            config BLINKING_RATE_AUTO_ADJUSTABLE
-                bool "Automatically adjustable"
-        endchoice
-    endif
-
     choice BRIGHTNESS_ADJUSTMENT
         depends on !BLINKING
         prompt "Select brightness adjustment mode"

@@ -35,7 +35,7 @@
  } LightState;
  
  static LightState currentLightState = LIGHT_OFF;  /**< Current state of the light. */
- #if CONFIG_BLINKING_RATE_AUTO_ADJUSTABLE 
+ #if CONFIG_BLINKING 
  static int blinkCounter = 0;
  static boolean blinkState = FALSE;
  #endif
@@ -125,7 +125,7 @@
   * @endrst
   */
  static void turnLightOff(void) {
- #if CONFIG_BLINKING_RATE_AUTO_ADJUSTABLE 
+ #if CONFIG_BLINKING 
      blinkState = FALSE;
  #endif
      RteSetLightValue(OFF_COLOR);
@@ -157,13 +157,13 @@
      // Convert to RGBColor and set the light value
      RGBColor color = getRGBColorWithBrightness(currentColorEnum, currentBrightness);
  
- #if CONFIG_BLINKING_RATE_AUTO_ADJUSTABLE
+ #if CONFIG_BLINKING
      blinkState = TRUE;
  #endif
      RteSetLightValue(color);
  }
  
- #if CONFIG_BLINKING_RATE_AUTO_ADJUSTABLE 
+ #if CONFIG_BLINKING 
  /**
   * @rst
   *
@@ -198,7 +198,7 @@
  void lightController(void) {
  
      PowerState powerState = RteGetPowerState();
- #if CONFIG_BLINKING_RATE_AUTO_ADJUSTABLE 
+ #if CONFIG_BLINKING 
      percentage_t mainKnobValue = RteGetMainKnobValue();
      unsigned int blinkPeriod = calculateBlinkPeriod(mainKnobValue);
  #endif
@@ -209,7 +209,7 @@
  
      switch (currentLightState) {
      case LIGHT_OFF:
- #if CONFIG_BLINKING_RATE_AUTO_ADJUSTABLE 
+ #if CONFIG_BLINKING 
          blinkCounter = 0;
  #endif
          if (powerState != POWER_STATE_OFF) {
@@ -223,7 +223,7 @@
              turnLightOff();
              currentLightState = LIGHT_OFF;
          }
- #if CONFIG_BLINKING_RATE_AUTO_ADJUSTABLE 
+ #if CONFIG_BLINKING 
          else {
              blinkCounter++;
              if (blinkCounter >= blinkPeriod) {

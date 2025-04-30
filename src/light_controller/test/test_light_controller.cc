@@ -135,7 +135,7 @@ TEST(light_controller, test_light_on_very_bright)
 }
 #endif
 
-#if CONFIG_BLINKING_RATE_AUTO_ADJUSTABLE 
+#if CONFIG_BLINKING 
 /**
  * @rst
  *
@@ -256,4 +256,4 @@ INSTANTIATE_TEST_SUITE_P(
     )
 );
 
-#endif // CONFIG_BLINKING_RATE_AUTO_ADJUSTABLE
+#endif // CONFIG_BLINKING
