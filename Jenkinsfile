@@ -46,8 +46,8 @@ properties([
             description: 'Select the variants to run the CI tests for',
             type: 'PT_MULTI_SELECT',
             multiSelectDelimiter: ',',
-            value: 'Disco,Sleep,Spa',
-            defaultValue: 'Disco,Sleep,Spa',
+            value: 'Disco,Sleep,Spa,Base/Dev',
+            defaultValue: 'Disco,Sleep,Spa,Base/Dev',
             visibleItemCount: 3,
         )
     ]),
@@ -95,7 +95,7 @@ if exist "%USERPROFILE%\\scoop" rmdir /s /q "%USERPROFILE%\\scoop"
 
                 stage ("Execute Tests - ${currentVariant}") {
                     // Set the filter option for the test run based on the current variant
-                    def filterOption = "-filter \"${currentVariant}\""
+                    def filterOption = "-filter \"${currentVariant.replaceAll('/', '__')}\""
                     // Create a list of markers for the test run
                     def testMarkers = []
                     if (params.BUILD) {
