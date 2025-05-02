@@ -7,13 +7,13 @@ class Test_Spa(BaseVariantTestRunner):
     @property
     def component_paths(self):
         return [
-            # Path("src/spled"),
-            Path("src/power_signal_processing"),
-            Path("src/light_controller"),
-            Path("src/power_button"),
-            # Path("src/console_interface"),
-            Path("src/main_control_knob"),
-            Path("src/brightness_controller"),
+            # Path("components/spled"),
+            Path("components/power_signal_processing"),
+            Path("components/light_controller"),
+            Path("components/power_button"),
+            # Path("components/console_interface"),
+            Path("components/main_control_knob"),
+            Path("components/brightness_controller"),
         ]
 
     @property

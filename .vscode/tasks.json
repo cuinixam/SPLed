@@ -131,17 +131,17 @@
             "id": "component",
             "description": "Which component do you want to select?",
             "options": [
-                "src/brightness_controller",
-                "src/console_interface",
-                "src/examples/check_abort",
-                "src/examples/component_a",
-                "src/power_button",
-                "src/light_controller",
-                "src/main",
-                "src/main_control_knob",
-                "src/power_signal_processing",
-                "src/rte",
-                "src/spled"
+                "components/brightness_controller",
+                "components/console_interface",
+                "components/examples/check_abort",
+                "components/examples/component_a",
+                "components/power_button",
+                "components/light_controller",
+                "components/main",
+                "components/main_control_knob",
+                "components/power_signal_processing",
+                "components/rte",
+                "components/spled"
             ]
         }
     ]

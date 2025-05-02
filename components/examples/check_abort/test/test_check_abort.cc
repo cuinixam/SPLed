@@ -1,14 +1,15 @@
 #include <gtest/gtest.h>
 using namespace testing;
 
-extern "C" {
+extern "C"
+{
 #include "check_abort.h"
 }
 
-#include "mockup_src_examples_check_abort.h"
+#include "mockup_components_examples_check_abort.h"
 
 // Just provide a simple test case for the function CheckAbort
-// to reach 100% MC/DC.
+// to reach 100% branch and 100% condition coverage (MC/DC).
 TEST(check_abort, test_mcdc)
 {
     CREATE_MOCK(mymock);

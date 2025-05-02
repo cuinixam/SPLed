@@ -7,7 +7,7 @@ class Test_Base__Dev(BaseVariantTestRunner):
     @property
     def component_paths(self):
         return [
-            Path("src/examples/component_a"),
+            Path("components/examples/component_a"),
         ]
 
     @property

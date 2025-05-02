@@ -12,7 +12,7 @@ extern "C"
     extern unsigned int calculateBlinkPeriod(percentage_t mainKnobValue);
 }
 
-#include "mockup_src_light_controller.h" // Assuming you have mock sources for the light controller.
+#include "mockup_components_light_controller.h" // Assuming you have mock sources for the light controller.
 
 bool areRGBColorsEqual(const RGBColor *color1, const RGBColor *color2)
 {

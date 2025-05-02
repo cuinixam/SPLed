@@ -5,22 +5,22 @@
 #include <gtest/gtest.h>
 using namespace testing;
 
-extern "C" {
+extern "C"
+{
 #include "power_signal_processing.h"
 }
 
-#include "mockup_src_power_signal_processing.h"
-
+#include "mockup_components_power_signal_processing.h"
 
 /*!
-* @rst
-*
-* .. test:: power_signal_processing.test_power_stays_off
-*    :id: TS_PSP-001
-*    :tests: SWDD_PSP-001
-*
-* @endrst
-*/
+ * @rst
+ *
+ * .. test:: power_signal_processing.test_power_stays_off
+ *    :id: TS_PSP-001
+ *    :tests: SWDD_PSP-001
+ *
+ * @endrst
+ */
 TEST(power_signal_processing, test_power_stays_off)
 {
     CREATE_MOCK(mymock);
@@ -33,14 +33,14 @@ TEST(power_signal_processing, test_power_stays_off)
 }
 
 /*!
-* @rst
-*
-* .. test:: power_signal_processing.test_power_toggles
-*    :id: TS_PSP-002
-*    :tests: SWDD_PSP-002, SWDD_PSP-003
-*
-* @endrst
-*/
+ * @rst
+ *
+ * .. test:: power_signal_processing.test_power_toggles
+ *    :id: TS_PSP-002
+ *    :tests: SWDD_PSP-002, SWDD_PSP-003
+ *
+ * @endrst
+ */
 TEST(power_signal_processing, test_power_toggles)
 {
     CREATE_MOCK(mymock); // Assuming you have a mock creation macro

@@ -2,7 +2,7 @@
     "tool": "polyspace",
     "components": [],
     "paths": [
-        "src/*"
+        "components/*"
     ],
     "polyspace_settings": {
         "options_file": "variants/Disco/sca_options_file.txt",

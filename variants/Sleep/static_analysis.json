@@ -2,6 +2,6 @@
     "tool": "cppcheck",
     "components": [],
     "paths": [
-        "src/*"
+        "components/*"
     ]
 }

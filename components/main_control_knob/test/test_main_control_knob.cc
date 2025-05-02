@@ -10,7 +10,7 @@ extern "C"
 #include "main_control_knob.h"
 }
 
-#include "mockup_src_main_control_knob.h"
+#include "mockup_components_main_control_knob.h"
 
 // Define a struct to hold the parameters for testing mainControlKnob
 struct MainControlKnobParameters
