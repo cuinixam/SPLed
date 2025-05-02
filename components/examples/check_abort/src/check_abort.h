@@ -5,4 +5,6 @@
 
 extern boolean CheckAbort(boolean off_course, boolean abort_commanded, boolean valid_abort_command);
 
+extern boolean CheckAbort_NotTreeLike(boolean abort_commanded, boolean valid_abort_command, boolean off_course);
+
 #endif /* CHECK_ABORT_H */

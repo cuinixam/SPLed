@@ -18,3 +18,12 @@ TEST(check_abort, test_mcdc)
     ASSERT_EQ(TRUE, CheckAbort(FALSE, TRUE, TRUE));
     ASSERT_EQ(TRUE, CheckAbort(TRUE, FALSE, FALSE));
 }
+
+TEST(check_abort_not_tree_like, test_mcdc)
+{
+    CREATE_MOCK(mymock);
+    ASSERT_EQ(TRUE, CheckAbort_NotTreeLike(TRUE, TRUE, FALSE));
+    ASSERT_EQ(TRUE, CheckAbort_NotTreeLike(TRUE, FALSE, TRUE));
+    ASSERT_EQ(FALSE, CheckAbort_NotTreeLike(FALSE, FALSE, FALSE));
+    // ASSERT_EQ(TRUE, CheckAbort_NotTreeLike(FALSE, FALSE, TRUE));
+}
