@@ -3,6 +3,7 @@
  */
 
 #include "component_a.h"
+#include "component_b.h"
 
 int CheckReadSomeData()
 {
