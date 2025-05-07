@@ -15,6 +15,7 @@
         "ms-vscode.powershell",
         "waderyan.gitblame",
         "sandcastle.vscode-open",
-        "josetr.cmake-language-support-vscode"
+        "josetr.cmake-language-support-vscode",
+        "ibm.output-colorizer"
     ]
 }
