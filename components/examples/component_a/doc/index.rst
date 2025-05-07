@@ -1,24 +1,34 @@
-Component A
-===========
+Software Detailed Design
+========================
 
+.. contents:: Table of Contents
+    :depth: 2
+
+Introduction
+------------
+
+Component A is a examplary component that is used to demonstrate the usage of different Read/Write interfaces.
+
+Design Considerations
+---------------------
 
 .. spec:: Read interface with pointer argument
    :id: SWDD_COMP_A-010
 
-   Read interface gets the pointer to a variable and update its value.
-   We want to write data to the input pointer.
+   Read interface gets the pointer to a variable and updates its value.
+   We want to change the value the pointer points to.
 
 .. spec:: Write interface with pointer argument
    :id: SWDD_COMP_A-011
 
-   Write interface gets the pointer to a variable and update its value.
+   Write interface gets the pointer to a variable and updates its value.
    We want to check that the write method was called with a certain value.
 
 .. spec:: Read interface with pointer argument and return value
    :id: SWDD_COMP_A-020
 
-   Read interface gets the pointer to a variable and update its value.
-   It return zero for success and non-zero for failure.
+   Read interface gets the pointer to a variable and updates its value.
+   It returns zero for success and non-zero for failure.
    We want to write data to the input pointer and define the return value.
 
 .. spec:: Read interface with multiple pointer arguments and return value

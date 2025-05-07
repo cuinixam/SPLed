@@ -12,17 +12,16 @@ extern "C"
 
 #include "mockup_components_examples_component_a.h"
 
-/*!
+/**
  * @rst
- *
  * .. test:: component_a.TS_COMP_A_050
  *    :id: TS_COMP_A_050
  *    :tests: SWDD_COMP_A-050
- *
  * @endrst
  */
 TEST(component_a_suite_2, TS_COMP_A_050)
 {
+    /* Arrange */
     CREATE_MOCK(mymock);
 
     MyDataType input = {
@@ -33,20 +32,20 @@ TEST(component_a_suite_2, TS_COMP_A_050)
                             Field(&MyDataType::a, input.a),
                             Field(&MyDataType::b, input.b))));
 
+    /* Act */
     CheckReadDataStructure(&input);
 }
 
-/*!
+/**
  * @rst
- *
  * .. test:: component_a_suite_2.TS_COMP_A_060
  *    :id: TS_COMP_A_060
  *    :tests: SWDD_COMP_A-060
- *
  * @endrst
  */
 TEST(component_a_suite_2, TS_COMP_A_060)
 {
+    /* Arrange */
     CREATE_MOCK(mymock);
 
     MyDataType input[MY_DATA_ARRAY_SIZE] = {
@@ -57,9 +56,13 @@ TEST(component_a_suite_2, TS_COMP_A_060)
 
     EXPECT_CALL(mymock, ReadDataStructureArray(_)).WillOnce(SetArrayArgument<0>(input, input + MY_DATA_ARRAY_SIZE));
 
+    /* Act */
+
+    // Check that the ReadDataStructureArray input array has the same values as the one in input
     MyDataType result[MY_DATA_ARRAY_SIZE];
     CheckReadDataStructureArray(result);
 
+    /* Assert */
     ASSERT_EQ(11, result[0].a);
     ASSERT_EQ('a', result[0].b);
     ASSERT_EQ(22, result[1].a);
@@ -68,17 +71,16 @@ TEST(component_a_suite_2, TS_COMP_A_060)
     ASSERT_EQ('c', result[2].b);
 }
 
-/*!
+/**
  * @rst
- *
  * .. test:: component_a_suite_2.TS_COMP_A_070
  *    :id: TS_COMP_A_070
  *    :tests: SWDD_COMP_A-070
- *
  * @endrst
  */
 TEST(component_a_suite_2, TS_COMP_A_070)
 {
+    /* Arrange */
     CREATE_MOCK(mymock);
 
     MyDataType input[MY_DATA_ARRAY_SIZE] = {
@@ -108,13 +110,11 @@ typedef struct
     int output;
 } TestDataCalculateSquare_t;
 
-/*!
+/**
  * @rst
- *
  * .. test:: component_a_suite_2.TS_COMP_A_080
  *    :id: TS_COMP_A_080
  *    :tests: SWDD_COMP_A-080
- *
  * @endrst
  */
 TEST(component_a_suite_2, TS_COMP_A_080)
