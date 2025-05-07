@@ -41,15 +41,12 @@ class Test_Sleep(BaseVariantTestRunner):
         )
 
         # Act
-        assert 0 == spl_build.execute(target="static_analysis")
+        ret_code = spl_build.execute(target="static_analysis")
 
         # Assert
-        self.assert_artifact_exists(
-            dir=spl_build.build_dir,
-            artifact=Path("reports/static_analysis/cppcheck/index.html"),
-        )
+        assert ret_code == 0
 
         self.assert_artifact_exists(
             dir=spl_build.build_dir,
-            artifact=Path("reports/static_analysis/cppcheck/index.xml"),
+            artifact=Path("reports/static_analysis/polyspace_bug_finder/index.html"),
         )
