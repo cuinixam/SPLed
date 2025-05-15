@@ -85,7 +85,7 @@
             "command": "./build.ps1",
             "args": [
                 "-command",
-                "sple_static_analysis.exe generate-ps-options-file --project-root-dir ${workspaceFolder} --variant ${input:variant} --build-kit prod --build-type Debug --payc --output-folder ./build"
+                "sple_static_analysis.exe generate-ps-options-file --project-root-dir ${workspaceFolder} --variant ${input:variant} --build-kit prod --build-type ${input:buildType} --payc --output-folder ./build"
             ],
             "type": "shell",
             "presentation": {
@@ -147,6 +147,15 @@
                 "components/power_signal_processing",
                 "components/rte",
                 "components/spled"
+            ]
+        },
+        {
+            "type": "pickString",
+            "id": "buildType",
+            "description": "Which build type do you want to use?",
+            "options": [
+                "Debug",
+                "Release"
             ]
         }
     ]
