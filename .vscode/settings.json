@@ -132,7 +132,7 @@
     },
     "peacock.color": "#215732",
     "polyspace.analysisOptions.manualSetup.build": "Get from Polyspace build options file",
-    "polyspace.analysisOptions.manualSetup.buildSetting.polyspaceBuildOptionsFile": "build\\payc_options_file.txt",
+    "polyspace.analysisOptions.manualSetup.buildSetting.polyspaceBuildOptionsFile": "build\\sca_ps_payc_options_file.txt",
     "polyspace.analysisOptions.otherAnalysisOptionsFile": ".venv\\Lib\\site-packages\\sple_static_analysis_extension\\data\\polyspace\\compiler_options\\clang_additional_options.txt",
     "editor.tabSize": 4
 }
