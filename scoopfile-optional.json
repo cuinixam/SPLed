@@ -9,10 +9,6 @@
         {
             "Source": "sple",
             "Name": "polyspace_bf"
-        },
-        {
-            "source": "sple",
-            "Name": "polyspace_as_you_code"
         }
     ]
 }
