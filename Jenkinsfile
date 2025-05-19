@@ -114,7 +114,11 @@ if exist "%USERPROFILE%\\scoop" rmdir /s /q "%USERPROFILE%\\scoop"
                 }
 
                 stage("Deploy Test Results - ${currentVariant}") {
-                    junit allowEmptyResults: false, keepLongStdio: false, testResults: "test/output/test-report.xml,build/${currentVariant}/test/Debug/components/**/junit.xml"
+                    // Evaluate overall quality gate checks
+                    junit allowEmptyResults: false, keepLongStdio: false, testResults: "test/output/test-report.xml"
+
+                    // Evaluate GoogleTest results
+                    junit allowEmptyResults: false, keepLongStdio: true, testResults: "build/${currentVariant}/test/Debug/components/**/junit.xml"
                 }
 
                 stage("Deploy Artifacts - ${currentVariant}") {
