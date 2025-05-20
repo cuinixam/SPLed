@@ -14,6 +14,8 @@ param(
     [switch]$selftests = $false,
     [Parameter(Mandatory = $false, HelpMessage = 'Build the target.')]
     [switch]$build = $false,
+    [Parameter(Mandatory = $false, HelpMessage = 'Start Visual Studio Code. (Switch, default: false)')]
+    [switch]$startVSCode = $false,
     [Parameter(Mandatory = $false, HelpMessage = 'Command to be executed (String)')]
     [string]$command = "",
     [Parameter(Mandatory = $false, HelpMessage = 'Clean build, wipe out all build artifacts. (Switch, default: false)')]
@@ -35,7 +37,9 @@ param(
     [Parameter(Mandatory = $false, HelpMessage = 'Delete CMake cache and reconfigure. (Switch, default: false)')]
     [switch]$reconfigure = $false,
     [Parameter(Mandatory = $false, HelpMessage = 'Just configure the build and fetch all dependencies. (Switch, default: false)')]
-    [switch]$configureOnly = $false
+    [switch]$configureOnly = $false,
+    [Parameter(Mandatory = $false, HelpMessage = 'Wait for a key press before exiting. (Switch, default: false)')]
+    [switch]$waitForKey = $false
 )
 
 # Consider CI environment variables (e.g. on Jenkins BRANCH_NAME and CHANGE_TARGET) to filter tests in release branch builds
@@ -153,7 +157,7 @@ function Invoke-Build-System {
             if ($buildKit -eq "test") {
                 $additionalConfig += " -DCMAKE_TOOLCHAIN_FILE='tools/toolchains/gcc/toolchain.cmake'"
             }
-            
+
             Invoke-CommandLine -CommandLine "cmake -B '$buildFolder' -G Ninja -DVARIANT='$variant' $additionalConfig"
 
             if (-Not $configureOnly) {
@@ -255,7 +259,8 @@ function Get-User-Menu-Selection {
     Write-Information -Tags "Info:" -MessageData ("(2) -installOptional: installation of optional dependencies")
     Write-Information -Tags "Info:" -MessageData ("(3) -installVSCode: installation of Visual Studio Code")
     Write-Information -Tags "Info:" -MessageData ("(4) -build: execute CMake build")
-    Write-Information -Tags "Info:" -MessageData ("(5) quit: exit script")
+    Write-Information -Tags "Info:" -MessageData ("(5) -startVSCode: start Visual Studio Code")
+    Write-Information -Tags "Info:" -MessageData ("(6) quit: exit script")
     return(Read-Host "Please make a selection")
 }
 
@@ -278,7 +283,7 @@ Push-Location $PSScriptRoot
 Write-Output "Running in ${pwd}"
 
 try {
-    if ((-Not $install) -and (-Not $installOptional) -and (-Not $installVSCode) -and (-Not $build) -and (-Not $command) -and (-Not $selftests)) {
+    if ((-Not $install) -and (-Not $installOptional) -and (-Not $installVSCode) -and (-Not $build) -and (-Not $command) -and (-Not $selftests) -and (-Not $startVSCode)) {
         $selectedOption = Get-User-Menu-Selection
 
         switch ($selectedOption) {
@@ -297,6 +302,10 @@ try {
             '4' {
                 Write-Information -Tags "Info:" -MessageData "Building ..."
                 $build = $true
+            }
+            '5' {
+                Write-Information -Tags "Info:" -MessageData "Starting VS Code ..."
+                $startVSCode = $true
             }
             default {
                 Write-Information -Tags "Info:" -MessageData "Nothing selected."
@@ -334,6 +343,11 @@ try {
         Invoke-CommandLine "scoop update vscode" -StopAtError $false
     }
 
+    if ($startVSCode) {
+        Write-Output "Starting Visual Studio Code..."
+        Invoke-CommandLine "code ." -StopAtError $false
+    }
+
     if ($build) {
         # Call build system to build variant(s)
         Invoke-Build-System `
@@ -358,7 +372,7 @@ try {
 }
 finally {
     Pop-Location
-    if (-Not (Test-RunningInCIorTestEnvironment)) {
+    if ($waitForKey) {
         Read-Host -Prompt "Press Enter to continue ..."
     }
 }
