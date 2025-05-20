@@ -372,7 +372,7 @@ try {
 }
 finally {
     Pop-Location
-    if ($waitForKey) {
+    if (-Not (Test-RunningInCIorTestEnvironment) -and $waitForKey) {
         Read-Host -Prompt "Press Enter to continue ..."
     }
 }
