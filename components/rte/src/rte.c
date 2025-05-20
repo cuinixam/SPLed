@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include "autoconf.h"
+#include "keyboard_interface.h"
 
 static PowerState currentPowerState = POWER_STATE_OFF;
 static boolean powerKeyPressedEvent = FALSE;
@@ -51,7 +52,7 @@ void RteGetLightValue(RGBColor *value)
 
 boolean RteIsKeyPressed(int key)
 {
-    return (GetAsyncKeyState(key) & 0x8000) != 0;
+    return KeyboardInterfaceIsKeyPressed(key);
 }
 
 void RteSetMainKnobValue(percentage_t value)
