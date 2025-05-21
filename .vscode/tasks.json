@@ -94,11 +94,6 @@
             "group": {
                 "kind": "build",
                 "isDefault": false
-            },
-            "options": {
-                "env": {
-                    "PATH": "${env:USERPROFILE}\\scoop\\apps\\polyspace_as_you_code\\current\\polyspace\\bin;${env:PATH}",
-                }
             }
         },
         {
