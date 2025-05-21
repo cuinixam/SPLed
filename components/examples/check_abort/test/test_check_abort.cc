@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <iostream>
 using namespace testing;
 
 extern "C"
@@ -6,14 +7,38 @@ extern "C"
 #include "check_abort.h"
 }
 
-// Just provide a simple test case for the function CheckAbort
-// to reach 100% branch and 100% condition coverage (MC/DC).
-TEST(check_abort, test_mcdc)
+struct CheckAbortParam
 {
-    ASSERT_EQ(FALSE, CheckAbort(FALSE, FALSE, FALSE));
-    ASSERT_EQ(FALSE, CheckAbort(FALSE, TRUE, FALSE));
-    ASSERT_EQ(TRUE, CheckAbort(FALSE, TRUE, TRUE));
-    ASSERT_EQ(FALSE, CheckAbort(FALSE, FALSE, FALSE));
+    boolean off_course;
+    boolean abort_commanded;
+    boolean valid_abort_command;
+    boolean expected_result;
+    const char *description;
+};
+
+inline std::ostream &operator<<(std::ostream &os, const CheckAbortParam &param)
+{
+    os << param.description;
+    return os;
+}
+
+class CheckAbortParamTest : public ::testing::TestWithParam<CheckAbortParam>
+{
+};
+
+INSTANTIATE_TEST_SUITE_P(
+    CheckAbortCases,
+    CheckAbortParamTest,
+    ::testing::Values(
+        CheckAbortParam{true, false, false, true, "Off course triggers abort"},
+        CheckAbortParam{false, true, true, true, "Abort commanded and valid"},
+        CheckAbortParam{false, true, false, false, "Abort commanded but not valid"},
+        CheckAbortParam{false, false, false, false, "No abort, not off course"}));
+
+TEST_P(CheckAbortParamTest, ReturnsExpectedResult)
+{
+    const auto &param = GetParam();
+    EXPECT_EQ(CheckAbort(param.off_course, param.abort_commanded, param.valid_abort_command), param.expected_result);
 }
 
 TEST(check_abort_not_tree_like, test_mcdc)
