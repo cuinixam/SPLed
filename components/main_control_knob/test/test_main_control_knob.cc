@@ -30,7 +30,7 @@ std::ostream &operator<<(std::ostream &os, const MainControlKnobParameters &para
 }
 
 // Define a test fixture class
-class MainControlKnobTest : public ::testing::TestWithParam<struct MainControlKnobParameters>
+class MainControlKnobTest : public TestWithParam<struct MainControlKnobParameters>
 {
 };
 
@@ -68,7 +68,7 @@ TEST_P(MainControlKnobTest, HandleKnobInput)
 INSTANTIATE_TEST_SUITE_P(
     MainControlKnobTests,
     MainControlKnobTest,
-    ::testing::Values(
+    Values(
         MainControlKnobParameters{"Arrow Up increases value", true, false, 50, 52},
         MainControlKnobParameters{"Arrow Down decreases value", false, true, 50, 48},
         MainControlKnobParameters{"Does not decrease below zero", false, true, 1, 0},

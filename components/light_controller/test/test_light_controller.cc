@@ -205,7 +205,7 @@ TEST(light_controller, test_light_blinking)
 }
 
 // Define a test fixture class
-class BlinkPeriodTest : public ::testing::TestWithParam<struct TestParam>
+class BlinkPeriodTest : public TestWithParam<struct TestParam>
 {
 };
 
@@ -272,7 +272,7 @@ TEST_P(BlinkPeriodTest, CalculatesCorrectBlinkPeriod)
 INSTANTIATE_TEST_SUITE_P(
     BlinkPeriodTests,
     BlinkPeriodTest,
-    ::testing::Values(
+    Values(
         TestParam{"Slowest", 0, 100},
         TestParam{"Inbetween", 50, 50},
         TestParam{"Fastest", 100, 10}));
