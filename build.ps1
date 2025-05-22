@@ -22,7 +22,7 @@ param(
     [switch]$clean = $false,
     [Parameter(Mandatory = $false, HelpMessage = 'Build kit to be used. (String: "prod" or "test", default: "prod")')]
     [string]$buildKit = "prod",
-    [Parameter(Mandatory = $false, HelpMessage = 'Type of build (String, default: "Debug")')]
+    [Parameter(Mandatory = $false, HelpMessage = 'Type of build. (String, default: "Debug")')]
     [string]$buildType = "Debug",
     [Parameter(Mandatory = $false, HelpMessage = 'Target to be built. (String, default: "all")')]
     [string]$target = "all",
@@ -283,7 +283,7 @@ Push-Location $PSScriptRoot
 Write-Output "Running in ${pwd}"
 
 try {
-    if ((-Not $install) -and (-Not $installOptional) -and (-Not $installVSCode) -and (-Not $build) -and (-Not $command) -and (-Not $selftests) -and (-Not $startVSCode)) {
+    if ((-Not $install) -and (-Not $installOptional) -and (-Not $installVSCode) -and (-Not $build) -and (-Not $startVSCode) -and (-Not $command) -and (-Not $selftests)) {
         $selectedOption = Get-User-Menu-Selection
 
         switch ($selectedOption) {
