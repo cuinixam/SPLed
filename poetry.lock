@@ -3194,14 +3194,14 @@ reference = "marquardt-pypi"
 
 [[package]]
 name = "spl-build-extensions"
-version = "9.2.0"
+version = "9.2.2"
 description = "SPL build extensions for packaging artifacts and generating reports"
 optional = false
 python-versions = ">=3.10,<4.0"
 groups = ["main"]
 files = [
-    {file = "spl_build_extensions-9.2.0-py3-none-any.whl", hash = "sha256:5a3a84a4e5894981ba7ac3a8c9c87260d6b9459f1873111f1c66359a43c3e9a5"},
-    {file = "spl_build_extensions-9.2.0.tar.gz", hash = "sha256:cbf749a1cdca707b7847927eef05badbe6c8956c4156948dc6171a8c72ec8cac"},
+    {file = "spl_build_extensions-9.2.2-py3-none-any.whl", hash = "sha256:31b091c09f353f31a4a7cad0dba618615993197551210f59d5678a23971abe90"},
+    {file = "spl_build_extensions-9.2.2.tar.gz", hash = "sha256:08bdcc2071cde890d383ef84f8aefc02a572b82d46d51da3a6deb65af688d35c"},
 ]
 
 [package.dependencies]
@@ -3260,21 +3260,21 @@ reference = "marquardt-pypi"
 
 [[package]]
 name = "sple-static-analysis-extension"
-version = "1.9.0"
+version = "1.10.0"
 description = "An spl-core extension to run static code anaysis"
 optional = false
 python-versions = ">=3.10,<4.0"
 groups = ["main"]
 files = [
-    {file = "sple_static_analysis_extension-1.9.0-py3-none-any.whl", hash = "sha256:82b4503cda5aa2822e25580526cba2d47540351c59e40449714aa14c1314a57b"},
-    {file = "sple_static_analysis_extension-1.9.0.tar.gz", hash = "sha256:a6b69f7c2343e5ae6fcb9cca719a1e8c764a91cde603c108afb10ab3167fa467"},
+    {file = "sple_static_analysis_extension-1.10.0-py3-none-any.whl", hash = "sha256:089fbe272378ee739894306d2b755ff7f11901a7b8ac055c8e287b930ef7ce8d"},
+    {file = "sple_static_analysis_extension-1.10.0.tar.gz", hash = "sha256:068bbd960aa66b65116d0559ac6791f69cecb0e17261b67dd4ca1b28cbb54068"},
 ]
 
 [package.dependencies]
 cppcheck-htmlreport = ">=2.15,<3.0"
 py-app-dev = ">=2.1,<3.0"
 pygments = ">=2.18,<3.0"
-spl-build-extensions = ">=9.1,<10.0"
+spl-build-extensions = ">=9.2.2,<10.0.0"
 typer = ">=0,<1"
 
 [package.source]
@@ -3541,4 +3541,4 @@ reference = "marquardt-pypi"
 [metadata]
 lock-version = "2.1"
 python-versions = "<3.12,>=3.11"
-content-hash = "c363e195254678aa8cb705f31327d30f0969829224a4299560dff8c2bde54875"
+content-hash = "92183bfcb7138b866d24b12c5507369e3bc28ee52086dfef93e979251f191455"
