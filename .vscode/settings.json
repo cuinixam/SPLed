@@ -32,7 +32,10 @@
     "C_Cpp.errorSquiggles": "enabled",
     "C_Cpp.default.cStandard": "gnu17",
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
-    "C_Cpp.formatting": "vcFormat",
+    "C_Cpp.formatting": "clangFormat",
+    "editor.formatOnSave": true,
+    "files.insertFinalNewline": true,
+    "files.trimTrailingWhitespace": true,
     "files.associations": {
         "*.h": "c",
         "*.c": "c",
@@ -128,6 +131,5 @@
         "titleBar.inactiveForeground": "#e7e7e799"
     },
     "peacock.color": "#215732",
-    "editor.formatOnSave": true,
-    "files.insertFinalNewline": true
+    "editor.tabSize": 4
 }

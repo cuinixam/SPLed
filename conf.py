@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" Configuration  """
+"""Configuration"""
 
 import json
 import os
@@ -10,7 +10,7 @@ day = datetime.date.today()
 # meta data #################################################################
 
 project = "SPLed"
-copyright = f"{day.year} Avengineers"
+copyright = f"{day.year}, RMT and Friends"
 release = f"{day}"
 
 # file handling #############################################################

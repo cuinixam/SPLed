@@ -6,36 +6,21 @@ menu "Features"
     config BLINKING
         bool "Blinking Feature"
         default n
-    
-    if BLINKING
-        choice BLINKING_RATE
-            prompt "Select Blinking Mode"
-            default BLINKING_RATE_FIXED
-            config BLINKING_RATE_FIXED
-                bool "Fixed"
-
-            config BLINKING_RATE_MANUALLY_ADJUSTABLE
-                bool "Manually adjustable"
-
-            config BLINKING_RATE_AUTO_ADJUSTABLE
-                bool "Automatically adjustable"
-        endchoice
-    endif
 
     choice BRIGHTNESS_ADJUSTMENT
         depends on !BLINKING
         prompt "Select brightness adjustment mode"
-            config BRIGHTNESS_ADJUSTMENT_MANUALLY
+            config BRIGHTNESS_ADJUSTMENT_MANUAL
                 bool "Manually adjustable"
 
             config BRIGHTNESS_ADJUSTMENT_AUTOMATIC
                 bool "Automatically adjustable"
     endchoice
 
-    config BRIGHTNESS_ADJUSTMENT_IS_ENABLED
+    config BRIGHTNESS_ADJUSTMENT_ENABLED
         # Internal config. Not visible for the user in the menuconfig.
         bool
-        default y if BRIGHTNESS_ADJUSTMENT_MANUALLY || BRIGHTNESS_ADJUSTMENT_AUTOMATIC
+        default y if BRIGHTNESS_ADJUSTMENT_MANUAL || BRIGHTNESS_ADJUSTMENT_AUTOMATIC
 
     config BRIGHTNESS_ADJUSTMENT_PERIOD
         int "Brightness Adjustment Period (in seconds)"
@@ -46,7 +31,7 @@ menu "Features"
             This option allows you to set the period for brightness adjustment.
             The value is in seconds and can be set between 1 and 60 seconds.
 
-    source "src/os/KConfig"
-    source "src/light_controller/KConfig"
+    source "components/os/KConfig"
+    source "components/light_controller/KConfig"
 
 endmenu

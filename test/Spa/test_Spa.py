@@ -1,19 +1,20 @@
 from pathlib import Path
 import pytest
 from spl_core.test_utils.base_variant_test_runner import BaseVariantTestRunner
+from spl_core.test_utils.spl_build import SplBuild
 
 
 class Test_Spa(BaseVariantTestRunner):
     @property
     def component_paths(self):
         return [
-            # Path("src/spled"),
-            Path("src/power_signal_processing"),
-            Path("src/light_controller"),
-            Path("src/keyboard_interface"),
-            # Path("src/console_interface"),
-            Path("src/main_control_knob"),
-            Path("src/brightness_controller"),
+            # Path("components/spled"),
+            Path("components/power_signal_processing"),
+            Path("components/light_controller"),
+            Path("components/power_button"),
+            # Path("components/console_interface"),
+            Path("components/main_control_knob"),
+            Path("components/brightness_controller"),
         ]
 
     @property
@@ -26,8 +27,8 @@ class Test_Spa(BaseVariantTestRunner):
 
     @pytest.mark.unittests
     def test_unittests(self):
-        pass
+        super().test_unittests(build_type="Debug")
 
     @pytest.mark.reports
     def test_reports(self):
-        pass
+        super().test_reports(build_type="Debug")

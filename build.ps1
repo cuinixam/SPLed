@@ -14,17 +14,19 @@ param(
     [switch]$selftests = $false,
     [Parameter(Mandatory = $false, HelpMessage = 'Build the target.')]
     [switch]$build = $false,
+    [Parameter(Mandatory = $false, HelpMessage = 'Start Visual Studio Code. (Switch, default: false)')]
+    [switch]$startVSCode = $false,
     [Parameter(Mandatory = $false, HelpMessage = 'Command to be executed (String)')]
     [string]$command = "",
     [Parameter(Mandatory = $false, HelpMessage = 'Clean build, wipe out all build artifacts. (Switch, default: false)')]
     [switch]$clean = $false,
-    [Parameter(Mandatory = $false, HelpMessage = 'Build kit to be used. (String, default: "prod")')]
+    [Parameter(Mandatory = $false, HelpMessage = 'Build kit to be used. (String: "prod" or "test", default: "prod")')]
     [string]$buildKit = "prod",
     [Parameter(Mandatory = $false, HelpMessage = 'Type of build. (String, default: "Debug")')]
     [string]$buildType = "Debug",
     [Parameter(Mandatory = $false, HelpMessage = 'Target to be built. (String, default: "all")')]
     [string]$target = "all",
-    [Parameter(Mandatory = $false, HelpMessage = 'Variants (of the product) to be built (List of strings, leave empty to be asked or "all" for automatic build of all variants)')]
+    [Parameter(Mandatory = $false, HelpMessage = 'Variants (of the product) to be built. (List of strings, leave empty to be asked or "all" for automatic build of all variants)')]
     [string[]]$variants = $null,
     [Parameter(Mandatory = $false, HelpMessage = 'filter for self tests, e.g. "Disco or test_Disco.py" (see https://docs.pytest.org/en/stable/usage.html).')]
     [string]$filter = "",
@@ -35,7 +37,9 @@ param(
     [Parameter(Mandatory = $false, HelpMessage = 'Delete CMake cache and reconfigure. (Switch, default: false)')]
     [switch]$reconfigure = $false,
     [Parameter(Mandatory = $false, HelpMessage = 'Just configure the build and fetch all dependencies. (Switch, default: false)')]
-    [switch]$configureOnly = $false
+    [switch]$configureOnly = $false,
+    [Parameter(Mandatory = $false, HelpMessage = 'Wait for a key press before exiting. (Switch, default: false)')]
+    [switch]$waitForKey = $false
 )
 
 # Consider CI environment variables (e.g. on Jenkins BRANCH_NAME and CHANGE_TARGET) to filter tests in release branch builds
@@ -72,7 +76,7 @@ function Invoke-Build-System {
         [Parameter(Mandatory = $false)]
         [string]$buildKit = "prod",
         [Parameter(Mandatory = $false)]
-        [string]$buildType = "Release",
+        [string]$buildType = "Debug",
         [Parameter(Mandatory = $true)]
         [string]$target = "all",
         [Parameter(Mandatory = $false)]
@@ -153,7 +157,7 @@ function Invoke-Build-System {
             if ($buildKit -eq "test") {
                 $additionalConfig += " -DCMAKE_TOOLCHAIN_FILE='tools/toolchains/gcc/toolchain.cmake'"
             }
-            
+
             Invoke-CommandLine -CommandLine "cmake -B '$buildFolder' -G Ninja -DVARIANT='$variant' $additionalConfig"
 
             if (-Not $configureOnly) {
@@ -250,7 +254,8 @@ function Get-User-Menu-Selection {
     Write-Information -Tags "Info:" -MessageData ("(2) -installOptional: installation of optional dependencies")
     Write-Information -Tags "Info:" -MessageData ("(3) -installVSCode: installation of Visual Studio Code")
     Write-Information -Tags "Info:" -MessageData ("(4) -build: execute CMake build")
-    Write-Information -Tags "Info:" -MessageData ("(5) quit: exit script")
+    Write-Information -Tags "Info:" -MessageData ("(5) -startVSCode: start Visual Studio Code")
+    Write-Information -Tags "Info:" -MessageData ("(6) quit: exit script")
     return(Read-Host "Please make a selection")
 }
 
@@ -273,7 +278,7 @@ Push-Location $PSScriptRoot
 Write-Output "Running in ${pwd}"
 
 try {
-    if ((-Not $install) -and (-Not $installOptional) -and (-Not $installVSCode) -and (-Not $build) -and (-Not $command) -and (-Not $selftests)) {
+    if ((-Not $install) -and (-Not $installOptional) -and (-Not $installVSCode) -and (-Not $build) -and (-Not $startVSCode) -and (-Not $command) -and (-Not $selftests)) {
         $selectedOption = Get-User-Menu-Selection
 
         switch ($selectedOption) {
@@ -293,6 +298,10 @@ try {
                 Write-Information -Tags "Info:" -MessageData "Building ..."
                 $build = $true
             }
+            '5' {
+                Write-Information -Tags "Info:" -MessageData "Starting VS Code ..."
+                $startVSCode = $true
+            }
             default {
                 Write-Information -Tags "Info:" -MessageData "Nothing selected."
                 exit
@@ -307,6 +316,8 @@ try {
 
         # bootstrap environment
         Invoke-Bootstrap
+
+        Write-Host -ForegroundColor Black -BackgroundColor Blue "For installation changes to take effect, please close and re-open your current terminal."
     }
 
     # Load bootstrap's utility functions
@@ -325,6 +336,11 @@ try {
         Invoke-CommandLine "scoop bucket add extras" -StopAtError $false
         Invoke-CommandLine "scoop install vscode"
         Invoke-CommandLine "scoop update vscode" -StopAtError $false
+    }
+
+    if ($startVSCode) {
+        Write-Output "Starting Visual Studio Code..."
+        Invoke-CommandLine "code ." -StopAtError $false
     }
 
     if ($build) {
@@ -351,7 +367,7 @@ try {
 }
 finally {
     Pop-Location
-    if (-Not (Test-RunningInCIorTestEnvironment)) {
+    if (-Not (Test-RunningInCIorTestEnvironment) -and $waitForKey) {
         Read-Host -Prompt "Press Enter to continue ..."
     }
 }
