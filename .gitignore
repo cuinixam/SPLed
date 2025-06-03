@@ -39,4 +39,5 @@ __pycache__/
 *.drawio.bkp
 
 # Generated files from sple-static-analysis-extension
-variants/**/ps_configure_options_file.txt
+/variants/**/ps_configure_options_file.txt
+/basic_c_file.o
