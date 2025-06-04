@@ -20,6 +20,7 @@ class Test_Base__Dev(BaseVariantTestRunner):
 
     @pytest.mark.build
     def test_build(self):
+        "This variant does not build anything, but is used for examplary unit tests."
         pass
 
     @pytest.mark.reports
