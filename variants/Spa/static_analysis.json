@@ -7,7 +7,7 @@
     "polyspace_settings": {
         "options_file": "variants/Spa/sca_compiler_options_file.txt",
         "additional_options_file": ".venv/Lib/site-packages/sple_static_analysis_extension/data/polyspace/compiler_options/clang_additional_options.txt",
-        "checkers_activation_file": "tools/sca/static_analysis_ps_rules_defects.xml",
+        "checkers_activation_file": "build/modules/sple-sca-ruleset-src/polyspace_bf/checkers_activation_file/ps_rules_defects.xml",
         "license_timeout": 3600,
         "access_settings": {
             "scheduler": "mqde01polyspc02.marquardt.de",

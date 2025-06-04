@@ -134,6 +134,6 @@
     "polyspace.analysisOptions.manualSetup.build": "Get from Polyspace build options file",
     "polyspace.analysisOptions.manualSetup.buildSetting.polyspaceBuildOptionsFile": "build\\sca_ps_payc_options_file.txt",
     "polyspace.analysisOptions.otherAnalysisOptionsFile": ".venv\\Lib\\site-packages\\sple_static_analysis_extension\\data\\polyspace\\compiler_options\\clang_additional_options.txt",
-    "polyspace.analysisOptions.checkersFile": "tools/sca/static_analysis_ps_rules_defects.xml",
+    "polyspace.analysisOptions.checkersFile": "build/modules/sple-sca-ruleset-src/polyspace_bf/checkers_activation_file/ps_rules_defects.xml",
     "editor.tabSize": 4,
 }
