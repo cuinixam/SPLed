@@ -25,7 +25,7 @@
         "stopAtEntry": true
     },
     "cmake.configureOnEdit": false,
-    "cmake.buildBeforeRun": false,
+    "cmake.buildBeforeRun": true,
     "cmake.options.statusBarVisibility": "compact",
     "cmake.buildToolArgs": [],
     "git.ignoreLimitWarning": true,
