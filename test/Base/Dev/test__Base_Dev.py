@@ -7,7 +7,7 @@ class Test_Base__Dev(BaseVariantTestRunner):
     @property
     def component_paths(self):
         return [
-            Path("components/examples/component_a"),
+            Path("components/examples/hello_gmock"),
         ]
 
     @property

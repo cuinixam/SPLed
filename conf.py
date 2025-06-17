@@ -162,6 +162,21 @@ needs_global_options = {
     "results": "[[tr_link('title', 'case')]]",
 }
 
+# Parse markdown files
+extensions.append("myst_parser")
+myst_enable_extensions = [
+    "colon_fence",
+    "deflist",
+    "html_admonition",
+    "html_image",
+]
+
+# The suffix of source filenames.
+source_suffix = [
+    ".rst",
+    ".md",
+]
+
 # Provide all config values to jinja
 html_context = {
     "build_config": {},
