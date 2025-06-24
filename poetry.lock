@@ -830,14 +830,14 @@ reference = "marquardt-pypi"
 
 [[package]]
 name = "hammocking"
-version = "0.6.0"
+version = "0.8.0"
 description = "Create mocks for c-code automatically"
 optional = false
 python-versions = ">=3.10,<3.12"
 groups = ["main"]
 files = [
-    {file = "hammocking-0.6.0-py3-none-any.whl", hash = "sha256:641b49bb40419de421b32bfb73ee98d539755e284161b09df47f0aefd185c30f"},
-    {file = "hammocking-0.6.0.tar.gz", hash = "sha256:508fc1e3a2de3c32dcb36c4825d24035826e7c03afb5d0ce8bf3f956b1a7f292"},
+    {file = "hammocking-0.8.0-py3-none-any.whl", hash = "sha256:486904e77ee713ffb4cf617232502042a229e246e6811a463ad7c10381996c27"},
+    {file = "hammocking-0.8.0.tar.gz", hash = "sha256:5e8813c3ce4aa89195a5ddbd66c6fbb9fae2aeae9f91c7d6d8cc6a6b0c92ed45"},
 ]
 
 [package.dependencies]
@@ -1980,14 +1980,14 @@ reference = "marquardt-pypi"
 
 [[package]]
 name = "pygments"
-version = "2.19.1"
+version = "2.19.2"
 description = "Pygments is a syntax highlighting package written in Python."
 optional = false
 python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "pygments-2.19.1-py3-none-any.whl", hash = "sha256:9ea1544ad55cecf4b8242fab6dd35a93bbce657034b0611ee383099054ab6d8c"},
-    {file = "pygments-2.19.1.tar.gz", hash = "sha256:61c16d2a8576dc0649d9f39e089b5f02bcd27fba10d8fb4dcc28173f7a45151f"},
+    {file = "pygments-2.19.2-py3-none-any.whl", hash = "sha256:86540386c03d588bb81d44bc3928634ff26449851e99741617ecb9037ee5ec0b"},
+    {file = "pygments-2.19.2.tar.gz", hash = "sha256:636cb2477cec7f8952536970bc533bc43743542f70392ae026374600add5b887"},
 ]
 
 [package.extras]
@@ -2180,14 +2180,14 @@ reference = "marquardt-pypi"
 
 [[package]]
 name = "pytest"
-version = "8.4.0"
+version = "8.4.1"
 description = "pytest: simple powerful testing with Python"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "pytest-8.4.0-py3-none-any.whl", hash = "sha256:f40f825768ad76c0977cbacdf1fd37c6f7a468e460ea6a0636078f8972d4517e"},
-    {file = "pytest-8.4.0.tar.gz", hash = "sha256:14d920b48472ea0dbf68e45b96cd1ffda4705f33307dcc86c676c1b5104838a6"},
+    {file = "pytest-8.4.1-py3-none-any.whl", hash = "sha256:539c70ba6fcead8e78eebbf1115e8b589e7565830d7d006a8723f19ac8a0afb7"},
+    {file = "pytest-8.4.1.tar.gz", hash = "sha256:7c67fd69174877359ed9371ec3af8a3d2b04741818c51e5e99cc1742251fa93c"},
 ]
 
 [package.dependencies]
@@ -3221,21 +3221,21 @@ reference = "marquardt-pypi"
 
 [[package]]
 name = "spl-core"
-version = "7.3.1"
+version = "7.4.0"
 description = "Software Product Line Support for CMake"
 optional = false
 python-versions = ">=3.10,<3.12"
 groups = ["main"]
 files = [
-    {file = "spl_core-7.3.1-py3-none-any.whl", hash = "sha256:72cb09a67001807503f595550fec43349d3aa4404c7b5281d4c7e957f7622160"},
-    {file = "spl_core-7.3.1.tar.gz", hash = "sha256:43f414dd6c95a31044bd1934ec2e765f4a38f8d715d59fe71d9d4c6270668db8"},
+    {file = "spl_core-7.4.0-py3-none-any.whl", hash = "sha256:a05afb64bddfa946ba199a2da02244ba1fe267dccdfe8080b0cb2d2d1f397a10"},
+    {file = "spl_core-7.4.0.tar.gz", hash = "sha256:d866f621752958c1a7f9bc1a136fbcca5409f0ab375b1acde5cf76bd3cade729"},
 ]
 
 [package.dependencies]
 cookiecutter = "2.1.1"
 doxysphinx = ">=3.3,<4.0"
 gcovr = ">=8.3,<9.0"
-hammocking = ">=0.6,<0.7"
+hammocking = ">=0.8,<0.9"
 kconfiglib = ">=14.1,<15.0"
 mlx-traceability = ">=10.0,<11.0"
 myst-parser = ">=0.16"
@@ -3386,14 +3386,14 @@ reference = "marquardt-pypi"
 
 [[package]]
 name = "urllib3"
-version = "2.4.0"
+version = "2.5.0"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "urllib3-2.4.0-py3-none-any.whl", hash = "sha256:4e16665048960a0900c702d4a66415956a584919c03361cac9f1df5c5dd7e813"},
-    {file = "urllib3-2.4.0.tar.gz", hash = "sha256:414bc6535b787febd7567804cc015fee39daab8ad86268f1310a9250697de466"},
+    {file = "urllib3-2.5.0-py3-none-any.whl", hash = "sha256:e6b01673c0fa6a13e374b50871808eb3bf7046c4b125b216f6bf1cc604cff0dc"},
+    {file = "urllib3-2.5.0.tar.gz", hash = "sha256:3fc47733c7e419d4bc3f6b3dc2b4f890bb743906a30d56ba4a5bfa4bbff92760"},
 ]
 
 [package.extras]
@@ -3524,14 +3524,14 @@ reference = "marquardt-pypi"
 
 [[package]]
 name = "xlsxwriter"
-version = "3.2.3"
+version = "3.2.5"
 description = "A Python module for creating Excel XLSX files."
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.8"
 groups = ["main"]
 files = [
-    {file = "XlsxWriter-3.2.3-py3-none-any.whl", hash = "sha256:593f8296e8a91790c6d0378ab08b064f34a642b3feb787cf6738236bd0a4860d"},
-    {file = "xlsxwriter-3.2.3.tar.gz", hash = "sha256:ad6fd41bdcf1b885876b1f6b7087560aecc9ae5a9cc2ba97dcac7ab2e210d3d5"},
+    {file = "xlsxwriter-3.2.5-py3-none-any.whl", hash = "sha256:4f4824234e1eaf9d95df9a8fe974585ff91d0f5e3d3f12ace5b71e443c1c6abd"},
+    {file = "xlsxwriter-3.2.5.tar.gz", hash = "sha256:7e88469d607cdc920151c0ab3ce9cf1a83992d4b7bc730c5ffdd1a12115a7dbe"},
 ]
 
 [package.source]
