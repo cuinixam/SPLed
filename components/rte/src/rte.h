@@ -200,4 +200,32 @@ void RteGetBrightnessAdjustmentCounter(unsigned int *counter);
 void RteLoggerPrintToConsole(LogLevel level, const char *message, ...);
 #endif
 
+/**
+ * @brief Retrieves whether the system is off course.
+ *
+ * @return TRUE if off course, FALSE otherwise.
+ */
+void RteGetOffCourse(boolean *value);
+
+/**
+ * @brief Retrieves whether an abort has been commanded.
+ *
+ * @return TRUE if abort is commanded, FALSE otherwise.
+ */
+boolean RteGetAbortCommanded(void);
+
+/**
+ * @brief Retrieves whether the abort command is valid.
+ *
+ * @return TRUE if abort command is valid, FALSE otherwise.
+ */
+boolean RteGetValidAbortCommand(void);
+
+/**
+ * @brief Sets the SelfDestruct state.
+ *
+ * @param state TRUE to trigger SelfDestruct, FALSE otherwise.
+ */
+void RteSetSelfDestructState(boolean state);
+
 #endif // RTE_H

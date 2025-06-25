@@ -133,7 +133,7 @@
             "options": [
                 "components/brightness_controller",
                 "components/console_interface",
-                "components/examples/check_abort",
+                "components/examples/flight_controller",
                 "components/examples/hello_gmock",
                 "components/power_button",
                 "components/light_controller",

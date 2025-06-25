@@ -20,6 +20,12 @@ static unsigned int brightnessValue = 0;
 static unsigned int brightnessAdjustmentCounter = 0;
 #endif
 
+// Flight Controller RTE variables
+static boolean offCourse = FALSE;
+static boolean abortCommanded = FALSE;
+static boolean validAbortCommand = FALSE;
+static boolean selfDestructState = FALSE;
+
 void RteSetPowerState(PowerState state)
 {
     currentPowerState = state;
@@ -127,3 +133,26 @@ void RteLoggerPrintToConsole(LogLevel level, const char *message, ...)
     va_end(args);
 }
 #endif
+
+void RteGetOffCourse(boolean *value)
+{
+    if (value != NULL)
+    {
+        *value = offCourse;
+    }
+}
+
+boolean RteGetAbortCommanded(void)
+{
+    return abortCommanded;
+}
+
+boolean RteGetValidAbortCommand(void)
+{
+    return validAbortCommand;
+}
+
+void RteSetSelfDestructState(boolean state)
+{
+    selfDestructState = state;
+}
