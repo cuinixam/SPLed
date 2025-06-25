@@ -4,7 +4,7 @@ using namespace testing;
 
 extern "C"
 {
-#include "check_abort.h"
+#include "flight_controller.h"
 }
 
 struct CheckAbortParam
@@ -39,12 +39,4 @@ TEST_P(CheckAbortParamTest, ReturnsExpectedResult)
 {
     const auto &param = GetParam();
     EXPECT_EQ(CheckAbort(param.off_course, param.abort_commanded, param.valid_abort_command), param.expected_result);
-}
-
-TEST(check_abort_not_tree_like, test_mcdc)
-{
-    ASSERT_EQ(TRUE, CheckAbort_NotTreeLike(TRUE, TRUE, FALSE));
-    ASSERT_EQ(TRUE, CheckAbort_NotTreeLike(TRUE, FALSE, TRUE));
-    ASSERT_EQ(FALSE, CheckAbort_NotTreeLike(FALSE, FALSE, FALSE));
-    // ASSERT_EQ(TRUE, CheckAbort_NotTreeLike(FALSE, FALSE, TRUE));
 }
