@@ -15,10 +15,6 @@ extern "C"
 
 #include "mockup_components_examples_flight_controller.h"
 
-/**
- * @struct CheckAbortParam
- * @brief Struct for parameterized abort decision tests.
- */
 struct CheckAbortParam
 {
     boolean off_course;

@@ -21,6 +21,13 @@ static KeyState currentState = INIT;    /**< Current state of the debouncing sta
 static unsigned int pressCounter = 0;   /**< Counter for key presses. */
 static unsigned int releaseCounter = 0; /**< Counter for key releases. */
 
+void powerButtonInit(void)
+{
+    currentState = INIT;
+    pressCounter = 0;
+    releaseCounter = 0;
+}
+
 /**
  * @brief Debounces key presses and releases.
  *
@@ -30,7 +37,7 @@ static unsigned int releaseCounter = 0; /**< Counter for key releases. */
  * how many consecutive calls with the key pressed/released are required to acknowledge the
  * state transition.
  */
-void powerButton()
+void powerButton(void)
 {
     boolean powerKeyPressed = FALSE;
     boolean keyStatus = RteIsKeyPressed(POWER_BUTTON_KEY);
