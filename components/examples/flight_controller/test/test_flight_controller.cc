@@ -30,14 +30,14 @@ inline std::ostream &operator<<(std::ostream &os, const CheckAbortParam &param)
     return os;
 }
 
-class CheckAbortParamTest : public ::testing::TestWithParam<CheckAbortParam>
+class CheckAbortParamTest : public TestWithParam<CheckAbortParam>
 {
 };
 
 INSTANTIATE_TEST_SUITE_P(
     CheckAbortCases,
     CheckAbortParamTest,
-    ::testing::Values(
+    Values(
         CheckAbortParam{true, false, false, true, "Off course triggers abort"},
         CheckAbortParam{false, true, true, true, "Abort commanded and valid"},
         CheckAbortParam{false, true, false, false, "Abort commanded but not valid"},
@@ -56,14 +56,14 @@ TEST_P(CheckAbortParamTest, ReturnsExpectedResult)
     EXPECT_EQ(CheckAbort(param.off_course, param.abort_commanded, param.valid_abort_command), param.expected_result);
 }
 
-class FlightControllerParamTest : public ::testing::TestWithParam<CheckAbortParam>
+class FlightControllerParamTest : public TestWithParam<CheckAbortParam>
 {
 };
 
 INSTANTIATE_TEST_SUITE_P(
     FlightControllerCases,
     FlightControllerParamTest,
-    ::testing::Values(
+    Values(
         CheckAbortParam{true, false, false, true, "Off course triggers abort"},
         CheckAbortParam{false, true, true, true, "Abort commanded and valid"},
         CheckAbortParam{false, true, false, false, "Abort commanded but not valid"},

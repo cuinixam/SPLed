@@ -1,3 +1,4 @@
+/** @file */
 #include "flight_controller.h"
 
 // Example function to demonstrate the use of MC/DC (code coverage metric).
@@ -13,7 +14,6 @@
  */
 boolean CheckAbort(boolean off_course, boolean abort_commanded, boolean valid_abort_command)
 {
-    // This decision is tree-like, .i.e., in the BDD (Binary Decision Diagram) every condition is a leaf node hanging on a single branch.
     if (off_course || (abort_commanded && valid_abort_command))
     {
         return TRUE;
