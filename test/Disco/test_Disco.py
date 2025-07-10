@@ -21,8 +21,15 @@ class Test_Disco(BaseVariantTestRunner):
         return [Path("spled.exe"), Path("compile_commands.json")]
 
     @pytest.mark.build
-    def test_build(self):
-        super().test_build(build_type="Debug")
+    @pytest.mark.parametrize(
+        ("build_type"),
+        [
+            pytest.param("Debug", marks=pytest.mark.debug),
+            pytest.param("Release", marks=pytest.mark.release),
+        ],
+    )
+    def test_build(self, build_type):
+        super().test_build(build_type=build_type)
 
     @pytest.mark.unittests
     def test_unittests(self):

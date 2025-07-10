@@ -6,6 +6,7 @@
 #define POWER_BUTTON_PRESS_DEBOUNCE 10
 #define POWER_BUTTON_RELEASE_DEBOUNCE 10
 
-void powerButton();
+void powerButtonInit(void);
+void powerButton(void);
 
 #endif /* POWER_BUTTON_H */

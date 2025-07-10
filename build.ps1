@@ -22,8 +22,8 @@ param(
     [switch]$clean = $false,
     [Parameter(Mandatory = $false, HelpMessage = 'Build kit to be used. (String: "prod" or "test", default: "prod")')]
     [string]$buildKit = "prod",
-    [Parameter(Mandatory = $false, HelpMessage = 'Type of build. (String, default: "Debug")')]
-    [string]$buildType = "Debug",
+    [Parameter(Mandatory = $false, HelpMessage = 'Type of build. (String, default: empty)')]
+    [string]$buildType = "",
     [Parameter(Mandatory = $false, HelpMessage = 'Target to be built. (String, default: "all")')]
     [string]$target = "all",
     [Parameter(Mandatory = $false, HelpMessage = 'Variants (of the product) to be built. (List of strings, leave empty to be asked or "all" for automatic build of all variants)')]
@@ -76,7 +76,7 @@ function Invoke-Build-System {
         [Parameter(Mandatory = $false)]
         [string]$buildKit = "prod",
         [Parameter(Mandatory = $false)]
-        [string]$buildType = "Debug",
+        [string]$buildType = "",
         [Parameter(Mandatory = $true)]
         [string]$target = "all",
         [Parameter(Mandatory = $false)]
@@ -125,17 +125,12 @@ function Invoke-Build-System {
         $variantsSelected = $Variants.Replace($defaultVariantsFolder, "").Replace("\", "/").Split(',') | ForEach-Object { $_.TrimEnd('/') }
     }
 
-    # Select 'test' build kit based on target
-    if ($target.Contains("unittests") -or $target.Contains("reports")) {
-        $buildKit = "test"
-    }
-    # If buildKit is 'test' then buildType is 'Debug'
-    if ($buildKit -eq "test") {
-        $buildType = "Debug"
-    }
-
     Foreach ($variant in $variantsSelected) {
-        $buildFolder = "build\$variant\$buildKit\$buildType".Replace("/", "\")
+        $buildFolder = "build\$variant\$buildKit".Replace("/", "\")
+        if ($buildType -ne "") {
+            $buildFolder = "build\$variant\$buildKit\$buildType".Replace("/", "\")
+        }
+
         # fresh and clean build
         if ($clean) {
             Remove-Path $buildFolder
@@ -149,11 +144,19 @@ function Invoke-Build-System {
         }
 
         if ($build) {
-            Write-Output "Building target '$target' with build kit '$buildKit' and build type '$buildType' for variant '$variant' ..."
+            if ($buildType -eq "") {
+                Write-Output "Building target '$target' with build kit '$buildKit' for variant '$variant' ..."
+            }
+            else {
+                Write-Output "Building target '$target' with build kit '$buildKit' and build type '$buildType' for variant '$variant' ..."
+            }
 
             # CMake configure
             $additionalConfig = "-DBUILD_KIT='$buildKit'"
-            $additionalConfig += " -DBUILD_TYPE='$buildType'"
+            if ($buildType -ne "") {
+                $additionalConfig += " -DBUILD_TYPE='$buildType'"
+                $additionalConfig += " -DCMAKE_BUILD_TYPE='$buildType'"
+            }
             if ($buildKit -eq "test") {
                 $additionalConfig += " -DCMAKE_TOOLCHAIN_FILE='tools/toolchains/gcc/toolchain.cmake'"
             }
@@ -161,7 +164,12 @@ function Invoke-Build-System {
             Invoke-CommandLine -CommandLine "cmake -B '$buildFolder' -G Ninja -DVARIANT='$variant' $additionalConfig"
 
             if (-Not $configureOnly) {
-                $cmd = "cmake --build '$buildFolder' --config '$buildType' --target $target"
+                if ($buildType -eq "") {
+                    $cmd = "cmake --build '$buildFolder' --target $target"
+                }
+                else {
+                    $cmd = "cmake --build '$buildFolder' --config '$buildType' --target $target"
+                }
 
                 # CMake clean all dead artifacts. Required when running incremented builds to delete obsolete artifacts.
                 Invoke-CommandLine -CommandLine "$cmd -- -t cleandead"
@@ -261,7 +269,7 @@ function Get-User-Menu-Selection {
 
 function Invoke-Bootstrap {
     # Download bootstrap scripts from external repository
-    Invoke-RestMethod -Uri https://raw.githubusercontent.com/avengineers/bootstrap-installer/v1.17.0/install.ps1 | Invoke-Expression
+    Invoke-RestMethod -Uri https://raw.githubusercontent.com/avengineers/bootstrap-installer/v1.17.1/install.ps1 | Invoke-Expression
     # Execute bootstrap script
     . .\.bootstrap\bootstrap.ps1
 }

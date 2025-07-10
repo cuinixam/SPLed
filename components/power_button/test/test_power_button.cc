@@ -13,16 +13,71 @@ extern "C"
 
 #include "mockup_components_power_button.h"
 
+class PowerButtonTest : public Test
+{
+protected:
+    void SetUp() override
+    {
+        powerButtonInit();
+    }
+};
+
 /*!
  * @rst
  *
- * .. test:: power_button.test_key_press_and_release
- *    :id: TS_KI-001
- *    :tests: SWDD_KI-001, SWDD_KI-002, SWDD_KI-003
+ * .. test:: PowerButtonTest.InitialStateIsReleased
+ *    :id: TS_PB-001
+ *    :tests: SWDD_PB-100, SWDD_PB-201, SWDD_PB-203
  *
  * @endrst
  */
-TEST(power_button, test_key_press_and_release)
+TEST_F(PowerButtonTest, InitialStateIsReleased)
+{
+    CREATE_MOCK(mymock);
+
+    // In the initial state, the key is considered released, and no event should be sent.
+    EXPECT_CALL(mymock, RteIsKeyPressed(POWER_BUTTON_KEY)).WillOnce(Return(FALSE));
+    EXPECT_CALL(mymock, RteSetPowerKeyPressedEvent(FALSE)).Times(1);
+    powerButton();
+}
+
+/*!
+ * @rst
+ *
+ * .. test:: PowerButtonTest.PressEventSentOnlyAfterDebounce
+ *    :id: TS_PB-002
+ *    :tests: SWDD_PB-101, SWDD_PB-203
+ *
+ * @endrst
+ */
+TEST_F(PowerButtonTest, PressEventSentOnlyAfterDebounce)
+{
+    CREATE_MOCK(mymock);
+
+    // Simulate key press for less than the debounce count
+    for (unsigned int i = 0; i < POWER_BUTTON_PRESS_DEBOUNCE - 1; i++)
+    {
+        EXPECT_CALL(mymock, RteIsKeyPressed(POWER_BUTTON_KEY)).WillOnce(Return(TRUE));
+        EXPECT_CALL(mymock, RteSetPowerKeyPressedEvent(FALSE)).Times(1);
+        powerButton();
+    }
+
+    // The next press should trigger the event
+    EXPECT_CALL(mymock, RteIsKeyPressed(POWER_BUTTON_KEY)).WillOnce(Return(TRUE));
+    EXPECT_CALL(mymock, RteSetPowerKeyPressedEvent(TRUE)).Times(1);
+    powerButton();
+}
+
+/*!
+ * @rst
+ *
+ * .. test:: PowerButtonTest.FullPressAndReleaseCycle
+ *    :id: TS_PB-003
+ *    :tests: SWDD_PB-100, SWDD_PB-101, SWDD_PB-200, SWDD_PB-202, SWDD_PB-203, SWDD_PB-300
+ *
+ * @endrst
+ */
+TEST_F(PowerButtonTest, FullPressAndReleaseCycle)
 {
     CREATE_MOCK(mymock);
 
@@ -82,6 +137,41 @@ TEST(power_button, test_key_press_and_release)
     }
 
     // Key is pressed and debounced
+    EXPECT_CALL(mymock, RteIsKeyPressed(POWER_BUTTON_KEY)).WillOnce(Return(TRUE));
+    EXPECT_CALL(mymock, RteSetPowerKeyPressedEvent(TRUE)).Times(1);
+    powerButton();
+}
+
+/*!
+ * @rst
+ *
+ * .. test:: PowerButtonTest.InitToReleasedTransition
+ *    :id: TS_PB-004
+ *    :tests: SWDD_PB-100, SWDD_PB-101, SWDD_PB-300
+ *
+ * @endrst
+ */
+TEST_F(PowerButtonTest, InitToReleasedTransition)
+{
+    CREATE_MOCK(mymock);
+
+    // Simulate key being released for the debounce period to transition from INIT to RELEASED
+    for (unsigned int i = 0; i < POWER_BUTTON_RELEASE_DEBOUNCE; i++)
+    {
+        EXPECT_CALL(mymock, RteIsKeyPressed(POWER_BUTTON_KEY)).WillOnce(Return(FALSE));
+        EXPECT_CALL(mymock, RteSetPowerKeyPressedEvent(FALSE)).Times(1);
+        powerButton();
+    }
+
+    // At this point, the state machine should be in the RELEASED state.
+    // A subsequent press should now trigger a transition to the PRESSED state.
+    for (unsigned int i = 0; i < POWER_BUTTON_PRESS_DEBOUNCE - 1; i++)
+    {
+        EXPECT_CALL(mymock, RteIsKeyPressed(POWER_BUTTON_KEY)).WillOnce(Return(TRUE));
+        EXPECT_CALL(mymock, RteSetPowerKeyPressedEvent(FALSE)).Times(1);
+        powerButton();
+    }
+
     EXPECT_CALL(mymock, RteIsKeyPressed(POWER_BUTTON_KEY)).WillOnce(Return(TRUE));
     EXPECT_CALL(mymock, RteSetPowerKeyPressedEvent(TRUE)).Times(1);
     powerButton();

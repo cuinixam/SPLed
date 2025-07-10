@@ -7,7 +7,8 @@ class Test_Base__Dev(BaseVariantTestRunner):
     @property
     def component_paths(self):
         return [
-            Path("components/examples/component_a"),
+            Path("components/examples/hello_gmock"),
+            Path("components/examples/flight_controller"),
         ]
 
     @property
@@ -20,6 +21,7 @@ class Test_Base__Dev(BaseVariantTestRunner):
 
     @pytest.mark.build
     def test_build(self):
+        "This variant does not build anything, but is used for examplary unit tests."
         pass
 
     @pytest.mark.reports
