@@ -3261,14 +3261,14 @@ reference = "marquardt-pypi"
 
 [[package]]
 name = "sple-static-analysis-extension"
-version = "1.10.1"
+version = "1.11.1"
 description = "An spl-core extension to run static code anaysis"
 optional = false
 python-versions = ">=3.10,<4.0"
 groups = ["main"]
 files = [
-    {file = "sple_static_analysis_extension-1.10.1-py3-none-any.whl", hash = "sha256:fa4553cbce3c4ae0cfdd9b237083d1e241ba9a15e464d0b0d7adb373ba3d078c"},
-    {file = "sple_static_analysis_extension-1.10.1.tar.gz", hash = "sha256:105040d1aa77be62a541020bfc1b4c089d91a890137921470d1820889ec1a04a"},
+    {file = "sple_static_analysis_extension-1.11.1-py3-none-any.whl", hash = "sha256:3b52696924195329f13c0f5c3933ab0d3290cce1cc35f51372ed2b72f4ebeaa6"},
+    {file = "sple_static_analysis_extension-1.11.1.tar.gz", hash = "sha256:d9ca234b32174523b2554d40614fcc31e0ea07e688c54c4707fc9047db701154"},
 ]
 
 [package.dependencies]
