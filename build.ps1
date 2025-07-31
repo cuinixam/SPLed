@@ -1,4 +1,4 @@
-﻿<#
+<#
 .DESCRIPTION
     Wrapper for installing dependencies, running and testing the project
 #>
@@ -32,6 +32,8 @@ param(
     [string]$filter = "",
     [Parameter(Mandatory = $false, HelpMessage = 'Marker for self tests, e.g. "static_analysis" (see https://docs.pytest.org/en/stable/how-to/mark.html).')]
     [string]$marker = "",
+    [Parameter(Mandatory = $false, HelpMessage = 'Additional arguments for pytest, e.g. "--collect-only" (see https://docs.pytest.org/en/stable/reference/reference.html#command-line-flags).')]
+    [string]$pytestExtraArgs = "",
     [Parameter(Mandatory = $false, HelpMessage = 'Additional build arguments for Ninja (e.g., "-d explain -d keepdepfile" for debugging purposes)')]
     [string]$ninjaArgs = "",
     [Parameter(Mandatory = $false, HelpMessage = 'Delete CMake cache and reconfigure. (Switch, default: false)')]
@@ -177,8 +179,8 @@ function Invoke-Build-System {
                 Invoke-CommandLine -CommandLine "$cmd -- $ninjaArgs"
 
                 # Jenkins shall deploy reports to MQ's Engineering web server
-                if ($Env:JENKINS_URL -and $Env:BRANCH_NAME -and ($target.Contains("reports") -or ($target -eq "all") -or ($target -eq "static_analysis"))) {
-                    & .\tools\scripts\deploy-reports.ps1 -buildFolder "$buildFolder" -outputSubdir "spled/$Env:BRANCH_NAME/$variant"
+                if ($env:PLATFORM_ORG -and $env:PLATFORM_REPO -and $env:BRANCH_NAME -and ($target.Contains("reports") -or ($target -eq "all") -or ($target -eq "static_analysis"))) {
+                    Deploy-Reports -buildFolder "$buildFolder" -outputSubdir "$env:PLATFORM_ORG/$env:PLATFORM_REPO/$env:BRANCH_NAME/$variant"
                 }
             }
         }
@@ -229,6 +231,11 @@ function Invoke-Self-Tests {
         $pytestArgs += "-m '$marker'"
     }
 
+    # Add any extra pytest arguments given via command line
+    if ($pytestExtraArgs -and $pytestExtraArgs -ne "") {
+        $pytestArgs += $pytestExtraArgs
+    }
+
     # Finally run pytest and ignore return value. Content of test-report.xml will be evaluated by CI system.
     $commandLine = "pytest " + ($pytestArgs -join " ")
     Invoke-CommandLine -CommandLine $commandLine -StopAtError $false
@@ -277,6 +284,60 @@ function Invoke-Bootstrap {
     Invoke-RestMethod -Uri https://git.marquardt.de/projects/SPLE/repos/bootstrap-installer/raw/install.ps1?at=refs%2Ftags%2Fv1.17.1 | Invoke-Expression
     # Execute bootstrap script
     . .\.bootstrap\bootstrap.ps1
+}
+
+function Deploy-Reports {
+    param(
+        [Parameter(Mandatory = $true, Position = 0, HelpMessage = 'Build folder containing reports')]
+        [System.IO.FileInfo]$buildFolder,
+        [Parameter(Mandatory = $true, Position = 1, HelpMessage = 'Target subdirectory on engweb.marquardt.de')]
+        [String]$outputSubdir,
+        [Parameter(Mandatory = $false, HelpMessage = 'Perform a dry run without actual deployment')]
+        [switch]$dryRun
+    )
+    $ErrorActionPreference = "Stop"
+    if (Test-Path -Path $buildFolder) {
+        # Create a redirecting html page for Jenkins
+        $outputUrl = "https://engweb.marquardt.de/sple/$outputSubdir/"
+        Write-Output "Making documentation available at $outputUrl ..."
+        $htmlContent = @"
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="refresh" content="0; url=$outputUrl" />
+</head>
+<body>
+<p>If you are not redirected automatically, please click <a href="$outputUrl">$outputUrl</a>.</p>
+</body>
+</html>
+"@
+        Set-Content -Path "$buildFolder\reports.html" -Value $htmlContent -Force
+        # Mirror the reports to the SPLE webspace on engweb
+        $outputPath = "\\engweb.marquardt.de\wwwSPLE$\$outputSubdir\"
+        $fullBuildFolder = Resolve-Path -Path "$buildFolder"
+        $directoriesToCopy = Get-ChildItem -Path $fullBuildFolder -Directory -Recurse -Filter "reports" -Depth 7
+        foreach ($directory in $directoriesToCopy) {
+            foreach ($subDirectory in "html", "coverage", "static_analysis", "resources") {
+                $sourcePath = Join-Path $directory.FullName $subDirectory
+                if (Test-Path -Path $sourcePath) {
+                    $targetPath = $sourcePath.Replace($fullBuildFolder, $outputPath).Replace("reports\", "")
+                    Write-host "Executing: robocopy $sourcePath $targetPath"
+                    if (-not $dryRun.isPresent) {
+                        robocopy $sourcePath $targetPath /MIR /TBD /NFL /NDL /NP /NS /NC /NJH
+                        if ($LASTEXITCODE -gt 8) {
+                            Write-Error "Failed to deploy output."
+                        }
+                        else {
+                            $LASTEXITCODE = 0
+                        }
+                    }
+                }
+            }
+        }
+    }
+    else {
+        Write-Error "Build directory $buildFolder does not exist"
+    }
 }
 
 ## start of script

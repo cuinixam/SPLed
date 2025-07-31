@@ -20,12 +20,11 @@ class Test_Disco(BaseVariantTestRunner):
     def expected_build_artifacts(self):
         return [Path("spled.exe"), Path("compile_commands.json")]
 
-    @pytest.mark.build
     @pytest.mark.parametrize(
         ("build_type"),
         [
-            pytest.param("Debug", marks=pytest.mark.debug),
-            pytest.param("Release", marks=pytest.mark.release),
+            pytest.param("Debug", marks=pytest.mark.build_debug),
+            pytest.param("Release", marks=pytest.mark.build_release),
         ],
     )
     def test_build(self, build_type):

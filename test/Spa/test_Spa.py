@@ -21,9 +21,15 @@ class Test_Spa(BaseVariantTestRunner):
     def expected_build_artifacts(self):
         return [Path("spled.exe"), Path("compile_commands.json")]
 
-    @pytest.mark.build
-    def test_build(self):
-        super().test_build(build_type="Debug")
+    @pytest.mark.parametrize(
+        ("build_type"),
+        [
+            pytest.param("Debug", marks=pytest.mark.build_debug),
+            pytest.param("Release", marks=pytest.mark.build_release),
+        ],
+    )
+    def test_build(self, build_type):
+        super().test_build(build_type=build_type)
 
     @pytest.mark.unittests
     def test_unittests(self):
