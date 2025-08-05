@@ -1,4 +1,4 @@
-﻿<#
+<#
 .DESCRIPTION
     Wrapper for installing dependencies, running and testing the project
 #>
