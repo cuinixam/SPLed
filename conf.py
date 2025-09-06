@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """Configuration"""
 
-import json
-import os
 import datetime
-import re
+from typing import Any
+
+from yanga.docs.sphinx import SphinxConfig
 
 day = datetime.date.today()
+
 # meta data #################################################################
 
 project = "SPLed"
@@ -29,7 +30,27 @@ exclude_patterns = [
     "**/test_results.rst",  # We renamed this file, but nobody deletes it.
 ]
 
+html_context: dict[str, Any] = {
+    "env": {
+        # Add current execution time in UTC
+        "timestamp": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%d %H:%M:%S %Z")
+    },
+    # TODO: the feature configuration is not yet implemented
+    "config": {},
+}
+
 include_patterns = ["index.md", "doc/**"]
+
+report_config = SphinxConfig()
+html_context.update(report_config.html_context)
+include_patterns.extend(report_config.include_patterns)
+
+# Print all include patterns
+print("Include patterns:")
+for pattern in include_patterns:
+    print(f" - {pattern}")
+
+project = report_config.project
 
 # configuration of built-in stuff ###########################################
 # @see https://www.sphinx-doc.org/en/master/usage/configuration.html
@@ -74,49 +95,17 @@ sphinx_rtd_size_width = "90%"
 
 extensions.append("sphinxcontrib.mermaid")
 
+# Parse markdown files
+extensions.append("myst_parser")
+myst_enable_extensions = [
+    "colon_fence",
+    "deflist",
+    "html_admonition",
+    "html_image",
+]
+
+# Traceability extension
 extensions.append("sphinx_needs")
-
-extensions.append("sphinxcontrib.test_reports")
-tr_report_template = "doc/test_report_template.txt"
-
-
-def tr_link(app, need, needs, first_option_name, second_option_name, *args, **kwargs):
-    """Make links between 'needs'. In comparison to the default 'tr_link' function,
-    this function supports regular expression pattern matching."""
-    if first_option_name not in need:
-        return ""
-    # Get the value of the 'first_option_name'
-    first_option_value = need[first_option_name]
-
-    links = []
-    for need_target in needs.values():
-        # Skip linking to itself
-        if need_target["id"] == need["id"]:
-            continue
-        if second_option_name not in need_target:
-            continue
-
-        if first_option_value is not None and len(first_option_value) > 0:
-            second_option_value = need_target[second_option_name]
-            if second_option_value is not None and len(second_option_value) > 0:
-                if first_option_value == second_option_value:
-                    links.append(need_target["id"])
-                # if the first option value has a *, use regex matching
-                elif "*" in first_option_value:
-                    if re.match(first_option_value, second_option_value):
-                        links.append(need_target["id"])
-
-    return links
-
-
-needs_functions = [tr_link]
-
-extensions.append("sphinx.ext.todo")
-
-# Render Your Data Readable ##################################################
-# Enables adding Jupyter notebooks to toctree
-# @see https://sphinxcontribdatatemplates.readthedocs.io/en/latest/index.html
-extensions.append("sphinxcontrib.datatemplates")
 
 # needs_types - this option allows the setup of own need types like bugs, user_stories and more.
 needs_types = [
@@ -138,9 +127,6 @@ needs_types = [
     dict(directive="test", title="Test Case", prefix="T_", color="#DCB239", style="node"),
 ]
 
-# Define own options
-needs_extra_options = ["integrity"]
-
 # Define own link types
 needs_extra_links = [
     # SWE.3 BP.5: link from Implementation (Software unit) to Specification (Software detailed design)
@@ -153,60 +139,12 @@ needs_extra_links = [
     {"option": "results", "incoming": "is resulted from", "outgoing": "results"},
 ]
 
-# Link tests results to the test cases
-needs_global_options = {
-    "results": "[[tr_link('title', 'case')]]",
-}
-
-# Parse markdown files
-extensions.append("myst_parser")
-myst_enable_extensions = [
-    "colon_fence",
-    "deflist",
-    "html_admonition",
-    "html_image",
-]
-
 # The suffix of source filenames.
 source_suffix = [
-    ".rst",
     ".md",
+    ".rst",
 ]
 
-# Provide all config values to jinja
-html_context = {
-    "build_config": {},
-    "config": {},
-    "timestamp": f"{datetime.datetime.now(tz=datetime.timezone.utc).strftime('%Y-%m-%d %H:%M:%S')} UTC",
-}
 
-# pass build configuration to jinja
-if "SPHINX_BUILD_CONFIGURATION_FILE" in os.environ:
-    with open(os.environ["SPHINX_BUILD_CONFIGURATION_FILE"], "r") as file:
-        html_context["build_config"] = json.load(file)
-        include_patterns.extend(html_context["build_config"].get("include_patterns", []))
-
-# pass feature configuration to jinja
-if "AUTOCONF_JSON_FILE" in os.environ:
-    with open(os.environ["AUTOCONF_JSON_FILE"], "r") as file:
-        html_context["config"] = json.load(file)["features"]
-
-# we almost forgot the variant :o)
-if "VARIANT" in os.environ:
-    html_context["build_config"]["variant"] = os.environ["VARIANT"]
-
-
-def rstjinja(app, docname, source):
-    """
-    Render our pages as a jinja template for fancy templating goodness.
-    """
-    # Make sure we're outputting HTML
-    if app.builder.format != "html":
-        return
-    src = source[0]
-    rendered = app.builder.templates.render_string(src, app.config.html_context)
-    source[0] = rendered
-
-
-def setup(app):
-    app.connect("source-read", rstjinja)
+def setup(app):  # type: ignore
+    app.connect("source-read", report_config.render_with_jinja)

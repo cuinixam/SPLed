@@ -12,10 +12,10 @@
 
 /**
  * @rst
- * .. impl:: Main Control Knob's main function
+ * ```{impl} Main Control Knob's main function
  *    :id: SWIMPL_MCK-001
  *    :implements: SWDD_MCK-100, SWDD_MCK-101, SWDD_MCK-200, SWDD_MCK-201, SWDD_MCK-202, SWDD_MCK-203
- * @endrst
+ * ```
  */
 void mainControlKnob(void)
 {

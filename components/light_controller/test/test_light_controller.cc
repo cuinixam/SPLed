@@ -64,11 +64,11 @@ std::ostream &operator<<(std::ostream &os, const RGBColor &color)
 /**
  * @rst
  *
- * .. test:: light_controller.test_light_stays_off
+ * ```{test} light_controller.test_light_stays_off
  *    :id: TS_LC-006
  *    :tests: SWDD_LC-100, SWDD_LC-300
  *
- * @endrst
+ * ```
  */
 TEST(light_controller, test_light_stays_off)
 {
@@ -87,10 +87,10 @@ TEST(light_controller, test_light_stays_off)
 #ifdef CONFIG_BRIGHTNESS_ADJUSTMENT_AUTOMATIC
 /**
  * @rst
- * .. test:: light_controller.test_brightness_adjustment_automatic
+ * ```{test} light_controller.test_brightness_adjustment_automatic
  *    :id: TS_LC-005
  *    :tests: SWDD_LC-100, SWDD_LC-200, SWDD_LC-201, SWDD_LC-202
- * @endrst
+ * ```
  */
 TEST(light_controller, test_brightness_adjustment_automatic)
 {
@@ -116,11 +116,11 @@ TEST(light_controller, test_brightness_adjustment_automatic)
 /**
  * @rst
  *
- * .. test:: light_controller.test_light_on_and_off
+ * ```{test} light_controller.test_light_on_and_off
  *    :id: TS_LC-001
  *    :tests: SWDD_LC-100, SWDD_LC-102, SWDD_LC-300
  *
- * @endrst
+ * ```
  */
 TEST(light_controller, test_light_on_and_off)
 {
@@ -158,11 +158,11 @@ TEST(light_controller, test_light_on_and_off)
 /**
  * @rst
  *
- * .. test:: light_controller.test_light_blinking
+ * ```{test} light_controller.test_light_blinking
  *    :id: TS_LC-002
  *    :tests: SWDD_LC-101
  *
- * @endrst
+ * ```
  */
 TEST(light_controller, test_light_blinking)
 {
@@ -227,11 +227,11 @@ std::ostream &operator<<(std::ostream &os, const TestParam &param)
 /**
  * @rst
  *
- * .. test:: light_controller.test_correct_blink_period
+ * ```{test} light_controller.test_correct_blink_period
  *    :id: TS_LC-004
  *    :tests: SWDD_LC-101
  *
- * @endrst
+ * ```
  */
 TEST(light_controller, test_correct_blink_period)
 {
@@ -253,11 +253,11 @@ TEST(light_controller, test_correct_blink_period)
 /**
  * @rst
  *
- * .. test:: BlinkPeriodTests/BlinkPeriodTest.CalculatesCorrectBlinkPeriod/*
+ * ```{test} BlinkPeriodTests/BlinkPeriodTest.CalculatesCorrectBlinkPeriod/*
  *    :id: TS_LC-003
  *    :tests: SWDD_LC-101
  *
- * @endrst
+ * ```
  */
 TEST_P(BlinkPeriodTest, CalculatesCorrectBlinkPeriod)
 {

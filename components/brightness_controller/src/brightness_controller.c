@@ -12,10 +12,10 @@
 
 /**
  * @rst
- * .. impl:: Periodic Brightness Adjustment
+ * ```{impl} Periodic Brightness Adjustment
  *    :id: SWIMPL_BC-001
  *    :implements: SWDD_BC-100, SWDD_BC-102
- * @endrst
+ * ```
  */
 SPLE_TESTABLE_STATIC brightness_t periodicBrightnessAdjustment(BrightnessAdjustmentData *data)
 {
@@ -42,10 +42,10 @@ SPLE_TESTABLE_STATIC brightness_t periodicBrightnessAdjustment(BrightnessAdjustm
 
 /**
  * @rst
- * .. impl:: Manual Brightness Adjustment
+ * ```{impl} Manual Brightness Adjustment
  *    :id: SWIMPL_BC-002
  *    :implements: SWDD_BC-100, SWDD_BC-101, SWDD_BC-201
- * @endrst
+ * ```
  */
 static brightness_t manualBrightnessAdjustment(void)
 {
@@ -67,10 +67,10 @@ static brightness_t manualBrightnessAdjustment(void)
 
 /**
  * @rst
- * .. impl:: Brightness Controller runnable
+ * ```{impl} Brightness Controller runnable
  *    :id: SWIMPL_BC-003
  *    :implements: SWDD_BC-200, SWDD_BC-202, SWDD_BC-203
- * @endrst
+ * ```
  */
 void brightnessController(void)
 {

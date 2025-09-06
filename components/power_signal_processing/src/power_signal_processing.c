@@ -9,10 +9,10 @@
 /**
  * @rst
  *
- * .. impl:: Power signal processing
+ * ```{impl} Power signal processing
  *    :id: SWIMPL_PSP-001
  *    :implements: SWDD_PSP-001, SWDD_PSP-002, SWDD_PSP-003
- * @endrst
+ * ```
  */
 void powerSignalProcessing(void)
 {

@@ -1,20 +1,17 @@
 # Components
 
-{% for component_info in build_config.components_info %}
-{% if component_info.has_docs %}
+{% for component in report_data.components %}
 
-## {{ component_info.long_name or component_info.name }}
+## {{ component.name }}
+
 
 ```{toctree}
-:maxdepth: 2
+:maxdepth: 1
 
-/{{ component_info.path }}/doc/index
-{% if (build_config.target == 'reports') and component_info.has_reports %}
-/{{ component_info.reports_output_dir }}/unit_test_results
-/{{ component_info.reports_output_dir }}/doxygen/html/index
-/{{ component_info.reports_output_dir }}/coverage
-{% endif %}
+{% for file in report_data.get_component_files_list(component.name) %}
+/{{ file }}
+{% endfor %}
+
 ```
 
-{% endif %}
 {% endfor %}

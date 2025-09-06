@@ -6,3 +6,8 @@ set(COMPILE_CXX_FLAGS "-Wa,-mbig-obj")
 add_compile_options(
     "$<$<COMPILE_LANGUAGE:CXX>:${COMPILE_CXX_FLAGS}>"
 )
+
+set(COMPILE_C_FLAGS "-DSPLE_TESTABLE_STATIC=")
+add_compile_options(
+    "$<$<COMPILE_LANGUAGE:C>:${COMPILE_C_FLAGS}>"
+)

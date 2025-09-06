@@ -36,10 +36,10 @@ class MainControlKnobTest : public TestWithParam<struct MainControlKnobParameter
 
 /**
  * @rst
- * .. test:: MainControlKnobTests/MainControlKnobTest.HandleKnobInput/*
+ * ```{test} MainControlKnobTests/MainControlKnobTest.HandleKnobInput/*
  *    :id: TS_MCK-001
  *    :tests: SWDD_MCK-100, SWDD_MCK-101, SWDD_MCK-200, SWDD_MCK-201, SWDD_MCK-202, SWDD_MCK-203
- * @endrst
+ * ```
  */
 TEST_P(MainControlKnobTest, HandleKnobInput)
 {

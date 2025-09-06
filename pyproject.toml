@@ -6,12 +6,17 @@ authors = [{ name = "Avengineers" }]
 requires-python = "<3.12,>=3.11"
 
 dependencies = [
-    "spl-core (>=7.11,<8)",
-    "pypeline-runner>=1,<2",
+    "yanga>=2,<3",
     "pytest>=8,<9",
     "pip_system_certs>=4.0,<5",
     "myst-parser>=4.0,<5",
-    "pypeline-semantic-release (>=0.4.1,<0.5.0)",
+    "pypeline-semantic-release>=0.4.1,<0.5.0",
+    "sphinx-rtd-theme>=2.0,<3",
+    "sphinxcontrib-mermaid>=0.9,<1",
+    "sphinx-needs>=2.0,<3",
+    "sphinx-test-reports>=1.0,<2",
+    "sphinx-rtd-size>=0.2,<1",
+    "sphinxcontrib-plantuml>=0.29,<1",
 ]
 
 [tool.poetry]

@@ -25,11 +25,11 @@ protected:
 /*!
  * @rst
  *
- * .. test:: PowerButtonTest.InitialStateIsReleased
+ * ```{test} PowerButtonTest.InitialStateIsReleased
  *    :id: TS_PB-001
  *    :tests: SWDD_PB-100, SWDD_PB-201, SWDD_PB-203
  *
- * @endrst
+ * ```
  */
 TEST_F(PowerButtonTest, InitialStateIsReleased)
 {
@@ -44,11 +44,11 @@ TEST_F(PowerButtonTest, InitialStateIsReleased)
 /*!
  * @rst
  *
- * .. test:: PowerButtonTest.PressEventSentOnlyAfterDebounce
+ * ```{test} PowerButtonTest.PressEventSentOnlyAfterDebounce
  *    :id: TS_PB-002
  *    :tests: SWDD_PB-101, SWDD_PB-203
  *
- * @endrst
+ * ```
  */
 TEST_F(PowerButtonTest, PressEventSentOnlyAfterDebounce)
 {
@@ -71,11 +71,11 @@ TEST_F(PowerButtonTest, PressEventSentOnlyAfterDebounce)
 /*!
  * @rst
  *
- * .. test:: PowerButtonTest.FullPressAndReleaseCycle
+ * ```{test} PowerButtonTest.FullPressAndReleaseCycle
  *    :id: TS_PB-003
  *    :tests: SWDD_PB-100, SWDD_PB-101, SWDD_PB-200, SWDD_PB-202, SWDD_PB-203, SWDD_PB-300
  *
- * @endrst
+ * ```
  */
 TEST_F(PowerButtonTest, FullPressAndReleaseCycle)
 {
@@ -145,11 +145,11 @@ TEST_F(PowerButtonTest, FullPressAndReleaseCycle)
 /*!
  * @rst
  *
- * .. test:: PowerButtonTest.InitToReleasedTransition
+ * ```{test} PowerButtonTest.InitToReleasedTransition
  *    :id: TS_PB-004
  *    :tests: SWDD_PB-100, SWDD_PB-101, SWDD_PB-300
  *
- * @endrst
+ * ```
  */
 TEST_F(PowerButtonTest, InitToReleasedTransition)
 {

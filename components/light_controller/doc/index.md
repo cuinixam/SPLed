@@ -17,7 +17,7 @@ The Light Controller is responsible for managing the behavior of the LED based o
 The light can be in one of two states: ON or OFF. The state transitions are triggered by changes in the system's power state.
 ```
 
-{% if config.BLINKING %}
+{% if report_data.features.BLINKING %}
 ```{spec} Blinking Behavior
 :id: SWDD_LC-101
 When the light is ON, it may exhibit a blinking behavior. The blinking rate is configurable and is determined based on an external input (main knob value).
@@ -84,7 +84,7 @@ stateDiagram-v2
     [*] --> LIGHT_OFF: Initial State
     LIGHT_OFF --> LIGHT_ON : Power State != OFF
     LIGHT_ON --> LIGHT_OFF : Power State == OFF
-{% if config.BLINKING %}
+{% if report_data.features.BLINKING %}
     LIGHT_ON --> BlinkON : Blink Counter >= Blink Period
     BlinkON --> BlinkOFF : Blink State == TRUE
     BlinkOFF --> BlinkON : Blink State == FALSE

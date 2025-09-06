@@ -1,29 +1,22 @@
-{% if build_config.component_info %}
+{% if report_data.has_component_scope %}
 
-# Software Component Report
+# Software Component Report - {{ report_data.component_name }}
 
-**Variant:** {{ build_config.variant }}<br/>
-**Component:** {{ build_config.component_info.long_name }}<br/>
-**Timestamp:** {{ timestamp }}
+**Variant:** {{ report_data.variant }}</br>
+**Component:** {{ report_data.component_name }}</br>
+**Platform:** {{ report_data.platform }}</br>
+**Timestamp:** {{ env.timestamp }}
 
-```{toctree}
-:maxdepth: 2
-
-{{ build_config.component_info.path }}/doc/index
-{% if build_config.component_info.has_reports %}
-{{ build_config.component_info.reports_output_dir }}/unit_test_spec
-{{ build_config.component_info.reports_output_dir }}/unit_test_results
-{{ build_config.component_info.reports_output_dir }}/doxygen/html/index
-{{ build_config.component_info.reports_output_dir }}/coverage
-{% endif %}
-```
+{{ report_data.create_component_myst_toc(report_data.component_name) }}
 
 {% else %}
 
 # Variant Report
 
-**Variant:** {{ build_config.variant }}<br/>
-**Timestamp:** {{ timestamp }}
+**Variant:** {{ report_data.variant }}</br>
+**Platform:** {{ report_data.platform }}</br>
+**Timestamp:** {{ env.timestamp }}
+
 
 ```{toctree}
 :maxdepth: 1
@@ -31,9 +24,10 @@
 
 doc/software_architecture/index
 doc/components/index
-{% if build_config.target == 'reports' %}
-{{ build_config.reports_output_dir }}/coverage
-{% endif %}
+{% for file in report_data.get_variant_files_list() %}
+/{{ file }}
+{% endfor %}
+
 ```
 
 {% endif %}
