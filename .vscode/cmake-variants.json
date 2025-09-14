@@ -2,28 +2,24 @@
   "variant": {
     "choices": {
       "Base/Dev": {
-        "long": "select to build variant 'Base/Dev'",
         "settings": {
           "VARIANT": "Base/Dev"
         },
         "short": "Base/Dev"
       },
       "Disco": {
-        "long": "select to build variant 'Disco'",
         "settings": {
           "VARIANT": "Disco"
         },
         "short": "Disco"
       },
       "Sleep": {
-        "long": "select to build variant 'Sleep'",
         "settings": {
           "VARIANT": "Sleep"
         },
         "short": "Sleep"
       },
       "Spa": {
-        "long": "select to build variant 'Spa'",
         "settings": {
           "VARIANT": "Spa"
         },
@@ -37,12 +33,10 @@
     "choices": {
       "Debug": {
         "short": "Debug",
-        "long": "Disable optimizations and include debug information",
         "buildType": "Debug"
       },
       "Release": {
         "short": "Release",
-        "long": "Optimize for speed and exclude debug information",
         "buildType": "Release"
       }
     }

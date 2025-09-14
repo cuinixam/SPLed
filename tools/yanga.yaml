@@ -131,11 +131,16 @@ variants:
       - components_power_button
       - components_power_signal_processing
       - components_light_controller
-      - components_keyboard_interface
       - console_interface
       - components_main_control_knob
       - components_brightness_controller
     features_selection_file: "variants/Disco/config.txt"
+    platforms:
+      win_exe:
+        components:
+          - components_keyboard_interface
+        config:
+          PLATFORM_TYPE: "Windows"
 
 platforms:
   - name: win_exe
@@ -194,11 +199,11 @@ pipeline:
       module: yanga.steps.scoop_install
       description: Install scoop dependencies
       timeout_sec: 120
-    - step: GenerateEnvSetupScript
-      module: pypeline.steps.env_setup_script
     - step: WestInstall
       module: yanga.steps.west_install
       description: Install west dependencies
+    - step: GenerateEnvSetupScript
+      module: pypeline.steps.env_setup_script
   gen:
     - step: KConfigGen
       module: yanga.steps.kconfig_gen
