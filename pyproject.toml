@@ -24,3 +24,6 @@ package-mode = false
 
 [tool.ruff]
 line-length = 180
+
+[tool.yanga]
+create_yanga_build_dir = true

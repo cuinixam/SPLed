@@ -34,3 +34,6 @@ __pycache__/
 
 # Drawio Backup Files
 *.drawio.bkp
+
+# Yanga build directory
+/.yanga

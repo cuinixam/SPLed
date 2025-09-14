@@ -123,19 +123,18 @@ components:
 variants:
   - name: Disco
     description: Disco light.
-    bom:
-      components:
-        - main
-        - rte
-        - os
-        - components_spled
-        - components_power_button
-        - components_power_signal_processing
-        - components_light_controller
-        - components_keyboard_interface
-        - console_interface
-        - components_main_control_knob
-        - components_brightness_controller
+    components:
+      - main
+      - rte
+      - os
+      - components_spled
+      - components_power_button
+      - components_power_signal_processing
+      - components_light_controller
+      - components_keyboard_interface
+      - console_interface
+      - components_main_control_knob
+      - components_brightness_controller
     features_selection_file: "variants/Disco/config.txt"
 
 platforms:
@@ -175,6 +174,13 @@ platforms:
           remote: gtest
           revision: v1.16.0
           path: gtest
+    scoop_manifest:
+      buckets:
+        - name: main
+          source: https://github.com/ScoopInstaller/Main
+      apps:
+        - name: graphviz
+          source: main
 
 
 pipeline:
@@ -185,7 +191,7 @@ pipeline:
         bootstrap_script: .bootstrap/bootstrap.py
         python_executable: python311
     - step: ScoopInstall
-      module: pypeline.steps.scoop_install
+      module: yanga.steps.scoop_install
       description: Install scoop dependencies
       timeout_sec: 120
     - step: GenerateEnvSetupScript

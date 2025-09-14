@@ -89,19 +89,18 @@ components:
 variants:
   - name: Disco
     description: Disco light.
-    bom:
-      components:
-        - main
-        - rte
-        - os
-        - components_spled
-        - components_power_button
-        - components_power_signal_processing
-        - components_light_controller
-        - components_keyboard_interface
-        - console_interface
-        - components_main_control_knob
-        - components_brightness_controller
+    components:
+      - main
+      - rte
+      - os
+      - components_spled
+      - components_power_button
+      - components_power_signal_processing
+      - components_light_controller
+      - components_keyboard_interface
+      - console_interface
+      - components_main_control_knob
+      - components_brightness_controller
     config_file: "variants/Disco/config.txt"
 
 platforms:

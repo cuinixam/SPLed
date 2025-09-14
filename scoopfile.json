@@ -12,10 +12,6 @@
     "apps": [
         {
             "Source": "main",
-            "Name": "graphviz"
-        },
-        {
-            "Source": "main",
             "Name": "cppcheck",
             "Version": "2.18.0"
         },
