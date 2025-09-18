@@ -1,0 +1,249 @@
+components:
+- name: components_rte
+  path: components/rte
+  sources:
+  - src/rte.c
+  include_directories:
+  - path: src
+    scope: PUBLIC
+  required_components:
+  - components/keyboard_interface
+- name: components_keyboard_interface
+  path: components/keyboard_interface
+  sources:
+  - src/keyboard_interface.c
+  include_directories:
+  - path: src
+    scope: PUBLIC
+- name: components_examples_hello_gmock
+  path: components/examples/hello_gmock
+  docs_sources:
+  - doc/index.md
+  sources:
+  - src/hello_gmock.c
+  testing:
+    sources:
+    - test/test_hello_gmock_suite.cc
+  include_directories:
+  - path: src
+    scope: PUBLIC
+- name: components_examples_flight_controller
+  path: components/examples/flight_controller
+  docs_sources:
+  - doc/index.md
+  sources:
+  - src/flight_controller.c
+  testing:
+    sources:
+    - test/test_flight_controller.cc
+  include_directories:
+  - path: src
+    scope: PUBLIC
+  required_components:
+  - components/rte
+- name: components_main
+  path: components/main
+  sources:
+  - src/main.c
+  include_directories:
+  - path: src
+    scope: PUBLIC
+  required_components:
+  - components/os
+- name: components_os
+  path: components/os
+  sources:
+  - src/os.c
+  include_directories:
+  - path: src
+    scope: PUBLIC
+  required_components:
+  - components/spled
+- name: components_spled
+  path: components/spled
+  sources:
+  - src/spled.c
+  testing:
+    sources:
+    - test/test_spled.cc
+  include_directories:
+  - path: src
+    scope: PUBLIC
+  required_components:
+  - components/brightness_controller
+  - components/console_interface
+  - components/keyboard_interface
+  - components/light_controller
+  - components/main_control_knob
+  - components/power_button
+  - components/power_signal_processing
+  - components/rte
+- name: components_power_signal_processing
+  path: components/power_signal_processing
+  docs_sources:
+  - doc/index.md
+  sources:
+  - src/power_signal_processing.c
+  testing:
+    sources:
+    - test/test_power_signal_processing.cc
+  include_directories:
+  - path: src
+    scope: PUBLIC
+  required_components:
+  - components/rte
+- name: components_light_controller
+  path: components/light_controller
+  docs_sources:
+  - doc/index.md
+  sources:
+  - src/light_controller.c
+  testing:
+    sources:
+    - test/test_light_controller.cc
+  include_directories:
+  - path: src
+    scope: PUBLIC
+  required_components:
+  - components/rte
+- name: components_power_button
+  path: components/power_button
+  docs_sources:
+  - doc/index.md
+  sources:
+  - src/power_button.c
+  testing:
+    sources:
+    - test/test_power_button.cc
+  include_directories:
+  - path: src
+    scope: PUBLIC
+  required_components:
+  - components/rte
+- name: components_console_interface
+  path: components/console_interface
+  sources:
+  - src/console_interface.c
+  include_directories:
+  - path: src
+    scope: PUBLIC
+  required_components:
+  - components/rte
+- name: components_main_control_knob
+  path: components/main_control_knob
+  docs_sources:
+  - doc/index.md
+  sources:
+  - src/main_control_knob.c
+  testing:
+    sources:
+    - test/test_main_control_knob.cc
+  include_directories:
+  - path: src
+    scope: PUBLIC
+  required_components:
+  - components/rte
+- name: test_integrations_spled
+  path: test/integrations/spled
+  sources:
+  - spled/src/spled.c
+  - rte/src/rte.c
+  - brightness_controller/src/brightness_controller.c
+  - light_controller/src/light_controller.c
+  - main_control_knob/src/main_control_knob.c
+  - power_button/src/power_button.c
+  - power_signal_processing/src/power_signal_processing.c
+  testing:
+    sources:
+    - test_spled.cc
+  include_directories:
+  - path: brightness_controller/src
+    scope: PUBLIC
+  - path: light_controller/src
+    scope: PUBLIC
+  - path: main_control_knob/src
+    scope: PUBLIC
+  - path: power_button/src
+    scope: PUBLIC
+  - path: power_signal_processing/src
+    scope: PUBLIC
+  - path: rte/src
+    scope: PUBLIC
+  - path: spled/src
+    scope: PUBLIC
+  required_components:
+  - components/rte
+  - components/spled
+- name: components_brightness_controller
+  path: components/brightness_controller
+  docs_sources:
+  - doc/index.md
+  sources:
+  - src/brightness_controller.c
+  testing:
+    sources:
+    - test/test_brightness_controller.cc
+  include_directories:
+  - path: src
+    scope: PUBLIC
+  required_components:
+  - components/rte
+
+# Define variants
+variants:
+- name: Base/Dev
+  description: Auto-generated variant for Base/Dev
+  components:
+  - components_rte
+  - components_keyboard_interface
+  - components_examples_hello_gmock
+  - components_examples_flight_controller
+  config_file: variants/Base/Dev/config.txt
+- name: Disco
+  description: Auto-generated variant for Disco
+  components:
+  - components_main
+  - components_os
+  - components_rte
+  - components_spled
+  - components_power_signal_processing
+  - components_light_controller
+  - components_power_button
+  - components_console_interface
+  - components_keyboard_interface
+  - components_main_control_knob
+  config_file: variants/Disco/config.txt
+  platforms:
+    gtest:
+      components: [test_integrations_spled]
+
+- name: Sleep
+  description: Auto-generated variant for Sleep
+  components:
+  - components_main
+  - components_os
+  - components_rte
+  - components_spled
+  - components_power_signal_processing
+  - components_light_controller
+  - components_power_button
+  - components_console_interface
+  - components_keyboard_interface
+  - components_main_control_knob
+  - components_brightness_controller
+  config_file: variants/Sleep/config.txt
+- name: Spa
+  description: Auto-generated variant for Spa
+  components:
+  - components_main
+  - components_os
+  - components_rte
+  - components_spled
+  - components_power_signal_processing
+  - components_light_controller
+  - components_power_button
+  - components_console_interface
+  - components_keyboard_interface
+  - components_main_control_knob
+  - components_brightness_controller
+  config_file: variants/Spa/config.txt

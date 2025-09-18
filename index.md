@@ -2,9 +2,9 @@
 
 # Software Component Report - {{ report_data.component_name }}
 
-**Variant:** {{ report_data.variant }}</br>
+**Variant:** {{ report_data.variant_name }}</br>
 **Component:** {{ report_data.component_name }}</br>
-**Platform:** {{ report_data.platform }}</br>
+**Platform:** {{ report_data.platform_name }}</br>
 **Timestamp:** {{ env.timestamp }}
 
 {{ report_data.create_component_myst_toc(report_data.component_name) }}
@@ -13,17 +13,17 @@
 
 # Variant Report
 
-**Variant:** {{ report_data.variant }}</br>
-**Platform:** {{ report_data.platform }}</br>
+**Variant:** {{ report_data.variant_name }}</br>
+**Platform:** {{ report_data.platform_name }}</br>
 **Timestamp:** {{ env.timestamp }}
 
 
 ```{toctree}
-:maxdepth: 1
+:maxdepth: 3
 :caption: Contents
 
-doc/software_architecture/index
-doc/components/index
+/doc/software_architecture/index
+/doc/components
 {% for file in report_data.get_variant_files_list() %}
 /{{ file }}
 {% endfor %}
