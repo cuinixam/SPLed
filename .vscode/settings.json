@@ -12,7 +12,7 @@
         "editor.defaultFormatter": "josetr.cmake-language-support-vscode"
     },
     "cmake.configureOnOpen": false,
-    "cmake.buildDirectory": "${workspaceFolder}/build/${variant:variant}/${buildKit}",
+    "cmake.buildDirectory": "${workspaceFolder}/.yanga/build/vscode/${variant:variant}/${buildKit}",
     "cmake.configureSettings": {
         "PLATFORM": "${buildKit}",
         "CMAKE_MESSAGE_LOG_LEVEL": "STATUS",
