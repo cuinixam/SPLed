@@ -13,7 +13,6 @@ extern "C"
 #include "mockup_components_examples_hello_gmock.h"
 
 /**
- * @rst
  * ```{test} hello_gmock_suite.get_interface
  *    :id: TS_COMP_A_010
  *    :tests: SWDD_COMP_A-010
@@ -31,7 +30,6 @@ TEST(hello_gmock_suite, get_interface)
 }
 
 /**
- * @rst
  * ```{test} hello_gmock_suite.get_by_pointer
  *    :id: TS_COMP_A_020
  *    :tests: SWDD_COMP_A-020
@@ -49,7 +47,6 @@ TEST(hello_gmock_suite, get_by_pointer)
 }
 
 /**
- * @rst
  * ```{test} hello_gmock_suite.get_by_pointer_and_return_value
  *    :id: TS_COMP_A_030
  *    :tests: SWDD_COMP_A-030
@@ -70,7 +67,6 @@ TEST(hello_gmock_suite, get_by_pointer_and_return_value)
 }
 
 /**
- * @rst
  * ```{test} hello_gmock_suite.get_data_structure_by_pointer
  *    :id: TS_COMP_A_040
  *    :tests: SWDD_COMP_A-040
@@ -95,7 +91,6 @@ TEST(hello_gmock_suite, get_data_structure_by_pointer)
 }
 
 /**
- * @rst
  * ```{test} hello_gmock_suite.get_data_structure_by_pointer_1
  *    :id: TS_COMP_A_041
  *    :tests: SWDD_COMP_A-040
@@ -124,7 +119,6 @@ TEST(hello_gmock_suite, get_data_structure_by_pointer_1)
 }
 
 /**
- * @rst
  * ```{test} hello_gmock_suite.get_data_structure_array
  *    :id: TS_COMP_A_050
  *    :tests: SWDD_COMP_A-050
@@ -151,7 +145,6 @@ TEST(hello_gmock_suite, get_data_structure_array)
 }
 
 /**
- * @rst
  * ```{test} hello_gmock_suite.set_data
  *    :id: TS_COMP_A_110
  *    :tests: SWDD_COMP_A-110
@@ -169,7 +162,6 @@ TEST(hello_gmock_suite, set_data)
 }
 
 /**
- * @rst
  * ```{test} hello_gmock_suite.set_data_by_pointer
  *    :id: TS_COMP_A_120
  *    :tests: SWDD_COMP_A-120

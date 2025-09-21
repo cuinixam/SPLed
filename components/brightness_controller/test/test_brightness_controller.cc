@@ -21,7 +21,6 @@ extern "C"
 #ifdef CONFIG_BRIGHTNESS_ADJUSTMENT_AUTOMATIC
 
 /**
- * @rst
  * ```{test} brightness_controller.test_brightness_ramp
  *    :id: TS_BC-002
  *   :tests: SWDD_BC-100, SWDD_BC-102, SWDD_BC-203
@@ -65,7 +64,6 @@ TEST(brightness_controller, test_brightness_ramp)
 }
 
 /**
- * @rst
  * ```{test} brightness_controller.test_brightness_controller_auto
  *    :id: TS_BC-003
  *    :tests: SWDD_BC-200, SWDD_BC-202, SWDD_BC-203
@@ -99,7 +97,6 @@ TEST(brightness_controller, test_brightness_controller_auto)
 #else /* CONFIG_BRIGHTNESS_ADJUSTMENT_AUTOMATIC */
 
 /**
- * @rst
  * ```{test} brightness_controller.test_brightness_knob
  *    :id: TS_BC-001
  *    :tests: SWDD_BC-100, SWDD_BC-101, SWDD_BC-200, SWDD_BC-201, SWDD_BC-202

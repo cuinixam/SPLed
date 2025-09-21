@@ -44,7 +44,6 @@ INSTANTIATE_TEST_SUITE_P(
         CheckAbortParam{false, false, false, false, "No abort, not off course"}));
 
 /**
- * @rst
  * ```{test} CheckAbortCases/CheckAbortParamTest.ReturnsExpectedResult/*
  *    :id: TS_FC-100
  *    :tests: SWDD_FC-100, SWDD_FC-101, SWDD_FC-102
@@ -70,7 +69,6 @@ INSTANTIATE_TEST_SUITE_P(
         CheckAbortParam{false, false, false, false, "No abort, not off course"}));
 
 /**
- * @rst
  * ```{test} FlightControllerCases/FlightControllerParamTest.SetsExpectedSelfDestructState/*
  *    :id: TS_FC-001
  *    :tests: SWDD_FC-100, SWDD_FC-101, SWDD_FC-102, SWDD_FC-103,

@@ -7,7 +7,6 @@
 #include "rte.h"
 
 /**
- * @rst
  *
  * ```{impl} Power signal processing
  *    :id: SWIMPL_PSP-001

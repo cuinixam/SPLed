@@ -62,7 +62,6 @@ std::ostream &operator<<(std::ostream &os, const RGBColor &color)
 }
 
 /**
- * @rst
  *
  * ```{test} light_controller.test_light_stays_off
  *    :id: TS_LC-006
@@ -86,7 +85,6 @@ TEST(light_controller, test_light_stays_off)
 
 #ifdef CONFIG_BRIGHTNESS_ADJUSTMENT_AUTOMATIC
 /**
- * @rst
  * ```{test} light_controller.test_brightness_adjustment_automatic
  *    :id: TS_LC-005
  *    :tests: SWDD_LC-100, SWDD_LC-200, SWDD_LC-201, SWDD_LC-202
@@ -114,7 +112,6 @@ TEST(light_controller, test_brightness_adjustment_automatic)
 #else /* CONFIG_BRIGHTNESS_ADJUSTMENT_AUTOMATIC */
 
 /**
- * @rst
  *
  * ```{test} light_controller.test_light_on_and_off
  *    :id: TS_LC-001
@@ -156,7 +153,6 @@ TEST(light_controller, test_light_on_and_off)
 
 #if CONFIG_BLINKING
 /**
- * @rst
  *
  * ```{test} light_controller.test_light_blinking
  *    :id: TS_LC-002
@@ -225,7 +221,6 @@ std::ostream &operator<<(std::ostream &os, const TestParam &param)
 }
 
 /**
- * @rst
  *
  * ```{test} light_controller.test_correct_blink_period
  *    :id: TS_LC-004
@@ -251,7 +246,6 @@ TEST(light_controller, test_correct_blink_period)
 }
 
 /**
- * @rst
  *
  * ```{test} BlinkPeriodTests/BlinkPeriodTest.CalculatesCorrectBlinkPeriod/*
  *    :id: TS_LC-003

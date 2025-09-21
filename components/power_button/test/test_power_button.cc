@@ -23,7 +23,6 @@ protected:
 };
 
 /*!
- * @rst
  *
  * ```{test} PowerButtonTest.InitialStateIsReleased
  *    :id: TS_PB-001
@@ -42,7 +41,6 @@ TEST_F(PowerButtonTest, InitialStateIsReleased)
 }
 
 /*!
- * @rst
  *
  * ```{test} PowerButtonTest.PressEventSentOnlyAfterDebounce
  *    :id: TS_PB-002
@@ -69,7 +67,6 @@ TEST_F(PowerButtonTest, PressEventSentOnlyAfterDebounce)
 }
 
 /*!
- * @rst
  *
  * ```{test} PowerButtonTest.FullPressAndReleaseCycle
  *    :id: TS_PB-003
@@ -143,7 +140,6 @@ TEST_F(PowerButtonTest, FullPressAndReleaseCycle)
 }
 
 /*!
- * @rst
  *
  * ```{test} PowerButtonTest.InitToReleasedTransition
  *    :id: TS_PB-004
