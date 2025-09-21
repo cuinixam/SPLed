@@ -144,18 +144,17 @@ components:
   required_components:
   - components/rte
 - name: test_integrations_spled
-  path: test/integrations/spled
   sources:
-  - spled/src/spled.c
-  - rte/src/rte.c
-  - brightness_controller/src/brightness_controller.c
-  - light_controller/src/light_controller.c
-  - main_control_knob/src/main_control_knob.c
-  - power_button/src/power_button.c
-  - power_signal_processing/src/power_signal_processing.c
+  - components/spled/src/spled.c
+  - components/rte/src/rte.c
+  - components/brightness_controller/src/brightness_controller.c
+  - components/light_controller/src/light_controller.c
+  - components/main_control_knob/src/main_control_knob.c
+  - components/power_button/src/power_button.c
+  - components/power_signal_processing/src/power_signal_processing.c
   testing:
     sources:
-    - test_spled.cc
+    - test/integrations/spled/test_spled.cc
   include_directories:
   - path: brightness_controller/src
     scope: PUBLIC
@@ -198,7 +197,6 @@ variants:
   - components_keyboard_interface
   - components_examples_hello_gmock
   - components_examples_flight_controller
-  features_selection_file: variants/Base/Dev/config.txt
 - name: Disco
   description: Auto-generated variant for Disco
   components:
