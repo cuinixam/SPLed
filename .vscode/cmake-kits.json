@@ -1,11 +1,10 @@
 [
   {
-    "name": "prod",
-    "environmentSetupScript": "${workspaceFolder}/build/env_setup.bat"
+    "name": "win_exe",
+    "toolchainFile": "platforms/clang.cmake"
   },
   {
-    "name": "test",
-    "toolchainFile": "tools/toolchains/gcc/toolchain.cmake",
-    "environmentSetupScript": "${workspaceFolder}/build/env_setup.bat"
+    "name": "gtest",
+    "toolchainFile": "platforms/gcc.cmake"
   }
 ]

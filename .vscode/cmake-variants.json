@@ -2,34 +2,33 @@
   "variant": {
     "choices": {
       "Base/Dev": {
+        "short": "Base/Dev",
         "settings": {
           "VARIANT": "Base/Dev"
-        },
-        "short": "Base/Dev"
+        }
       },
       "Disco": {
+        "short": "Disco",
         "settings": {
           "VARIANT": "Disco"
-        },
-        "short": "Disco"
+        }
       },
       "Sleep": {
+        "short": "Sleep",
         "settings": {
           "VARIANT": "Sleep"
-        },
-        "short": "Sleep"
+        }
       },
       "Spa": {
+        "short": "Spa",
         "settings": {
           "VARIANT": "Spa"
-        },
-        "short": "Spa"
+        }
       }
     },
-    "default": "Disco"
+    "default": "Base/Dev"
   },
   "buildType": {
-    "default": "Debug",
     "choices": {
       "Debug": {
         "short": "Debug",
@@ -39,6 +38,7 @@
         "short": "Release",
         "buildType": "Release"
       }
-    }
+    },
+    "default": "Debug"
   }
 }

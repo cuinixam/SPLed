@@ -12,7 +12,8 @@
         "editor.defaultFormatter": "josetr.cmake-language-support-vscode"
     },
     "cmake.configureOnOpen": false,
-    "cmake.buildDirectory": "${workspaceFolder}/.yanga/build/vscode/${variant:variant}/${buildKit}",
+    "cmake.configureOnEdit": false,
+    "cmake.buildDirectory": "${workspaceFolder}/.yanga/build/${variant:variant}/${buildKit}",
     "cmake.configureSettings": {
         "PLATFORM": "${buildKit}",
         "CMAKE_MESSAGE_LOG_LEVEL": "STATUS",
@@ -23,7 +24,6 @@
         "miDebuggerPath": "gdb",
         "stopAtEntry": true
     },
-    "cmake.configureOnEdit": false,
     "cmake.buildBeforeRun": true,
     "cmake.options.statusBarVisibility": "compact",
     "cmake.buildToolArgs": [],
