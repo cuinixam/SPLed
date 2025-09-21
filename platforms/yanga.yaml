@@ -18,7 +18,7 @@ platforms:
         config:
             mocking:
               enabled: true
-              strict: true
+              strict: false
               exclude_symbol_patterns:
                 - "_*"
       - step: CppCheckCMakeGenerator
