@@ -198,7 +198,7 @@ variants:
   - components_keyboard_interface
   - components_examples_hello_gmock
   - components_examples_flight_controller
-  config_file: variants/Base/Dev/config.txt
+  features_selection_file: variants/Base/Dev/config.txt
 - name: Disco
   description: Auto-generated variant for Disco
   components:
@@ -212,7 +212,7 @@ variants:
   - components_console_interface
   - components_keyboard_interface
   - components_main_control_knob
-  config_file: variants/Disco/config.txt
+  features_selection_file: variants/Disco/config.txt
   platforms:
     gtest:
       components: [test_integrations_spled]
@@ -231,7 +231,7 @@ variants:
   - components_keyboard_interface
   - components_main_control_knob
   - components_brightness_controller
-  config_file: variants/Sleep/config.txt
+  features_selection_file: variants/Sleep/config.txt
 - name: Spa
   description: Auto-generated variant for Spa
   components:
@@ -246,4 +246,4 @@ variants:
   - components_keyboard_interface
   - components_main_control_knob
   - components_brightness_controller
-  config_file: variants/Spa/config.txt
+  features_selection_file: variants/Spa/config.txt
