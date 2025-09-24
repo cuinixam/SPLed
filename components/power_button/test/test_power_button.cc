@@ -11,7 +11,7 @@ extern "C"
 #include "rte.h"
 }
 
-#include "mockup_components_power_button.h"
+#include "mockup_power_button.h"
 
 class PowerButtonTest : public Test
 {

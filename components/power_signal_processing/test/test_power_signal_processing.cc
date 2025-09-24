@@ -10,7 +10,7 @@ extern "C"
 #include "power_signal_processing.h"
 }
 
-#include "mockup_components_power_signal_processing.h"
+#include "mockup_power_signal_processing.h"
 
 /*!
  *

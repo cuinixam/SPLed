@@ -16,7 +16,7 @@ extern "C"
 }
 
 // Auto-generated mockups for this component
-#include "mockup_components_brightness_controller.h"
+#include "mockup_brightness_controller.h"
 
 #ifdef CONFIG_BRIGHTNESS_ADJUSTMENT_AUTOMATIC
 

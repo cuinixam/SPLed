@@ -10,7 +10,7 @@ extern "C"
 #include "hello_gmock.h"
 }
 
-#include "mockup_components_examples_hello_gmock.h"
+#include "mockup_examples_hello_gmock.h"
 
 /**
  * ```{test} hello_gmock_suite.get_interface

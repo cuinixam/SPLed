@@ -1,5 +1,5 @@
 components:
-- name: components_rte
+- name: rte
   path: components/rte
   sources:
   - src/rte.c
@@ -8,14 +8,14 @@ components:
     scope: PUBLIC
   required_components:
   - components/keyboard_interface
-- name: components_keyboard_interface
+- name: keyboard_interface
   path: components/keyboard_interface
   sources:
   - src/keyboard_interface.c
   include_directories:
   - path: src
     scope: PUBLIC
-- name: components_examples_hello_gmock
+- name: examples_hello_gmock
   path: components/examples/hello_gmock
   docs_sources:
   - doc/index.md
@@ -27,7 +27,7 @@ components:
   include_directories:
   - path: src
     scope: PUBLIC
-- name: components_examples_flight_controller
+- name: examples_flight_controller
   path: components/examples/flight_controller
   docs_sources:
   - doc/index.md
@@ -41,7 +41,7 @@ components:
     scope: PUBLIC
   required_components:
   - components/rte
-- name: components_main
+- name: main
   path: components/main
   sources:
   - src/main.c
@@ -50,7 +50,7 @@ components:
     scope: PUBLIC
   required_components:
   - components/os
-- name: components_os
+- name: os
   path: components/os
   sources:
   - src/os.c
@@ -59,7 +59,7 @@ components:
     scope: PUBLIC
   required_components:
   - components/spled
-- name: components_spled
+- name: spled
   path: components/spled
   sources:
   - src/spled.c
@@ -78,7 +78,7 @@ components:
   - components/power_button
   - components/power_signal_processing
   - components/rte
-- name: components_power_signal_processing
+- name: power_signal_processing
   path: components/power_signal_processing
   docs_sources:
   - doc/index.md
@@ -92,7 +92,7 @@ components:
     scope: PUBLIC
   required_components:
   - components/rte
-- name: components_light_controller
+- name: light_controller
   path: components/light_controller
   docs_sources:
   - doc/index.md
@@ -106,7 +106,7 @@ components:
     scope: PUBLIC
   required_components:
   - components/rte
-- name: components_power_button
+- name: power_button
   path: components/power_button
   docs_sources:
   - doc/index.md
@@ -120,7 +120,7 @@ components:
     scope: PUBLIC
   required_components:
   - components/rte
-- name: components_console_interface
+- name: console_interface
   path: components/console_interface
   sources:
   - src/console_interface.c
@@ -129,7 +129,7 @@ components:
     scope: PUBLIC
   required_components:
   - components/rte
-- name: components_main_control_knob
+- name: main_control_knob
   path: components/main_control_knob
   docs_sources:
   - doc/index.md
@@ -162,7 +162,7 @@ components:
   # the productive code from other components.
   docs:
     exclude_productive_code: true
-- name: components_brightness_controller
+- name: brightness_controller
   path: components/brightness_controller
   docs_sources:
   - doc/index.md
@@ -182,23 +182,23 @@ variants:
 - name: Base/Dev
   description: Auto-generated variant for Base/Dev
   components:
-  - components_rte
-  - components_keyboard_interface
-  - components_examples_hello_gmock
-  - components_examples_flight_controller
+  - rte
+  - keyboard_interface
+  - examples_hello_gmock
+  - examples_flight_controller
 - name: Disco
   description: Auto-generated variant for Disco
   components:
-  - components_main
-  - components_os
-  - components_rte
-  - components_spled
-  - components_power_signal_processing
-  - components_light_controller
-  - components_power_button
-  - components_console_interface
-  - components_keyboard_interface
-  - components_main_control_knob
+  - main
+  - os
+  - rte
+  - spled
+  - power_signal_processing
+  - light_controller
+  - power_button
+  - console_interface
+  - keyboard_interface
+  - main_control_knob
   features_selection_file: variants/Disco/config.txt
   platforms:
     gtest:
@@ -207,30 +207,30 @@ variants:
 - name: Sleep
   description: Auto-generated variant for Sleep
   components:
-  - components_main
-  - components_os
-  - components_rte
-  - components_spled
-  - components_power_signal_processing
-  - components_light_controller
-  - components_power_button
-  - components_console_interface
-  - components_keyboard_interface
-  - components_main_control_knob
-  - components_brightness_controller
+  - main
+  - os
+  - rte
+  - spled
+  - power_signal_processing
+  - light_controller
+  - power_button
+  - console_interface
+  - keyboard_interface
+  - main_control_knob
+  - brightness_controller
   features_selection_file: variants/Sleep/config.txt
 - name: Spa
   description: Auto-generated variant for Spa
   components:
-  - components_main
-  - components_os
-  - components_rte
-  - components_spled
-  - components_power_signal_processing
-  - components_light_controller
-  - components_power_button
-  - components_console_interface
-  - components_keyboard_interface
-  - components_main_control_knob
-  - components_brightness_controller
+  - main
+  - os
+  - rte
+  - spled
+  - power_signal_processing
+  - light_controller
+  - power_button
+  - console_interface
+  - keyboard_interface
+  - main_control_knob
+  - brightness_controller
   features_selection_file: variants/Spa/config.txt

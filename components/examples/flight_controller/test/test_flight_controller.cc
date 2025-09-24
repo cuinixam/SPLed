@@ -13,7 +13,7 @@ extern "C"
 #include "rte.h"
 }
 
-#include "mockup_components_examples_flight_controller.h"
+#include "mockup_examples_flight_controller.h"
 
 struct CheckAbortParam
 {
