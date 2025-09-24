@@ -155,24 +155,13 @@ components:
   testing:
     sources:
     - test/integrations/spled/test_spled.cc
-  include_directories:
-  - path: brightness_controller/src
-    scope: PUBLIC
-  - path: light_controller/src
-    scope: PUBLIC
-  - path: main_control_knob/src
-    scope: PUBLIC
-  - path: power_button/src
-    scope: PUBLIC
-  - path: power_signal_processing/src
-    scope: PUBLIC
-  - path: rte/src
-    scope: PUBLIC
-  - path: spled/src
-    scope: PUBLIC
   required_components:
   - components/rte
   - components/spled
+  # This component is only for integration testing and should not document
+  # the productive code from other components.
+  docs:
+    exclude_productive_code: true
 - name: components_brightness_controller
   path: components/brightness_controller
   docs_sources:
