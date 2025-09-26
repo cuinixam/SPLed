@@ -1,0 +1,16 @@
+components:
+- name: blink_led
+  path: components/arduino/examples
+  sources:
+  - blink_led.cpp
+  include_directories:
+  - path: .
+    scope: PUBLIC
+  required_components:
+  - arduino_core
+
+
+variants:
+- name: BlinkLed
+  description: Used for testing the arduino setup
+  components: [blink_led]

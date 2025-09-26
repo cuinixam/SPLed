@@ -1,0 +1,10 @@
+components:
+- name: main_arduino
+  path: components/arduino
+  sources:
+  - main.cpp
+  include_directories:
+  - path: .
+    scope: PUBLIC
+  required_components:
+  - arduino_core
