@@ -1,0 +1,15 @@
+variants:
+- name: Sleep
+  description: The LED has a constant color and one can change the brightness
+  components:
+  - rte
+  - spled
+  - power_signal_processing
+  - light_controller
+  - power_button
+  - main_control_knob
+  - brightness_controller
+  features_selection_file: variants/Sleep/config.txt
+  platforms:
+    win_exe:
+      components: [console_interface, keyboard_interface]

@@ -1,6 +1,12 @@
 {
   "variant": {
     "choices": {
+      "BlinkLed": {
+        "short": "BlinkLed",
+        "settings": {
+          "VARIANT": "BlinkLed"
+        }
+      },
       "Base/Dev": {
         "short": "Base/Dev",
         "settings": {
@@ -26,7 +32,7 @@
         }
       }
     },
-    "default": "Base/Dev"
+    "default": "BlinkLed"
   },
   "buildType": {
     "choices": {

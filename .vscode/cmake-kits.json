@@ -1,10 +1,18 @@
 [
   {
     "name": "win_exe",
-    "toolchainFile": "platforms/clang.cmake"
+    "toolchainFile": "clang.cmake"
   },
   {
     "name": "gtest",
-    "toolchainFile": "platforms/gcc.cmake"
+    "toolchainFile": "gcc.cmake"
+  },
+  {
+    "name": "arduino_nano",
+    "toolchainFile": "arduino_nano.cmake"
+  },
+  {
+    "name": "arduino_uno_r3",
+    "toolchainFile": "arduino_uno_r3.cmake"
   }
 ]

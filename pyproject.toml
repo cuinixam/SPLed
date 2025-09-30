@@ -27,3 +27,19 @@ line-length = 180
 
 [tool.yanga]
 create_yanga_build_dir = true
+
+[tool.pytest.ini_options]
+pythonpath = ["test"]
+testpaths = ["test"]
+junit_logging = "all"
+addopts = [
+    "--capture=tee-sys",
+    "-vv"
+]
+markers = [
+    "just_a_try: mark a test as a try",
+    "unittests: tests of individual units of code",
+    "report: tests of the report generation",
+    "build: tests of the target builds",
+    "static_analysis: tests of static code analysis"
+]

@@ -39,3 +39,18 @@ set(CMAKE_ASM_FLAGS "-mmcu=${MCU} -x assembler-with-cpp -MMD -flto")
 
 # Linker flags
 set(CMAKE_EXE_LINKER_FLAGS "-mmcu=${MCU} -Os -Wl,--gc-sections -flto -fuse-linker-plugin -lm")
+
+set(COMPILE_C_FLAGS "-DSPLE_TESTABLE_STATIC=static ")
+add_compile_options(
+    "$<$<COMPILE_LANGUAGE:C>:${COMPILE_C_FLAGS}>"
+)
+
+# Find compiler path and add its path as include directory
+find_program(AVR_GCC avr-gcc)
+if(NOT AVR_GCC)
+    message(FATAL_ERROR "avr-gcc not found. Please install the AVR toolchain and ensure it's in your PATH.")
+endif()
+message(STATUS "Found avr-gcc: ${AVR_GCC}")
+get_filename_component(AVR_GCC_PATH "${AVR_GCC}" PATH)
+set(AVR_COMPILER_INCLUDE "${AVR_GCC_PATH}/../avr/include")
+add_compile_options(-I${AVR_COMPILER_INCLUDE})

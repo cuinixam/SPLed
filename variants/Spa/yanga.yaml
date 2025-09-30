@@ -1,0 +1,17 @@
+variants:
+- name: Spa
+  description: The LED brightness pulsates and cycles through different colors
+  components:
+  - rte
+  - spled
+  - power_signal_processing
+  - light_controller
+  - power_button
+  - main_control_knob
+  - brightness_controller
+  features_selection_file: variants/Spa/config.txt
+  platforms:
+    win_exe:
+      components: [console_interface, keyboard_interface]
+    arduino_uno_r3:
+      components: [arduino_button, arduino_led]

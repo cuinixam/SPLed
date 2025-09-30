@@ -207,10 +207,6 @@ void lightController(void)
     unsigned int blinkPeriod = calculateBlinkPeriod(mainKnobValue);
 #endif
 
-#if LOGGING_ENABLED
-    RteLoggerPrintToConsole(LOG_LEVEL_DEBUG, "Light controller: power state = %d, main knob value = %d, blink period = %d", powerState, mainKnobValue, blinkPeriod);
-#endif
-
     switch (currentLightState)
     {
     case LIGHT_OFF:

@@ -29,7 +29,7 @@ menu "Features"
             This option allows you to set the period for brightness adjustment.
             The value is in seconds and can be set between 1 and 60 seconds.
 
-    source "components/os/KConfig"
+    source "platforms/KConfig"
     source "components/light_controller/KConfig"
 
 endmenu

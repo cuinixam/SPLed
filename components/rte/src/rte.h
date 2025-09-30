@@ -6,36 +6,21 @@
 #ifndef RTE_H
 #define RTE_H
 
-#include <stdint.h>
-
 #include "autoconf.h"
-
-/** @brief Boolean type definition. */
-typedef unsigned char boolean;
-
-/** @brief Macro for boolean TRUE. */
-#define TRUE 1
-
-/** @brief Macro for boolean FALSE. */
-#define FALSE 0
-
-#define LOGGING_ENABLED 0
-
-#if LOGGING_ENABLED
-/**
- * @brief Enumerated type for log levels.
- */
-typedef enum
-{
-    LOG_LEVEL_DEBUG = 0,
-    LOG_LEVEL_INFO = 1,
-    LOG_LEVEL_WARNING = 2,
-    LOG_LEVEL_ERROR = 3
-} LogLevel;
-#endif
+#include "platform_types.h"
 
 /** @brief Configure the brightness adjustment task period use to calculate transition times. */
 #define BRIGHTNESS_TASK_PERIOD CONFIG_OS_TASK_PERIOD
+
+/**
+ * @brief Enumerated type for the input keys.
+ */
+typedef enum
+{
+    KEY_UP = 0x26,          /**< Up arrow key. */
+    KEY_DOWN = 0x28,        /**< Down arrow key. */
+    POWER_BUTTON_KEY = 'P', /**< Power button key. */
+} KeyCodes;
 
 /**
  * @brief Enumerated type for power states.
@@ -124,7 +109,7 @@ void RteGetLightValue(RGBColor *value);
  * @param key The virtual-key code of the key to be checked.
  * @return TRUE if the key is pressed, FALSE otherwise.
  */
-boolean RteIsKeyPressed(int key);
+boolean RteIsKeyPressed(KeyCodes key);
 
 /**
  * @brief Sets the value of the main knob.
@@ -188,18 +173,6 @@ void RteSetBrightnessAdjustmentCounter(unsigned int counter);
 void RteGetBrightnessAdjustmentCounter(unsigned int *counter);
 #endif // CONFIG_BRIGHTNESS_ADJUSTMENT_PERIOD
 
-#if LOGGING_ENABLED
-/**
- * @brief Prints a message to the console.
- *
- * This function prints a message to the console with the given log level.
- *
- * @param[in] level The log level of the message.
- * @param[in] message The message to print.
- */
-void RteLoggerPrintToConsole(LogLevel level, const char *message, ...);
-#endif
-
 /**
  * @brief Retrieves whether the system is off course.
  *
@@ -227,5 +200,9 @@ boolean RteGetValidAbortCommand(void);
  * @param state TRUE to trigger SelfDestruct, FALSE otherwise.
  */
 void RteSetSelfDestructState(boolean state);
+
+// These tasks must be implemented by the application
+void Task_100ms(void);
+void Task_10ms(void);
 
 #endif // RTE_H

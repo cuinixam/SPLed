@@ -47,14 +47,14 @@ TEST_P(MainControlKnobTest, HandleKnobInput)
 
     CREATE_MOCK(mymock);
 
-    EXPECT_CALL(mymock, RteIsKeyPressed(0x26)).WillOnce(Return(param.arrowUpPressed)); // Arrow Up
+    EXPECT_CALL(mymock, RteIsKeyPressed(KEY_UP)).WillOnce(Return(param.arrowUpPressed)); // Arrow Up
     if (param.arrowUpPressed)
     {
-        EXPECT_CALL(mymock, RteIsKeyPressed(0x28)).Times(0); // Arrow Down should not be pressed
+        EXPECT_CALL(mymock, RteIsKeyPressed(KEY_DOWN)).Times(0); // Arrow Down should not be pressed
     }
     else
     {
-        EXPECT_CALL(mymock, RteIsKeyPressed(0x28)).WillOnce(Return(param.arrowDownPressed)); // Arrow Down
+        EXPECT_CALL(mymock, RteIsKeyPressed(KEY_DOWN)).WillOnce(Return(param.arrowDownPressed)); // Arrow Down
     }
     EXPECT_CALL(mymock, RteGetMainKnobValue()).WillOnce(Return(param.initialKnobValue));
     EXPECT_CALL(mymock, RteSetMainKnobValue(param.expectedKnobValue));

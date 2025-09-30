@@ -1,7 +1,7 @@
 #ifndef POWER_BUTTON_H
 #define POWER_BUTTON_H
 
-#define POWER_BUTTON_KEY 'P'
+#include "rte.h"
 
 #define POWER_BUTTON_PRESS_DEBOUNCE 10
 #define POWER_BUTTON_RELEASE_DEBOUNCE 10

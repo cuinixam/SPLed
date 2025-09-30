@@ -4,7 +4,7 @@
 #include "power_button.h"
 #include "power_signal_processing.h"
 #include "light_controller.h"
-#include "console_interface.h"
+#include "led_interface.h"
 #include "main_control_knob.h"
 #if defined(CONFIG_BRIGHTNESS_ADJUSTMENT_ENABLED) && CONFIG_BRIGHTNESS_ADJUSTMENT_ENABLED == 1
 #include "brightness_controller.h"
@@ -19,5 +19,21 @@ void spled(void)
     brightnessController();
 #endif
     lightController();
-    consoleInterface();
+    ledInterface();
+}
+
+void Task_100ms(void)
+{
+#if (defined(CONFIG_OS_TASK_PERIOD) && CONFIG_OS_TASK_PERIOD == 100)
+    // Call the main application function every 100ms
+    spled();
+#endif
+}
+
+void Task_10ms(void)
+{
+#if (defined(CONFIG_OS_TASK_PERIOD) && CONFIG_OS_TASK_PERIOD == 10)
+    // Call the main application function every 10ms
+    spled();
+#endif
 }

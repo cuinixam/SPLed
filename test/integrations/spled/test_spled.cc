@@ -15,8 +15,8 @@ TEST(spled, test_interface_call_order)
    RGBColor lightValue;
    CREATE_MOCK(mymock);
 
-   EXPECT_CALL(mymock, KeyboardInterfaceIsKeyPressed(_)).WillRepeatedly(Return(true));
-   EXPECT_CALL(mymock, consoleInterface()).Times(10);
+   EXPECT_CALL(mymock, ButtonInterfaceIsButtonPressed(_)).WillRepeatedly(Return(true));
+   EXPECT_CALL(mymock, ledInterface()).Times(10);
 
    /* Act */
    for (int i = 0; i < 10; i++)

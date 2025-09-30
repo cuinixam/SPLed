@@ -22,7 +22,7 @@ TEST(spled, test_interface_call_order)
    EXPECT_CALL(mymock, brightnessController()).Times(1);
 #endif
    EXPECT_CALL(mymock, lightController()).Times(1);
-   EXPECT_CALL(mymock, consoleInterface()).Times(1);
+   EXPECT_CALL(mymock, ledInterface()).Times(1);
 
    spled();
 }

@@ -1,107 +1,40 @@
 from pathlib import Path
-from typing import Generator
 
 import pytest
-from spl_core.test_utils.spl_build import SplBuild
-from spl_core.test_utils.artifacts_archiver import ArtifactsArchiver
+
+from yanga.commands.run import RunCommand, RunCommandConfig
 
 
 class Test_Spa:
-    variant: str = "Spa"
-    components = [
-        "components/power_signal_processing",
-        "components/light_controller",
-        "components/power_button",
-        "components/main_control_knob",
-        "components/brightness_controller",
-    ]
-
-    @pytest.fixture(scope="class")
-    def archiver(self) -> Generator[ArtifactsArchiver, None, None]:
-        archiver_instance = ArtifactsArchiver()
-        out_dir = Path("build", self.variant)
-        archiver_instance.add_archive(
-            archive_name="prod",
-            out_dir=out_dir,
-            archive_filename=self.variant + "_prod.7z",
-        )
-        archiver_instance.add_archive(
-            archive_name="test",
-            out_dir=out_dir,
-            archive_filename=self.variant + "_test.7z",
-        )
-        yield archiver_instance
-        # Create archive and RT upload JSON after all tests in the class have completed
-        archiver_instance.create_all_archives()
-
-    @pytest.mark.parametrize(
-        ("build_type"),
-        [
-            pytest.param("Debug", marks=pytest.mark.build_debug),
-            pytest.param("Release", marks=pytest.mark.build_release),
-        ],
-    )
-    def test_build(self, build_type, archiver: ArtifactsArchiver):
+    @pytest.mark.build
+    @pytest.mark.parametrize("platform", ["win_exe", "arduino_uno_r3"])
+    def test_build(self, platform: str):
         # Arrange
-        spl_build: SplBuild = SplBuild(
-            variant=self.variant,
-            build_kit="prod",
-            build_type=build_type,
-            target="all",
-        )
-        artifacts = spl_build.get_variant_artifacts()
-        artifacts.extend(
-            [
-                spl_build.build_dir / "spled.exe",
-                spl_build.build_dir / "kconfig",
-            ]
-        )
-        archiver.register(artifacts=artifacts, archive_name="prod")
-
-        # Act
-        result = spl_build.execute()
-
-        # Assert
-        assert result == 0, "Building failed"
-
-        for artifact in artifacts:
-            assert artifact.exists(), f"Variant artifact {artifact} does not exist"
-
-    @pytest.mark.unittests
-    def test_unittests(self):
-        # Arrange
-        spl_build: SplBuild = SplBuild(
-            variant=self.variant,
-            build_kit="test",
-            build_type="Debug",
-            target="unittests",
+        config = RunCommandConfig(
+            project_dir=Path.cwd(),
+            platform=platform,
+            variant_name="Spa",
+            not_interactive=True,
         )
 
         # Act
-        result = spl_build.execute()
+        result = RunCommand().do_run(config)
 
         # Assert
-        assert result == 0, "Building unittests failed"
-        artifacts = spl_build.get_components_artifacts(self.components)
-        for artifact in artifacts:
-            assert artifact.exists(), f"Artifact {artifact} does not exist"
+        assert result == 0, "Building variant failed"
 
-    @pytest.mark.reports
-    def test_reports(self, archiver: ArtifactsArchiver):
+    @pytest.mark.report
+    def test_report(self):
         # Arrange
-        spl_build: SplBuild = SplBuild(
-            variant=self.variant,
-            build_kit="test",
-            build_type="Debug",
-            target="reports",
+        config = RunCommandConfig(
+            project_dir=Path.cwd(),
+            platform="gtest",
+            variant_name="Spa",
+            not_interactive=True,
         )
-        archiver.register(artifacts=[spl_build.build_dir / "reports/html"], archive_name="test")
 
         # Act
-        result = spl_build.execute()
+        result = RunCommand().do_run(config)
 
         # Assert
-        assert result == 0, "Building reports failed"
-        artifacts = spl_build.get_components_artifacts(self.components)
-        for artifact in artifacts:
-            assert artifact.exists(), f"Artifact {artifact} does not exist"
+        assert result == 0, "Building variant failed"

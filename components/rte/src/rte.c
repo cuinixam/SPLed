@@ -1,13 +1,9 @@
 #include "rte.h"
-#include <windows.h>
-#include <stdio.h>
 #include "autoconf.h"
-#include "keyboard_interface.h"
+#include "button_interface.h"
 
 static PowerState currentPowerState = POWER_STATE_OFF;
 static boolean powerKeyPressedEvent = FALSE;
-static boolean arrowUpKeyPressed = FALSE;
-static boolean arrowDownKeyPressed = FALSE;
 static RGBColor lightValue = {
     .red = 0,
     .green = 0,
@@ -56,9 +52,9 @@ void RteGetLightValue(RGBColor *value)
     *value = lightValue;
 }
 
-boolean RteIsKeyPressed(int key)
+boolean RteIsKeyPressed(KeyCodes key)
 {
-    return KeyboardInterfaceIsKeyPressed(key);
+    return ButtonInterfaceIsButtonPressed(key);
 }
 
 void RteSetMainKnobValue(percentage_t value)
@@ -99,40 +95,6 @@ void RteGetBrightnessAdjustmentCounter(unsigned int *counter)
     *counter = brightnessAdjustmentCounter;
 }
 #endif // CONFIG_BRIGHTNESS_ADJUSTMENT_PERIOD
-
-#if LOGGING_ENABLED
-static const char *LogLevelToString(LogLevel level)
-{
-    switch (level)
-    {
-    case LOG_LEVEL_ERROR:
-        return "ERROR";
-    case LOG_LEVEL_WARNING:
-        return "WARNING";
-    case LOG_LEVEL_INFO:
-        return "INFO";
-    case LOG_LEVEL_DEBUG:
-        return "DEBUG";
-    default:
-        return "UNKNOWN";
-    }
-}
-
-void RteLoggerPrintToConsole(LogLevel level, const char *message, ...)
-{
-    va_list args;
-    va_start(args, message);
-
-    // Print log level
-    printf("[%s] ", LogLevelToString(level));
-    // Print message
-    vprintf(message, args);
-    // Print a new line
-    printf("\n");
-
-    va_end(args);
-}
-#endif
 
 void RteGetOffCourse(boolean *value)
 {

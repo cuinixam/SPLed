@@ -1,0 +1,8 @@
+variants:
+- name: Base/Dev
+  description: Auto-generated variant for Base/Dev
+  components:
+  - rte
+  - keyboard_interface
+  - examples_hello_gmock
+  - examples_flight_controller

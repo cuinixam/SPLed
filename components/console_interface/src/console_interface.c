@@ -1,4 +1,4 @@
-#include "console_interface.h"
+#include "led_interface.h"
 
 #include "rte.h"
 #include <stdio.h>
@@ -6,7 +6,7 @@
 
 static RGBColor previousLightValue = {255, 255, 255};
 
-void consoleInterface(void)
+void ledInterface(void)
 {
     RGBColor lightValue;
 

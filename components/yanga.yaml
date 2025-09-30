@@ -7,14 +7,14 @@ components:
   - path: src
     scope: PUBLIC
   required_components:
-  - components/keyboard_interface
+  - button_interface
+  - platform_types
 - name: keyboard_interface
   path: components/keyboard_interface
   sources:
   - src/keyboard_interface.c
-  include_directories:
-  - path: src
-    scope: PUBLIC
+  required_components:
+  - button_interface
 - name: examples_hello_gmock
   path: components/examples/hello_gmock
   docs_sources:
@@ -40,25 +40,7 @@ components:
   - path: src
     scope: PUBLIC
   required_components:
-  - components/rte
-- name: main
-  path: components/main
-  sources:
-  - src/main.c
-  include_directories:
-  - path: src
-    scope: PUBLIC
-  required_components:
-  - components/os
-- name: os
-  path: components/os
-  sources:
-  - src/os.c
-  include_directories:
-  - path: src
-    scope: PUBLIC
-  required_components:
-  - components/spled
+  - rte
 - name: spled
   path: components/spled
   sources:
@@ -70,14 +52,13 @@ components:
   - path: src
     scope: PUBLIC
   required_components:
-  - components/brightness_controller
-  - components/console_interface
-  - components/keyboard_interface
-  - components/light_controller
-  - components/main_control_knob
-  - components/power_button
-  - components/power_signal_processing
-  - components/rte
+  - brightness_controller
+  - led_interface
+  - light_controller
+  - main_control_knob
+  - power_button
+  - power_signal_processing
+  - rte
 - name: power_signal_processing
   path: components/power_signal_processing
   docs_sources:
@@ -91,7 +72,7 @@ components:
   - path: src
     scope: PUBLIC
   required_components:
-  - components/rte
+  - rte
 - name: light_controller
   path: components/light_controller
   docs_sources:
@@ -105,7 +86,7 @@ components:
   - path: src
     scope: PUBLIC
   required_components:
-  - components/rte
+  - rte
 - name: power_button
   path: components/power_button
   docs_sources:
@@ -119,7 +100,7 @@ components:
   - path: src
     scope: PUBLIC
   required_components:
-  - components/rte
+  - rte
 - name: console_interface
   path: components/console_interface
   sources:
@@ -128,7 +109,18 @@ components:
   - path: src
     scope: PUBLIC
   required_components:
-  - components/rte
+  - rte
+  - led_interface
+- name: led_interface
+  path: components/led_interface
+  include_directories:
+  - path: .
+    scope: PUBLIC
+- name: button_interface
+  path: components/button_interface
+  include_directories:
+  - path: .
+    scope: PUBLIC
 - name: main_control_knob
   path: components/main_control_knob
   docs_sources:
@@ -142,22 +134,22 @@ components:
   - path: src
     scope: PUBLIC
   required_components:
-  - components/rte
+  - rte
 - name: test_integrations_spled
   sources:
-  - components/spled/src/spled.c
-  - components/rte/src/rte.c
-  - components/brightness_controller/src/brightness_controller.c
-  - components/light_controller/src/light_controller.c
-  - components/main_control_knob/src/main_control_knob.c
-  - components/power_button/src/power_button.c
-  - components/power_signal_processing/src/power_signal_processing.c
+  - spled/src/spled.c
+  - rte/src/rte.c
+  - brightness_controller/src/brightness_controller.c
+  - light_controller/src/light_controller.c
+  - main_control_knob/src/main_control_knob.c
+  - power_button/src/power_button.c
+  - power_signal_processing/src/power_signal_processing.c
   testing:
     sources:
     - test/integrations/spled/test_spled.cc
   required_components:
-  - components/rte
-  - components/spled
+  - rte
+  - spled
   # This component is only for integration testing and should not document
   # the productive code from other components.
   docs:
@@ -175,4 +167,4 @@ components:
   - path: src
     scope: PUBLIC
   required_components:
-  - components/rte
+  - rte

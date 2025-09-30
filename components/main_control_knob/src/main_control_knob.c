@@ -6,8 +6,8 @@
 #include "main_control_knob.h"
 #include "rte.h"
 
-#define CONTROL_KEY_UP 0x26
-#define CONTROL_KEY_DOWN 0x28
+#define CONTROL_KEY_UP KEY_UP
+#define CONTROL_KEY_DOWN KEY_DOWN
 #define KNOB_UPDATE_INCREMENT 2u
 
 /**

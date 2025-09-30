@@ -2,8 +2,7 @@
     "python.testing.pytestEnabled": true,
     "python.testing.unittestEnabled": false,
     "python.analysis.include": [
-        "test",
-        "build/modules/spl-core-src"
+        "test"
     ],
     "[python]": {
         "editor.defaultFormatter": "charliermarsh.ruff"

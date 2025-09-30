@@ -1,6 +1,7 @@
 #include <windows.h>
+#include "button_interface.h"
 
-boolean KeyboardInterfaceIsKeyPressed(int key)
+boolean ButtonInterfaceIsButtonPressed(KeyCodes key)
 {
     return (GetAsyncKeyState(key) & 0x8000) != 0;
 }
