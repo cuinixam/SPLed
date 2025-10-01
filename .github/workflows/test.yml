@@ -10,28 +10,25 @@ on:
 
 jobs:
   test:
-    name: CI Gate
+    name: Test ${{ matrix.variant }}
     runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        variant:
+          - "BaseDev"
+          - "BlinkLed"
+          - "Disco"
+          - "Sleep"
+          - "Spa"
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Installation of Dependencies and Execute Tests
-        env:
-          # Workaround to force usage of scoop apps installed in $env:USERPROFILE
-          USER_PATH_FIRST: 1
+      - name: Installation of Dependencies and Execute Tests for ${{ matrix.variant }}
         run: |
           .\build.ps1 -install
-          pytest
+          pytest -k "Test_${{ matrix.variant }}"
         shell: powershell
-      - name: Deploy Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: artifacts
-          retention-days: 90
-          path: |
-            build/**/*.7z
-            build/**/pr_changes.json
-          if-no-files-found: error

@@ -8,6 +8,7 @@ components:
     scope: PUBLIC
   required_components:
   - arduino_core
+  - rte
 
 
 variants:

@@ -10,12 +10,14 @@ class Scheduler
 public:
    enum Period
    {
+      INIT = 0,
       TASK_10MS = 10,
       TASK_100MS = 100
    };
 
 private:
    typedef void (*callable)();
+   Scheduler::callable init;
    Scheduler::callable runnable_10ms;
    Scheduler::callable runnable_100ms;
    unsigned char counter_1ms = 0;

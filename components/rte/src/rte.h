@@ -202,7 +202,8 @@ boolean RteGetValidAbortCommand(void);
 void RteSetSelfDestructState(boolean state);
 
 // These tasks must be implemented by the application
-void Task_100ms(void);
+void Task_Init(void); // Called once at startup
 void Task_10ms(void);
+void Task_100ms(void);
 
 #endif // RTE_H

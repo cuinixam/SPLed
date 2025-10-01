@@ -25,6 +25,11 @@ static void initializePins()
 
 extern "C"
 {
+    void buttonInterface_init(void)
+    {
+        initializePins();
+    }
+
     boolean ButtonInterfaceIsButtonPressed(KeyCodes key)
     {
         initializePins();

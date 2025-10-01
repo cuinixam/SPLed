@@ -7,6 +7,7 @@ Scheduler::Scheduler()
 {
    counter_1ms = 0;
    counter_10ms = 0;
+   init = schedulerNoCallable;
    runnable_10ms = schedulerNoCallable;
    runnable_100ms = schedulerNoCallable;
 }
@@ -15,6 +16,9 @@ void Scheduler::Attach(Scheduler::callable runnable, Period period)
 {
    switch (period)
    {
+   case INIT:
+      init = runnable;
+      break;
    case TASK_10MS:
       runnable_10ms = runnable;
       break;
@@ -26,10 +30,10 @@ void Scheduler::Attach(Scheduler::callable runnable, Period period)
 
 void Scheduler::ConfigureTimer1(void)
 {
-   //set timer1 interrupt at 100Hz
+   // set timer1 interrupt at 100Hz
    TCCR1A = 0; // set entire TCCR1A register to 0
    TCCR1B = 0; // same for TCCR1B
-   TCNT1 = 0;  //initialize counter value to 0
+   TCNT1 = 0;  // initialize counter value to 0
    // set compare match register for 1hz increments
    OCR1A = 156;
    // turn on CTC mode
@@ -42,7 +46,7 @@ void Scheduler::ConfigureTimer1(void)
 
 void Scheduler::ConfigureTimer2(void)
 {
-   //set timer2 interrupt at 1000Hz
+   // set timer2 interrupt at 1000Hz
    TCCR2A = 0; // set entire TCCR2A register to 0
    TCCR2B = 0; // same for TCCR2B
    TCNT2 = 0;
@@ -80,6 +84,9 @@ void Scheduler::StartTimer(void)
 
 void Scheduler::Start(void)
 {
+   // Run the initialization task if it exists
+   if (init)
+      init();
    ConfigureTimer();
    StartTimer();
 }
@@ -87,11 +94,13 @@ void Scheduler::Start(void)
 void Scheduler::Task_10ms(void)
 {
    counter_10ms++;
-   if (runnable_10ms) runnable_10ms();
+   if (runnable_10ms)
+      runnable_10ms();
    if (counter_10ms >= 10)
    {
       counter_10ms = 0;
-      if (runnable_100ms) runnable_100ms();
+      if (runnable_100ms)
+         runnable_100ms();
    }
 }
 

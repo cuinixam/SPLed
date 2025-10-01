@@ -6,6 +6,13 @@
 
 static RGBColor previousLightValue = {255, 255, 255};
 
+void ledInterface_init(void)
+{
+    previousLightValue.red = 255;
+    previousLightValue.green = 255;
+    previousLightValue.blue = 255;
+}
+
 void ledInterface(void)
 {
     RGBColor lightValue;

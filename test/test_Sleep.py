@@ -5,15 +5,17 @@ import pytest
 from yanga.commands.run import RunCommand, RunCommandConfig
 
 
-class Test_Spa:
+class Test_Sleep:
+    variant_name = "Sleep"
+
     @pytest.mark.build
-    @pytest.mark.parametrize("platform", ["win_exe", "arduino_uno_r3"])
+    @pytest.mark.parametrize("platform", ["win_exe"])
     def test_build(self, platform: str):
         # Arrange
         config = RunCommandConfig(
             project_dir=Path.cwd(),
             platform=platform,
-            variant_name="Spa",
+            variant_name=self.variant_name,
             not_interactive=True,
         )
 
@@ -29,7 +31,7 @@ class Test_Spa:
         config = RunCommandConfig(
             project_dir=Path.cwd(),
             platform="gtest",
-            variant_name="Spa",
+            variant_name=self.variant_name,
             not_interactive=True,
         )
 
