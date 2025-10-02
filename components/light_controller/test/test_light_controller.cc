@@ -76,6 +76,9 @@ TEST(light_controller, test_light_stays_off)
     // Initial state: Power is OFF, so the light should be OFF.
     EXPECT_CALL(mymock, RteGetPowerState()).WillRepeatedly(Return(POWER_STATE_OFF));
     EXPECT_CALL(mymock, RteSetLightValue(_)).Times(0); // Expect that the light value doesn't change.
+#if CONFIG_BLINKING
+    EXPECT_CALL(mymock, RteGetMainKnobValue()).WillRepeatedly(Return(0));
+#endif
 
     for (int i = 0; i < 10; i++)
     {
@@ -122,6 +125,10 @@ TEST(light_controller, test_brightness_adjustment_automatic)
 TEST(light_controller, test_light_on_and_off)
 {
     CREATE_MOCK(mymock);
+
+#if CONFIG_BLINKING
+    EXPECT_CALL(mymock, RteGetMainKnobValue()).WillRepeatedly(Return(0));
+#endif
 
     EXPECT_CALL(mymock, RteGetPowerState()).WillOnce(Return(POWER_STATE_OFF));
     lightController();

@@ -150,6 +150,7 @@ components:
   required_components:
   - rte
   - spled
+  - led_interface
   # This component is only for integration testing and should not document
   # the productive code from other components.
   docs:
