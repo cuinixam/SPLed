@@ -9,9 +9,24 @@ components:
   required_components:
   - arduino_core
   - rte
+- name: uno_debug
+  path: components/arduino/examples
+  sources:
+  - uno_debug.cpp
+  include_directories:
+  - path: .
+    scope: PUBLIC
+  required_components:
+  - arduino_core
+  - rte
+  - button_interface
+  - led_interface
 
 
 variants:
 - name: BlinkLed
   description: Used for testing the arduino setup
   components: [blink_led]
+- name: UnoDebug
+  description: Used for debugging the arduino uno setup. Print information to the serial monitor.
+  components: [uno_debug, arduino_button, arduino_led, rte]

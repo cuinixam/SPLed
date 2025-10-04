@@ -5,10 +5,10 @@ extern "C"
 #include "button_interface.h"
 }
 
-// Pin mappings for each key
-#define PIN_KEY_UP 2
-#define PIN_KEY_DOWN 3
-#define PIN_POWER_BUTTON 4
+// Pin mappings for each key - see Funduino Joystick Shield v1.0
+#define PIN_KEY_UP 2       // Button A
+#define PIN_KEY_DOWN 4     // Button C
+#define PIN_POWER_BUTTON 3 // Button B
 
 // Internal pullup configuration - buttons are active LOW
 static void initializePins()

@@ -3,7 +3,7 @@
 #define executionListLength 10
 #define schedulerNoCallable NULL
 
-#define CFG_USED_TIMER 1
+#define CFG_USED_TIMER 2
 
 class Scheduler
 {
