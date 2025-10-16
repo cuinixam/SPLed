@@ -29,13 +29,13 @@ add_definitions(
 )
 
 # Compiler flags for C
-set(CMAKE_C_FLAGS "-std=gnu11 -mmcu=${MCU} -Os -Wall -MMD -flto -fno-fat-lto-objects -ffunction-sections -fdata-sections ")
+set(CMAKE_C_FLAGS "-std=gnu11 -mmcu=${MCU} -Os -Wall -MMD -fno-fat-lto-objects -ffunction-sections -fdata-sections ")
 
 # Compiler flags for C++
-set(CMAKE_CXX_FLAGS "-std=gnu++11 -mmcu=${MCU} -Os -Wall -MMD -flto -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics")
+set(CMAKE_CXX_FLAGS "-std=gnu++11 -mmcu=${MCU} -Os -Wall -MMD -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics")
 
 # Assembler flags
-set(CMAKE_ASM_FLAGS "-mmcu=${MCU} -x assembler-with-cpp -MMD -flto")
+set(CMAKE_ASM_FLAGS "-mmcu=${MCU} -x assembler-with-cpp -MMD")
 
 # Linker flags
 set(CMAKE_EXE_LINKER_FLAGS "-mmcu=${MCU} -Os -Wl,--gc-sections -flto -fuse-linker-plugin -lm")
