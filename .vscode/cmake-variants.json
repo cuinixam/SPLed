@@ -1,16 +1,16 @@
 {
   "variant": {
     "choices": {
-      "BlinkLed": {
-        "short": "BlinkLed",
-        "settings": {
-          "VARIANT": "BlinkLed"
-        }
-      },
       "Base/Dev": {
         "short": "Base/Dev",
         "settings": {
           "VARIANT": "Base/Dev"
+        }
+      },
+      "Sleep": {
+        "short": "Sleep",
+        "settings": {
+          "VARIANT": "Sleep"
         }
       },
       "Disco": {
@@ -19,10 +19,16 @@
           "VARIANT": "Disco"
         }
       },
-      "Sleep": {
-        "short": "Sleep",
+      "BlinkLed": {
+        "short": "BlinkLed",
         "settings": {
-          "VARIANT": "Sleep"
+          "VARIANT": "BlinkLed"
+        }
+      },
+      "UnoDebug": {
+        "short": "UnoDebug",
+        "settings": {
+          "VARIANT": "UnoDebug"
         }
       },
       "Spa": {
@@ -32,19 +38,32 @@
         }
       }
     },
-    "default": "BlinkLed"
+    "default": "Base/Dev"
   },
   "buildType": {
     "choices": {
+      "None": {
+        "short": "None",
+        "buildType": "None",
+        "env": {
+          "MY_BUILD_TYPE": ""
+        }
+      },
       "Debug": {
         "short": "Debug",
-        "buildType": "Debug"
+        "buildType": "Debug",
+        "env": {
+          "MY_BUILD_TYPE": "Debug"
+        }
       },
       "Release": {
         "short": "Release",
-        "buildType": "Release"
+        "buildType": "Release",
+        "env": {
+          "MY_BUILD_TYPE": "Release"
+        }
       }
     },
-    "default": "Debug"
+    "default": "None"
   }
 }

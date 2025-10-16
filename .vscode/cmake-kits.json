@@ -1,11 +1,11 @@
 [
   {
-    "name": "win_exe",
-    "toolchainFile": "clang.cmake"
-  },
-  {
     "name": "gtest",
     "toolchainFile": "gcc.cmake"
+  },
+  {
+    "name": "win_exe",
+    "toolchainFile": "clang.cmake"
   },
   {
     "name": "arduino_nano",

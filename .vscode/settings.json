@@ -12,7 +12,7 @@
     },
     "cmake.configureOnOpen": false,
     "cmake.configureOnEdit": false,
-    "cmake.buildDirectory": "${workspaceFolder}/.yanga/build/${variant:variant}/${buildKit}",
+    "cmake.buildDirectory": "${workspaceFolder}/.yanga/build/${variant:variant}/${buildKit}/${env:MY_BUILD_TYPE}",
     "cmake.configureSettings": {
         "PLATFORM": "${buildKit}",
         "CMAKE_MESSAGE_LOG_LEVEL": "STATUS",
