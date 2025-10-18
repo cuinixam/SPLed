@@ -31,6 +31,8 @@ platforms:
     cmake_generators:
       - step: CreateExecutableCMakeGenerator
         module: yanga.cmake.create_executable
+        config:
+          use_global_includes: false
       - step: CppCheckCMakeGenerator
         module: yanga.cmake.cppcheck
       - step: ReportCMakeGenerator

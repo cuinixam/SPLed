@@ -1237,14 +1237,14 @@ mashumaro = ">=3.5,<4.0"
 
 [[package]]
 name = "pydantic"
-version = "2.12.2"
+version = "2.12.3"
 description = "Data validation using Python type hints"
 optional = false
 python-versions = ">=3.9"
 groups = ["main"]
 files = [
-    {file = "pydantic-2.12.2-py3-none-any.whl", hash = "sha256:25ff718ee909acd82f1ff9b1a4acfd781bb23ab3739adaa7144f19a6a4e231ae"},
-    {file = "pydantic-2.12.2.tar.gz", hash = "sha256:7b8fa15b831a4bbde9d5b84028641ac3080a4ca2cbd4a621a661687e741624fd"},
+    {file = "pydantic-2.12.3-py3-none-any.whl", hash = "sha256:6986454a854bc3bc6e5443e1369e06a3a456af9d339eda45510f517d9ea5c6bf"},
+    {file = "pydantic-2.12.3.tar.gz", hash = "sha256:1da1c82b0fc140bb0103bc1441ffe062154c8d38491189751ee00fd8ca65ce74"},
 ]
 
 [package.dependencies]
@@ -2568,14 +2568,14 @@ files = [
 
 [[package]]
 name = "yanga"
-version = "2.20.0"
+version = "2.21.0"
 description = "Yet another ninja generator to build C/CPP projects."
 optional = false
 python-versions = "<4.0,>=3.10"
 groups = ["main"]
 files = [
-    {file = "yanga-2.20.0-py3-none-any.whl", hash = "sha256:f6a38bb174f9b521c01a6d46feeec695a4c8d603e4e77a8ea596b8b73a5ed45b"},
-    {file = "yanga-2.20.0.tar.gz", hash = "sha256:158d168f1c30bcea1388409c4853aa0d79ecdfa62a45b2fa4fe25b944a74e8b4"},
+    {file = "yanga-2.21.0-py3-none-any.whl", hash = "sha256:9823173e721b12f6b2ce31f517eebce7aa450cf92494e3c7d8e6674c3305be8d"},
+    {file = "yanga-2.21.0.tar.gz", hash = "sha256:08766ddd13b2bf479ebb5cb4bd9a9ff4887e96ffd7cd144c7b5cdbc8a0b61661"},
 ]
 
 [package.dependencies]

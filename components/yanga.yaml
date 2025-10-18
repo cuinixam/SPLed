@@ -1,4 +1,9 @@
 components:
+- name: rte_types
+  path: components/rte
+  include_directories:
+  - path: src
+    scope: PUBLIC
 - name: rte
   path: components/rte
   sources:
@@ -15,6 +20,7 @@ components:
   - src/keyboard_interface.c
   required_components:
   - button_interface
+  - rte
 - name: examples_hello_gmock
   path: components/examples/hello_gmock
   docs_sources:
@@ -116,11 +122,15 @@ components:
   include_directories:
   - path: .
     scope: PUBLIC
+  required_components:
+  - rte
 - name: button_interface
   path: components/button_interface
   include_directories:
   - path: .
     scope: PUBLIC
+  required_components:
+  - rte_types
 - name: main_control_knob
   path: components/main_control_knob
   docs_sources:

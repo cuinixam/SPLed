@@ -29,17 +29,22 @@ components:
     include_directories:
       - path: .
         scope: PUBLIC
+    required_components:
+      - pins
   - name: arduino_pins_eightanaloginputs
+    alias: pins
     path: .yanga/ext/ArduinoCoreAvr/variants/eightanaloginputs
     include_directories:
       - path: .
         scope: PUBLIC
   - name: arduino_pins_standard
+    alias: pins
     path: .yanga/ext/ArduinoCoreAvr/variants/standard
     include_directories:
       - path: .
         scope: PUBLIC
   - name: atmega328p_xmini_pins
+    alias: pins
     path: .yanga/ext/atmel_avr_xmini/module/variants/atmega328p-xmini
     include_directories:
       - path: .
@@ -51,10 +56,14 @@ components:
     required_components:
     - platform_types
     - arduino_core
+    - rte
   - name: arduino_scheduler
     path: platforms/arduino/src
     sources:
     - scheduler.cpp
+    include_directories:
+      - path: .
+        scope: PUBLIC
     required_components:
     - platform_types
     - arduino_core
@@ -65,6 +74,7 @@ components:
     required_components:
     - platform_types
     - arduino_core
+    - button_interface
   - name: arduino_led
     path: platforms/arduino/src
     sources:
@@ -72,6 +82,7 @@ components:
     required_components:
     - platform_types
     - arduino_core
+    - led_interface
 
 
 platforms:
@@ -134,7 +145,7 @@ platforms:
       - step: CreateExecutableCMakeGenerator
         module: yanga.cmake.create_executable
         config:
-          use_global_includes: true
+          use_global_includes: false
       - step: CreateArduinoHexCMakeGenerator
         file: platforms/arduino/steps.py
     components: [arduino_main, arduino_scheduler, arduino_core, atmega328p_xmini_pins]
