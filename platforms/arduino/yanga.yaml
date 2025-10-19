@@ -148,4 +148,10 @@ platforms:
           use_global_includes: false
       - step: CreateArduinoHexCMakeGenerator
         file: platforms/arduino/steps.py
+      - step: ObjectsDepsCMakeGenerator
+        module: yanga.cmake.objects_deps
+      - step: TargetsDataCMakeGenerator
+        module: yanga.cmake.targets_data
+      - step: ReportCMakeGenerator
+        module: yanga.cmake.reports
     components: [arduino_main, arduino_scheduler, arduino_core, atmega328p_xmini_pins]

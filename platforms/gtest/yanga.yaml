@@ -18,6 +18,8 @@ platforms:
                 - "_*"
       - step: CppCheckCMakeGenerator
         module: yanga.cmake.cppcheck
+      - step: TargetsDataCMakeGenerator
+        module: yanga.cmake.targets_data
       - step: ReportCMakeGenerator
         module: yanga.cmake.reports
     toolchain_file: gcc.cmake
