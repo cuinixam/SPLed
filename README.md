@@ -23,3 +23,7 @@ It is recommended to start VS Code using the `build.ps1` script to make sure all
 ```powershell
 .\build.ps1 -startVSCode
 ```
+
+## Credits
+
+The original implementation of this demo using [SPL Core](https://github.com/avengineers/spl-core) CMake modules can be found [here](https://github.com/avengineers/SPLed).
