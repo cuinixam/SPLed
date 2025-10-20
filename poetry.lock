@@ -2560,14 +2560,14 @@ files = [
 
 [[package]]
 name = "yanga"
-version = "2.22.0"
+version = "2.22.1"
 description = "Yet another ninja generator to build C/CPP projects."
 optional = false
 python-versions = "<4.0,>=3.10"
 groups = ["main"]
 files = [
-    {file = "yanga-2.22.0-py3-none-any.whl", hash = "sha256:42416915768707bea51e26897d92cf4f6ecac9e75947410284708ee37f110ade"},
-    {file = "yanga-2.22.0.tar.gz", hash = "sha256:ae7d8972ca42dab97a2788cb30d8b1409bfce0ff5ece58afbfb603e29d25fd5e"},
+    {file = "yanga-2.22.1-py3-none-any.whl", hash = "sha256:8f9d3c53d9bdd808e9c23f08ed8c563aa388de1ec7a3231cd8135c47fbbdd4e9"},
+    {file = "yanga-2.22.1.tar.gz", hash = "sha256:d7f9177120733bcdde0b1d2b23e5c08dc2924f390ed07ed48849320fb9e008cc"},
 ]
 
 [package.dependencies]
