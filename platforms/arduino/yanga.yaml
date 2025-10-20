@@ -31,6 +31,9 @@ components:
         scope: PUBLIC
     required_components:
       - pins
+    # Do not generate docs for external component
+    docs:
+      exclude_productive_code: true
   - name: arduino_pins_eightanaloginputs
     alias: pins
     path: .yanga/ext/ArduinoCoreAvr/variants/eightanaloginputs
@@ -117,6 +120,11 @@ platforms:
 
   # Arduino Uno platform configuration
   - name: arduino_uno_r3
+    build_targets:
+      - all
+      - build
+      - compile
+      - report
     toolchain_file: arduino_uno_r3.cmake
     west_manifest:
       remotes:
