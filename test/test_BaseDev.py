@@ -1,6 +1,5 @@
 from pathlib import Path
 
-import pytest
 
 from yanga.commands.run import RunCommand, RunCommandConfig
 
@@ -8,7 +7,6 @@ from yanga.commands.run import RunCommand, RunCommandConfig
 class Test_BaseDev:
     variant_name = "Base/Dev"
 
-    @pytest.mark.report
     def test_report(self):
         # Arrange
         config = RunCommandConfig(

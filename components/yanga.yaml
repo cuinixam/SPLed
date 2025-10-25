@@ -156,7 +156,7 @@ components:
   - power_signal_processing/src/power_signal_processing.c
   testing:
     sources:
-    - test/integrations/spled/test_spled.cc
+    - spled/test/test_spled_integration.cc
   required_components:
   - rte
   - spled
