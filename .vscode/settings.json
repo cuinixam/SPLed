@@ -1,4 +1,6 @@
 {
+    "chat.useAgentsMdFile": true,
+    "editor.insertSpaces": true,
     "python.testing.pytestEnabled": true,
     "python.testing.unittestEnabled": false,
     "python.analysis.include": [
