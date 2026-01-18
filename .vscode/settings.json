@@ -133,4 +133,5 @@
     "peacock.color": "#215732",
     "editor.tabSize": 4,
     "python-envs.pythonProjects": [],
+    "terminal.integrated.shellIntegration.enabled": true
 }

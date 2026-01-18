@@ -17,7 +17,7 @@
 - **Feature Model**: KConfig-based variability (`KConfig` file defines features; variants select them in `config.txt`)
 - **Component Dependencies**: Declared in `components/yanga.yaml` via `required_components`
 - **Runtime Environment (RTE)**: Message passing abstraction between components (`components/rte/`)
-- **Platform Adapters**: Hardware/OS interfaces (e.g., `arduino_button`, `keyboard_interface`)
+- **Platform Adapters**: Hardware/OS interfaces (e.g., `arduino_button`)
 
 ### Data Flow
 
@@ -44,7 +44,7 @@ TODO: Add Unix setup instructions when available
 
 ```powershell
 .\yanga.ps1 run                # Interactive variant/platform selection
-.\yanga.ps1 run --variant Disco --platform win_exe --target report
+.\yanga.ps1 run --variant Disco --platform pc_terminal --target report
 ```
 
 ### Run Tests
@@ -100,7 +100,7 @@ variants:
 
 - **GTest**: Uses GoogleTest from West manifest, generates coverage/lint/report targets
 - **Arduino**: Cross-compiles with AVR-GCC, includes Arduino Core from West
-- **Win_exe**: Native Windows builds with MinGW/Clang (installed via Scoop)
+- **pc_terminal**: Native PC terminal builds with Clang (Windows/Linux)
 
 ### Test Patterns
 

@@ -11,7 +11,5 @@ variants:
   - brightness_controller
   features_selection_file: variants/Spa/config.txt
   platforms:
-    win_exe:
-      components: [console_interface, keyboard_interface]
     arduino_uno_r3:
       components: [arduino_button, arduino_led]

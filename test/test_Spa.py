@@ -8,7 +8,7 @@ from yanga.commands.run import RunCommand, RunCommandConfig
 class Test_Spa:
     variant_name = "Spa"
 
-    @pytest.mark.parametrize("platform", ["win_exe", "arduino_uno_r3", "gtest"])
+    @pytest.mark.parametrize("platform", ["pc_terminal", "arduino_uno_r3", "gtest"])
     def test_build(self, platform: str):
         # Arrange
         config = RunCommandConfig(
