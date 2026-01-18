@@ -25,8 +25,7 @@ void spled(void)
 
 void Task_Init(void)
 {
-    ledInterface_init();
-    buttonInterface_init();
+    // Application-level initialization if needed
 }
 
 void Task_100ms(void)

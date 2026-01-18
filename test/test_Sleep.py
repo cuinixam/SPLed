@@ -8,7 +8,7 @@ from yanga.commands.run import RunCommand, RunCommandConfig
 class Test_Sleep:
     variant_name = "Sleep"
 
-    @pytest.mark.parametrize("platform", ["win_exe", "gtest"])
+    @pytest.mark.parametrize("platform", ["pc_terminal", "gtest"])
     def test_build(self, platform: str):
         # Arrange
         config = RunCommandConfig(

@@ -8,7 +8,7 @@ from yanga.commands.run import RunCommand, RunCommandConfig
 class Test_Disco:
     variant_name = "Disco"
 
-    @pytest.mark.parametrize("platform", ["win_exe", "gtest"])
+    @pytest.mark.parametrize("platform", ["pc_terminal", "gtest"])
     def test_build(self, platform: str):
         # Arrange
         config = RunCommandConfig(

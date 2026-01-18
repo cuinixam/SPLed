@@ -10,6 +10,3 @@ variants:
   - main_control_knob
   - brightness_controller
   features_selection_file: variants/Sleep/config.txt
-  platforms:
-    win_exe:
-      components: [console_interface, keyboard_interface]

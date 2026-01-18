@@ -14,13 +14,6 @@ components:
   required_components:
   - button_interface
   - platform_types
-- name: keyboard_interface
-  path: components/keyboard_interface
-  sources:
-  - src/keyboard_interface.c
-  required_components:
-  - button_interface
-  - rte
 - name: examples_hello_gmock
   path: components/examples/hello_gmock
   docs_sources:
@@ -107,16 +100,6 @@ components:
     scope: PUBLIC
   required_components:
   - rte
-- name: console_interface
-  path: components/console_interface
-  sources:
-  - src/console_interface.c
-  include_directories:
-  - path: src
-    scope: PUBLIC
-  required_components:
-  - rte
-  - led_interface
 - name: led_interface
   path: components/led_interface
   include_directories:

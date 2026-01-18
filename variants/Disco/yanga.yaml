@@ -12,7 +12,5 @@ variants:
   platforms:
     gtest:
       components: [test_integrations_spled]
-    win_exe:
-      components: [console_interface, keyboard_interface]
     arduino_uno_r3:
       components: [arduino_button, arduino_led]

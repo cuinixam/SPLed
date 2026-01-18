@@ -1,13 +1,13 @@
 components:
-- name: win_main
+- name: pc_terminal_main
   sources:
   - src/main.c
   include_directories:
   - path: src
     scope: PUBLIC
   required_components:
-  - win_scheduler
-- name: win_scheduler
+  - pc_terminal_scheduler
+- name: pc_terminal_scheduler
   sources:
   - src/os.c
   include_directories:
@@ -15,11 +15,20 @@ components:
     scope: PUBLIC
   required_components:
   - spled
+  - led_interface
+  - button_interface
+- name: terminal_adapters
+  sources:
+  - src/terminal_led_adapter.c
+  - src/terminal_button_adapter.c
+  required_components:
+  - led_interface
+  - button_interface
 
 platforms:
   # Build Windows executable with clang
-  - name: win_exe
-    description: Build Windows executable with clang
+  - name: pc_terminal
+    description: Build PC terminal executable with clang (Windows/Linux)
     build_types:
       - Debug
       - Release
@@ -42,4 +51,4 @@ platforms:
       - step: ReportCMakeGenerator
         module: yanga.cmake.reports
     toolchain_file: clang.cmake
-    components: [win_main, win_scheduler]
+    components: [pc_terminal_main, pc_terminal_scheduler, terminal_adapters]
