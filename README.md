@@ -6,6 +6,8 @@ This demo repository contains a tiny but fully fledged [SPL](https://en.wikipedi
 
 ## Start developing
 
+### Windows (PowerShell)
+
 For installing the dependencies run:
 
 ```powershell
@@ -22,6 +24,38 @@ It is recommended to start VS Code using the `build.ps1` script to make sure all
 
 ```powershell
 .\build.ps1 -startVSCode
+```
+
+### Linux/Unix (Bash)
+
+Install C/C++ build tools (Ubuntu/Debian):
+
+```bash
+sudo apt-get update
+sudo apt-get install -y gcc g++ clang cmake ninja-build cppcheck
+```
+
+Install pypeline runner and create virtual environment:
+
+```bash
+pip install pipx
+pipx install pypeline-runner
+pypeline run --config-file yanga.yaml --step CreateVEnv --single
+```
+
+Activate the virtual environemt and run `yanga`:
+
+```bash
+source .venv/bin/activate
+yanga run
+```
+
+### Devcontainer
+
+The devcontainer has all dependencies pre-installed (including yanga). Simply run:
+
+```bash
+yanga run
 ```
 
 ## Credits

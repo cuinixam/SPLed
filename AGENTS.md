@@ -36,9 +36,34 @@ Variant Config (KConfig) → Yanga → CMake → Platform Toolchain → Executab
 .\build.ps1 -startVSCode       # Launch VS Code with proper env
 ```
 
-#### Unix Shell
+#### Linux/Unix Shell
 
-TODO: Add Unix setup instructions when available
+```bash
+# Install C/C++ build tools (Ubuntu/Debian)
+sudo apt-get update
+sudo apt-get install -y gcc g++ clang cmake ninja-build cppcheck
+
+# Install pypeline runner
+pip install pipx
+pipx install pypeline-runner
+
+# Create virtual environment
+pypeline run --config-file yanga.yaml --step CreateVEnv --single
+
+# Activate the virtual environemt
+source .venv/bin/activate
+
+# Run yanga
+yanga run
+```
+
+#### Devcontainer
+
+The devcontainer has all dependencies pre-installed (including yanga). Simply run:
+
+```bash
+yanga run
+```
 
 ### Build Variants
 
@@ -162,7 +187,9 @@ Reports aggregate test results, coverage, and docs:
 ## Common Pitfalls
 
 - **Windows paths**: Always use `.venv\Scripts\` not `.venv/bin/` in PowerShell
-- **Environment**: Must run `build.ps1 -install` or load `.yanga/build/install/env_setup.ps1` before Yanga commands
+- **Linux paths**: Use `.venv/bin/` for Python executables (e.g., `.venv/bin/python -m pytest`)
+- **Environment (Windows)**: Must run `build.ps1 -install` or load `.yanga/build/install/env_setup.ps1` before Yanga commands
+- **Environment (Linux)**: Use `pip install pypeline-runner` and `pypeline run --config-file yanga.yaml --step CreateVEnv --single`
 - **CMake regeneration**: Yanga auto-regenerates on config changes; don't manually edit generated files
 - **Platform components**: Must be listed in variant's platform-specific `components` list (e.g., `arduino_button` for Arduino)
 - **KConfig syntax**: Use `CONFIG_<FEATURE>=y` in `config.txt`, not `FEATURE=y`
