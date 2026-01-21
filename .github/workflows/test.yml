@@ -9,8 +9,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    name: Test ${{ matrix.variant }}
+  test-windows:
+    name: Test ${{ matrix.variant }} (Windows)
     runs-on: windows-latest
     strategy:
       fail-fast: false
@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Installation of Dependencies and Execute Tests for ${{ matrix.variant }}
@@ -32,3 +32,37 @@ jobs:
           .\build.ps1 -install
           pytest -k "Test_${{ matrix.variant }}"
         shell: powershell
+
+  test-ubuntu:
+    name: Test ${{ matrix.variant }} (Ubuntu)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        variant:
+          - "BaseDev"
+          - "Sleep"
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: 3.13
+      - name: Install C/C++ build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc g++ clang cmake ninja-build cppcheck
+        shell: bash
+      - name: Install pypeline runner
+        run: pip install pypeline-runner>=1.23
+        shell: bash
+      - name: Run pypeline
+        run: pypeline run --config-file yanga.yaml --step CreateVEnv --single
+        shell: bash
+      - name: Execute Tests for ${{ matrix.variant }}
+        run: .venv/bin/python -m pytest -k "Test_${{ matrix.variant }}"
+        shell: bash
