@@ -20,3 +20,6 @@ pipeline:
     module: yanga.steps.execute_build
   - step: ExecuteBuild
     module: yanga.steps.execute_build
+configs:
+  - id: scoop
+    file: scoopfile.json
