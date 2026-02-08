@@ -92,23 +92,12 @@ platforms:
   # Arduino Nano platform configuration
   - name: arduino_nano
     toolchain_file: arduino_nano.cmake
-    west_manifest:
-      remotes:
-        - name: arduino
-          url-base: https://github.com/arduino
-      projects:
-        - name: ArduinoCore-avr
-          remote: arduino
-          revision: 1.8.6
-          path: ArduinoCoreAvr
-    scoop_manifest:
-      buckets:
-        - name: main
-          source: https://github.com/ScoopInstaller/Main
-      apps:
-        - name: avr-gcc
-          version: 15.2.0
-          source: main
+    configs:
+      - id: west
+        file: platforms/arduino/arduino-core.west.yaml
+      - id: poks
+        file: platforms/arduino/avr-gcc.poks.json
+
     cmake_generators:
       - step: CreateExecutableCMakeGenerator
         module: yanga.cmake.create_executable
@@ -126,29 +115,22 @@ platforms:
       - compile
       - report
     toolchain_file: arduino_uno_r3.cmake
-    west_manifest:
-      remotes:
-        - name: arduino
-          url-base: https://github.com/arduino
-        - name: atmel-avr-xmini
-          url-base: https://github.com/AtmelUniversityFrance
-      projects:
-        - name: ArduinoCore-avr
-          remote: arduino
-          revision: 1.8.6
-          path: ArduinoCoreAvr
-        - name: atmel-avr-xmini-boardmanagermodule
-          remote: atmel-avr-xmini
-          revision: v0.6.0
-          path: atmel_avr_xmini
-    scoop_manifest:
-      buckets:
-        - name: main
-          source: https://github.com/ScoopInstaller/Main
-      apps:
-        - name: avr-gcc
-          version: 15.2.0
-          source: main
+    configs:
+      - id: west
+        file: platforms/arduino/arduino-core.west.yaml
+      - id: west
+        content:
+          manifest:
+            remotes:
+              - name: atmel-avr-xmini
+                url-base: https://github.com/AtmelUniversityFrance
+            projects:
+              - name: atmel-avr-xmini-boardmanagermodule
+                remote: atmel-avr-xmini
+                revision: v0.6.0
+                path: atmel_avr_xmini
+      - id: poks
+        file: platforms/arduino/avr-gcc.poks.json
     cmake_generators:
       - step: CreateExecutableCMakeGenerator
         module: yanga.cmake.create_executable

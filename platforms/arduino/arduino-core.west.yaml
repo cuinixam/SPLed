@@ -1,0 +1,9 @@
+manifest:
+  remotes:
+    - name: arduino
+      url-base: https://github.com/arduino
+  projects:
+    - name: ArduinoCore-avr
+      remote: arduino
+      revision: 1.8.6
+      path: ArduinoCoreAvr

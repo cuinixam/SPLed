@@ -4,10 +4,12 @@ pipeline:
     module: pypeline.steps.create_venv
     config:
       bootstrap_script: .bootstrap/bootstrap.py
-      python_version: 3.13
+      python_version: 3.11
       python_package_manager: poetry>=2.2
   - step: ScoopInstall
     module: yanga.steps.scoop_install
+  - step: PoksInstall
+    module: yanga.steps.poks_install
   - step: WestInstall
     module: yanga.steps.west_install
   - step: GenerateEnvSetupScript
@@ -20,3 +22,6 @@ pipeline:
     module: yanga.steps.execute_build
   - step: ExecuteBuild
     module: yanga.steps.execute_build
+configs:
+  - id: scoop
+    file: scoopfile.json
