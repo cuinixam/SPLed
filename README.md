@@ -28,13 +28,6 @@ It is recommended to start VS Code using the `build.ps1` script to make sure all
 
 ### Linux/Unix (Bash)
 
-Install C/C++ build tools (Ubuntu/Debian):
-
-```bash
-sudo apt-get update
-sudo apt-get install -y gcc g++ clang cmake ninja-build cppcheck
-```
-
 Install pypeline runner and create virtual environment:
 
 ```bash

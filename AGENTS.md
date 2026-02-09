@@ -39,10 +39,6 @@ Variant Config (KConfig) → Yanga → CMake → Platform Toolchain → Executab
 #### Linux/Unix Shell
 
 ```bash
-# Install C/C++ build tools (Ubuntu/Debian)
-sudo apt-get update
-sudo apt-get install -y gcc g++ clang cmake ninja-build cppcheck
-
 # Install pypeline runner
 pip install pipx
 pipx install pypeline-runner
@@ -157,7 +153,7 @@ assert result == 0
 
 ```yaml
 pipeline:
-  install: [CreateVEnv, ScoopInstall, WestInstall]  # Dependency setup
+  install: [CreateVEnv, PoksInstall, WestInstall]  # Dependency setup
   gen: [KConfigGen]                                  # Generate headers from KConfig
   build: [GenerateBuildSystemFiles, ExecuteBuild]    # CMake generation + build
 ```

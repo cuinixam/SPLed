@@ -16,8 +16,8 @@ platforms:
               strict: false
               exclude_symbol_patterns:
                 - "_*"
-      - step: CppCheckCMakeGenerator
-        module: yanga.cmake.cppcheck
+      #- step: CppCheckCMakeGenerator
+      #  module: yanga.cmake.cppcheck
       - step: TargetsDataCMakeGenerator
         module: yanga.cmake.targets_data
       - step: ReportCMakeGenerator

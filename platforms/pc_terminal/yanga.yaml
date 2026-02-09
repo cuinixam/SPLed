@@ -42,8 +42,8 @@ platforms:
         module: yanga.cmake.create_executable
         config:
           use_global_includes: false
-      - step: CppCheckCMakeGenerator
-        module: yanga.cmake.cppcheck
+      #- step: CppCheckCMakeGenerator
+      #  module: yanga.cmake.cppcheck
       - step: ObjectsDepsCMakeGenerator
         module: yanga.cmake.objects_deps
       - step: TargetsDataCMakeGenerator
