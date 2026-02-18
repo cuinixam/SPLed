@@ -1,19 +1,20 @@
 {
-    "name": "Yanga Dev Environment",
-    "image": "cuinixam/yanga-dev:latest",
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "ms-vscode.cpptools",
-                "ms-vscode.cmake-tools",
-                "ms-python.python",
-                "ms-python.vscode-pylance",
-                "twxs.cmake",
-                "GitHub.copilot",
-                "mhutchie.git-graph",
-                "visualstudioexptteam.intellicode-api-usage-examples",
-                "visualstudioexptteam.vscodeintellicode"
-            ]
-        }
-    }
+  "name": "Yanga Dev Environment",
+  "image": "cuinixam/yanga-dev:1.1.0",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-vscode.cmake-tools",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "twxs.cmake",
+        "GitHub.copilot",
+        "mhutchie.git-graph",
+        "visualstudioexptteam.intellicode-api-usage-examples",
+        "visualstudioexptteam.vscodeintellicode",
+      ],
+    },
+  },
+  "postCreateCommand": "pipx upgrade pypeline-runner && pipx upgrade yanga"
 }
