@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from yanga.commands.run import RunCommand, RunCommandConfig
+from yanga_core.commands.run import RunCommand, RunCommandConfig
 
 
 class Test_Sleep:

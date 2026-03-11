@@ -6,7 +6,7 @@ authors = [{ name = "Avengineers" }]
 requires-python = "<4.0,>=3.11"
 
 dependencies = [
-    "yanga>=2,<3",
+    "yanga>=2.29,<3",
     "pytest>=8,<9",
     "pip_system_certs>=4.0,<5",
     "myst-parser>=4.0,<5",

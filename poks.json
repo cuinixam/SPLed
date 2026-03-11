@@ -12,11 +12,6 @@
             "bucket": "poks-bucket"
         },
         {
-            "name": "gcc",
-            "version": "15.2.0-1",
-            "bucket": "poks-bucket"
-        },
-        {
             "name": "cmake",
             "version": "4.2.3",
             "bucket": "poks-bucket"

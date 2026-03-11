@@ -2,10 +2,10 @@ from pathlib import Path
 from typing import Any, Optional
 from yanga.cmake.generator import CMakeGenerator
 from yanga.cmake.cmake_backend import CMakeComment, CMakeElement, CMakeCustomCommand, CMakeCommand, CMakePath, CMakeBuildEvent
-from yanga.domain.execution_context import ExecutionContext
+from yanga_core.domain.execution_context import ExecutionContext
+
 
 class CreateArduinoHexCMakeGenerator(CMakeGenerator):
-
     def __init__(self, execution_context: ExecutionContext, output_dir: Path, config: Optional[dict[str, Any]] = None) -> None:
         super().__init__(execution_context, output_dir, config)
 
@@ -25,8 +25,7 @@ class CreateArduinoHexCMakeGenerator(CMakeGenerator):
             commands=[
                 CMakeCommand(
                     command="${CMAKE_OBJCOPY}",
-                    arguments=["-O","ihex","-R",".eeprom",link_out_file,link_hex_file],
-
+                    arguments=["-O", "ihex", "-R", ".eeprom", link_out_file, link_hex_file],
                 )
             ],
             outputs=[],

@@ -128,7 +128,7 @@ variants:
 Integration tests use `yanga.commands.run.RunCommand` directly:
 
 ```python
-from yanga.commands.run import RunCommand, RunCommandConfig
+from yanga_core.commands.run import RunCommand, RunCommandConfig
 
 config = RunCommandConfig(
     project_dir=Path.cwd(),

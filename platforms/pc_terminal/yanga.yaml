@@ -37,7 +37,7 @@ platforms:
       - build
       - compile
       - report
-    cmake_generators:
+    generators:
       - step: CreateExecutableCMakeGenerator
         module: yanga.cmake.create_executable
         config:
@@ -50,5 +50,7 @@ platforms:
         module: yanga.cmake.targets_data
       - step: ReportCMakeGenerator
         module: yanga.cmake.reports
-    toolchain_file: clang.cmake
+    configs:
+      - id: toolchain
+        file: "platforms/pc_terminal/clang.cmake"
     components: [pc_terminal_main, pc_terminal_scheduler, terminal_adapters]

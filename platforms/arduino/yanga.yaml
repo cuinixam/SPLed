@@ -91,14 +91,15 @@ components:
 platforms:
   # Arduino Nano platform configuration
   - name: arduino_nano
-    toolchain_file: arduino_nano.cmake
     configs:
       - id: west
-        file: platforms/arduino/arduino-core.west.yaml
+        file: platforms/arduino/west.yaml
       - id: poks
-        file: platforms/arduino/avr-gcc.poks.json
+        file: platforms/arduino/poks.json
+      - id: toolchain
+        file: "platforms/arduino/arduino_nano.cmake"
 
-    cmake_generators:
+    generators:
       - step: CreateExecutableCMakeGenerator
         module: yanga.cmake.create_executable
         config:
@@ -114,10 +115,9 @@ platforms:
       - build
       - compile
       - report
-    toolchain_file: arduino_uno_r3.cmake
     configs:
       - id: west
-        file: platforms/arduino/arduino-core.west.yaml
+        file: platforms/arduino/west.yaml
       - id: west
         content:
           manifest:
@@ -130,8 +130,10 @@ platforms:
                 revision: v0.6.0
                 path: atmel_avr_xmini
       - id: poks
-        file: platforms/arduino/avr-gcc.poks.json
-    cmake_generators:
+        file: platforms/arduino/poks.json
+      - id: toolchain
+        file: "platforms/arduino/arduino_uno_r3.cmake"
+    generators:
       - step: CreateExecutableCMakeGenerator
         module: yanga.cmake.create_executable
         config:

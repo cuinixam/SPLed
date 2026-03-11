@@ -7,19 +7,21 @@ pipeline:
       python_version: 3.11
       python_package_manager: poetry>=2.2
   - step: PoksInstall
-    module: yanga.steps.poks_install
+    module: yanga_core.steps.poks_install
   - step: WestInstall
-    module: yanga.steps.west_install
+    module: yanga_core.steps.west_install
   - step: GenerateEnvSetupScript
     module: pypeline.steps.env_setup_script
   gen:
   - step: KConfigGen
-    module: yanga.steps.kconfig_gen
+    module: yanga_core.steps.kconfig_gen
   build:
   - step: GenerateBuildSystemFiles
-    module: yanga.steps.execute_build
+    module: yanga.cmake.steps
+  - step: GenerateReportConfig
+    module: yanga_core.steps.generate_report_config
   - step: ExecuteBuild
-    module: yanga.steps.execute_build
+    module: yanga.cmake.steps
 configs:
   - id: poks
     file: poks.json
