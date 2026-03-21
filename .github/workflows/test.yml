@@ -33,15 +33,19 @@ jobs:
           pytest -k "Test_${{ matrix.variant }}"
         shell: powershell
 
-  test-ubuntu:
-    name: Test ${{ matrix.variant }} (Ubuntu)
-    runs-on: ubuntu-latest
+  test-unix:
+    name: Test ${{ matrix.variant }} (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
         variant:
           - "BaseDev"
           - "Sleep"
+          - "Disco"
 
     steps:
       - name: Checkout Code

@@ -10,3 +10,20 @@ set(COMPILE_C_FLAGS "-DSPLE_TESTABLE_STATIC=")
 add_compile_options(
     "$<$<COMPILE_LANGUAGE:C>:${COMPILE_C_FLAGS}>"
 )
+
+if(APPLE)
+    find_program(ACTUAL_CXX_COMPILER NAMES ${CMAKE_CXX_COMPILER} g++)
+    if(ACTUAL_CXX_COMPILER)
+        get_filename_component(COMPILER_BIN_DIR ${ACTUAL_CXX_COMPILER} DIRECTORY)
+        get_filename_component(COMPILER_ROOT_DIR ${COMPILER_BIN_DIR} DIRECTORY)
+        set(CUSTOM_LIBCXX_DIR "${COMPILER_ROOT_DIR}/lib")
+        if(EXISTS "${CUSTOM_LIBCXX_DIR}/libc++.1.dylib")
+            # Ensure the linker picks up the correct libc++ (not the system one) and
+            # that the @rpath/libc++.1.dylib install name resolves at runtime.
+            add_link_options("-L${CUSTOM_LIBCXX_DIR}" "-Wl,-rpath,${CUSTOM_LIBCXX_DIR}")
+            message(STATUS "Using libc++: ${CUSTOM_LIBCXX_DIR}")
+        else()
+            message(WARNING "libc++.1.dylib not found at ${CUSTOM_LIBCXX_DIR}")
+        endif()
+    endif()
+endif()
