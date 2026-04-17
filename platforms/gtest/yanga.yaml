@@ -32,7 +32,7 @@ platforms:
             projects:
               - name: googletest
                 remote: gtest
-                revision: v1.16.0
+                revision: v1.17.0
                 path: gtest
       - id: poks
         file: platforms/gtest/poks.json

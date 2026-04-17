@@ -6,12 +6,25 @@ add_compile_options(
     "$<$<COMPILE_LANGUAGE:CXX>:${COMPILE_CXX_FLAGS}>"
 )
 
-set(COMPILE_C_FLAGS "-DSPLE_TESTABLE_STATIC=")
+set(COMPILE_C_FLAGS "-DSPLE_TESTABLE_STATIC=" -fcondition-coverage)
 add_compile_options(
     "$<$<COMPILE_LANGUAGE:C>:${COMPILE_C_FLAGS}>"
 )
 
 if(APPLE)
+    # The newest macOS SDK headers use macros (e.g. xnu_static_assert_struct_size)
+    # that GCC cannot parse. Fall back to an older compatible SDK if available.
+    if(NOT DEFINED CMAKE_OSX_SYSROOT OR CMAKE_OSX_SYSROOT STREQUAL "")
+        foreach(_sdk_ver 15.4 15)
+            set(_candidate "/Library/Developer/CommandLineTools/SDKs/MacOSX${_sdk_ver}.sdk")
+            if(EXISTS "${_candidate}")
+                set(CMAKE_OSX_SYSROOT "${_candidate}" CACHE PATH "" FORCE)
+                message(STATUS "Using compatible macOS SDK: ${_candidate}")
+                break()
+            endif()
+        endforeach()
+    endif()
+
     find_program(ACTUAL_CXX_COMPILER NAMES ${CMAKE_CXX_COMPILER} g++)
     if(ACTUAL_CXX_COMPILER)
         get_filename_component(COMPILER_BIN_DIR ${ACTUAL_CXX_COMPILER} DIRECTORY)
