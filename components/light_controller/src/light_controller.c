@@ -21,10 +21,12 @@ typedef enum
 } LightColor;
 
 /**
+ * @docs
  * ```{impl} Light state
  *    :id: SWIMPL_LC-001
  *    :implements: SWDD_LC-100
  * ```
+ * @enddocs
  *
  * @enum LightState
  * @brief Represents the states of the light.
@@ -77,10 +79,12 @@ static brightness_t getBrightnessValue()
 {
 #ifdef CONFIG_BRIGHTNESS_ADJUSTMENT_ENABLED
     /**
+     * @docs
      * ```{impl} Variable brightness
      *    :id: SWIMPL_LC-005
      *    :implements: SWDD_LC-204
      * ```
+     * @enddocs
      */
     return RteGetBrightnessValue();
 #else
@@ -121,10 +125,12 @@ static RGBColor getRGBColorWithBrightness(LightColor colorEnum, brightness_t bri
 }
 
 /**
+ * @docs
  * ```{impl} Turn light off
  * :id: SWIMPL_LC-002
  * :implements: SWDD_LC-102
  * ```
+ * @enddocs
  */
 static void turnLightOff(void)
 {
@@ -135,10 +141,12 @@ static void turnLightOff(void)
 }
 
 /**
+ * @docs
  * ```{impl} Turn light on
  *    :id: SWIMPL_LC-003
  *    :implements: SWDD_LC-102
  * ```
+ * @enddocs
  */
 static void turnLightOn(void)
 {
@@ -170,10 +178,12 @@ static void turnLightOn(void)
 #if CONFIG_BLINKING
 /**
  *
+ * @docs
  * ```{impl} Calculate blink period
  *    :id: SWIMPL_LC-004
  *    :implements: SWDD_LC-101
  * ```
+ * @enddocs
  */
 SPLE_TESTABLE_STATIC unsigned int calculateBlinkPeriod(percentage_t mainKnobValue)
 {
@@ -188,10 +198,12 @@ SPLE_TESTABLE_STATIC unsigned int calculateBlinkPeriod(percentage_t mainKnobValu
 #endif
 
 /**
+ * @docs
  * ```{impl} Light Controller's main function
  *    :id: SWIMPL_LC-006
  *    :implements: SWDD_LC-100
  * ```
+ * @enddocs
  *
  * @brief Controls the light state.
  *

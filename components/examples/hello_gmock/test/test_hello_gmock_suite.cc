@@ -13,10 +13,12 @@ extern "C"
 #include "mockup_examples_hello_gmock.h"
 
 /**
- * ```{test} hello_gmock_suite.get_interface
+ * @docs
+ * ```{test} {{ gtest.test }}
  *    :id: TS_COMP_A_010
  *    :tests: SWDD_COMP_A-010
  * ```
+ * @enddocs
  */
 TEST(hello_gmock_suite, get_interface)
 {
@@ -30,10 +32,12 @@ TEST(hello_gmock_suite, get_interface)
 }
 
 /**
- * ```{test} hello_gmock_suite.get_by_pointer
+ * @docs
+ * ```{test} {{ gtest.test }}
  *    :id: TS_COMP_A_020
  *    :tests: SWDD_COMP_A-020
  * ```
+ * @enddocs
  */
 TEST(hello_gmock_suite, get_by_pointer)
 {
@@ -47,10 +51,12 @@ TEST(hello_gmock_suite, get_by_pointer)
 }
 
 /**
- * ```{test} hello_gmock_suite.get_by_pointer_and_return_value
+ * @docs
+ * ```{test} {{ gtest.test }}
  *    :id: TS_COMP_A_030
  *    :tests: SWDD_COMP_A-030
  * ```
+ * @enddocs
  */
 TEST(hello_gmock_suite, get_by_pointer_and_return_value)
 {
@@ -67,10 +73,12 @@ TEST(hello_gmock_suite, get_by_pointer_and_return_value)
 }
 
 /**
- * ```{test} hello_gmock_suite.get_data_structure_by_pointer
+ * @docs
+ * ```{test} {{ gtest.test }}
  *    :id: TS_COMP_A_040
  *    :tests: SWDD_COMP_A-040
  * ```
+ * @enddocs
  */
 TEST(hello_gmock_suite, get_data_structure_by_pointer)
 {
@@ -91,10 +99,12 @@ TEST(hello_gmock_suite, get_data_structure_by_pointer)
 }
 
 /**
- * ```{test} hello_gmock_suite.get_data_structure_by_pointer_1
+ * @docs
+ * ```{test} {{ gtest.test }}
  *    :id: TS_COMP_A_041
  *    :tests: SWDD_COMP_A-040
  * ```
+ * @enddocs
  */
 TEST(hello_gmock_suite, get_data_structure_by_pointer_1)
 {
@@ -119,10 +129,12 @@ TEST(hello_gmock_suite, get_data_structure_by_pointer_1)
 }
 
 /**
- * ```{test} hello_gmock_suite.get_data_structure_array
+ * @docs
+ * ```{test} {{ gtest.test }}
  *    :id: TS_COMP_A_050
  *    :tests: SWDD_COMP_A-050
  * ```
+ * @enddocs
  */
 TEST(hello_gmock_suite, get_data_structure_array)
 {
@@ -145,10 +157,12 @@ TEST(hello_gmock_suite, get_data_structure_array)
 }
 
 /**
- * ```{test} hello_gmock_suite.set_data
+ * @docs
+ * ```{test} {{ gtest.test }}
  *    :id: TS_COMP_A_110
  *    :tests: SWDD_COMP_A-110
  * ```
+ * @enddocs
  */
 TEST(hello_gmock_suite, set_data)
 {
@@ -162,10 +176,12 @@ TEST(hello_gmock_suite, set_data)
 }
 
 /**
- * ```{test} hello_gmock_suite.set_data_by_pointer
+ * @docs
+ * ```{test} {{ gtest.test }}
  *    :id: TS_COMP_A_120
  *    :tests: SWDD_COMP_A-120
  * ```
+ * @enddocs
  */
 TEST(hello_gmock_suite, set_data_by_pointer)
 {

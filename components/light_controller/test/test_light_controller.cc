@@ -62,12 +62,13 @@ std::ostream &operator<<(std::ostream &os, const RGBColor &color)
 }
 
 /**
- *
- * ```{test} light_controller.test_light_stays_off
+ * @docs
+ * ```{test} {{ gtest.test }}
  *    :id: TS_LC-006
  *    :tests: SWDD_LC-100, SWDD_LC-300
  *
  * ```
+ * @enddocs
  */
 TEST(light_controller, test_light_stays_off)
 {
@@ -88,10 +89,12 @@ TEST(light_controller, test_light_stays_off)
 
 #ifdef CONFIG_BRIGHTNESS_ADJUSTMENT_AUTOMATIC
 /**
- * ```{test} light_controller.test_brightness_adjustment_automatic
+ * @docs
+ * ```{test} {{ gtest.test }}
  *    :id: TS_LC-005
  *    :tests: SWDD_LC-100, SWDD_LC-200, SWDD_LC-201, SWDD_LC-202
  * ```
+ * @enddocs
  */
 TEST(light_controller, test_brightness_adjustment_automatic)
 {
@@ -115,12 +118,13 @@ TEST(light_controller, test_brightness_adjustment_automatic)
 #else /* CONFIG_BRIGHTNESS_ADJUSTMENT_AUTOMATIC */
 
 /**
- *
- * ```{test} light_controller.test_light_on_and_off
+ * @docs
+ * ```{test} {{ gtest.test }}
  *    :id: TS_LC-001
  *    :tests: SWDD_LC-100, SWDD_LC-102, SWDD_LC-300
  *
  * ```
+ * @enddocs
  */
 TEST(light_controller, test_light_on_and_off)
 {
@@ -160,12 +164,13 @@ TEST(light_controller, test_light_on_and_off)
 
 #if CONFIG_BLINKING
 /**
- *
- * ```{test} light_controller.test_light_blinking
+ * @docs
+ * ```{test} {{ gtest.test }}
  *    :id: TS_LC-002
  *    :tests: SWDD_LC-101
  *
  * ```
+ * @enddocs
  */
 TEST(light_controller, test_light_blinking)
 {
@@ -228,12 +233,13 @@ std::ostream &operator<<(std::ostream &os, const TestParam &param)
 }
 
 /**
- *
- * ```{test} light_controller.test_correct_blink_period
+ * @docs
+ * ```{test} {{ gtest.test }}
  *    :id: TS_LC-004
  *    :tests: SWDD_LC-101
  *
  * ```
+ * @enddocs
  */
 TEST(light_controller, test_correct_blink_period)
 {
@@ -253,12 +259,13 @@ TEST(light_controller, test_correct_blink_period)
 }
 
 /**
- *
- * ```{test} BlinkPeriodTests/BlinkPeriodTest.CalculatesCorrectBlinkPeriod/*
+ * @docs
+ * ```{test} BlinkPeriodTests/{{ gtest.test }}/*
  *    :id: TS_LC-003
  *    :tests: SWDD_LC-101
  *
  * ```
+ * @enddocs
  */
 TEST_P(BlinkPeriodTest, CalculatesCorrectBlinkPeriod)
 {

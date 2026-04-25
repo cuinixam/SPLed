@@ -11,10 +11,12 @@
 #define BRIGHTNESS_PERIOD_TICKS ((unsigned int)((CONFIG_BRIGHTNESS_ADJUSTMENT_PERIOD * 1000) / BRIGHTNESS_TASK_PERIOD))
 
 /**
+ * @docs
  * ```{impl} Periodic Brightness Adjustment
  *    :id: SWIMPL_BC-001
  *    :implements: SWDD_BC-100, SWDD_BC-102
  * ```
+ * @enddocs
  */
 SPLE_TESTABLE_STATIC brightness_t periodicBrightnessAdjustment(BrightnessAdjustmentData *data)
 {
@@ -40,10 +42,12 @@ SPLE_TESTABLE_STATIC brightness_t periodicBrightnessAdjustment(BrightnessAdjustm
 #else /* CONFIG_BRIGHTNESS_ADJUSTMENT_AUTOMATIC */
 
 /**
+ * @docs
  * ```{impl} Manual Brightness Adjustment
  *    :id: SWIMPL_BC-002
  *    :implements: SWDD_BC-100, SWDD_BC-101, SWDD_BC-201
  * ```
+ * @enddocs
  */
 static brightness_t manualBrightnessAdjustment(void)
 {
@@ -64,10 +68,12 @@ static brightness_t manualBrightnessAdjustment(void)
 #endif /* CONFIG_BRIGHTNESS_ADJUSTMENT_AUTOMATIC */
 
 /**
+ * @docs
  * ```{impl} Brightness Controller runnable
  *    :id: SWIMPL_BC-003
  *    :implements: SWDD_BC-200, SWDD_BC-202, SWDD_BC-203
  * ```
+ * @enddocs
  */
 void brightnessController(void)
 {

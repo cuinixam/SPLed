@@ -6,10 +6,12 @@
 // https://www.youtube.com/watch?v=k0_PF8MtEEo
 
 /**
+ * @docs
  * ```{impl} Abort decision logic
  *    :id: SWIMPL_FC-001
  *    :implements: SWDD_FC-100, SWDD_FC-101, SWDD_FC-102
  * ```
+ * @enddocs
  */
 boolean CheckAbort(boolean off_course, boolean abort_commanded, boolean valid_abort_command)
 {
@@ -24,10 +26,12 @@ boolean CheckAbort(boolean off_course, boolean abort_commanded, boolean valid_ab
 }
 
 /**
+ * @docs
  * ```{impl} Flight Controller's main runnable
  *    :id: SWIMPL_FC-002
  *    :implements: SWDD_FC-103, SWDD_FC-200, SWDD_FC-201, SWDD_FC-202, SWDD_FC-203, SWDD_FC-204
  * ```
+ * @enddocs
  */
 void flightController(void)
 {
