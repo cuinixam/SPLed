@@ -10,6 +10,8 @@ pipeline:
     module: yanga_core.steps.poks_install
   - step: WestInstall
     module: yanga_core.steps.west_install
+    config:
+      revision_scoped_paths: true
   - step: GenerateEnvSetupScript
     module: pypeline.steps.env_setup_script
   gen:

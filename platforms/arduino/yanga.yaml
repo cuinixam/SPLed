@@ -1,6 +1,7 @@
 components:
   - name: arduino_core
-    path: .yanga/ext/ArduinoCoreAvr/cores/arduino
+    external: ArduinoCore-avr
+    path: cores/arduino
     sources:
       - abi.cpp
       - CDC.cpp
@@ -36,19 +37,22 @@ components:
       exclude_productive_code: true
   - name: arduino_pins_eightanaloginputs
     alias: pins
-    path: .yanga/ext/ArduinoCoreAvr/variants/eightanaloginputs
+    external: ArduinoCore-avr
+    path: variants/eightanaloginputs
     include_directories:
       - path: .
         scope: PUBLIC
   - name: arduino_pins_standard
     alias: pins
-    path: .yanga/ext/ArduinoCoreAvr/variants/standard
+    external: ArduinoCore-avr
+    path: variants/standard
     include_directories:
       - path: .
         scope: PUBLIC
   - name: atmega328p_xmini_pins
     alias: pins
-    path: .yanga/ext/atmel_avr_xmini/module/variants/atmega328p-xmini
+    external: atmel-avr-xmini-boardmanagermodule
+    path: module/variants/atmega328p-xmini
     include_directories:
       - path: .
         scope: PUBLIC

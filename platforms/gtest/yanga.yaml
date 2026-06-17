@@ -3,10 +3,8 @@ platforms:
   - name: gtest
     description: Build and run components GTest tests
     build_targets:
-      - all
-      - report
-      - coverage
-      - lint
+      generic: [report, coverage, lint]
+      variant: [all]
     generators:
       - step: GTestCMakeGenerator
         module: yanga.cmake.gtest
