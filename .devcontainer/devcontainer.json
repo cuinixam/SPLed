@@ -1,6 +1,10 @@
 {
   "name": "Yanga Dev Environment",
   "image": "cuinixam/yanga-dev:1.1.0",
+  "containerEnv": {
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8"
+  },
   "customizations": {
     "vscode": {
       "extensions": [
@@ -16,5 +20,5 @@
       ],
     },
   },
-  "postCreateCommand": "pipx upgrade pypeline-runner && pipx upgrade yanga"
+  "postCreateCommand": "pipx upgrade pypeline-runner --pip-args='--upgrade-strategy eager' && pipx upgrade yanga --pip-args='--upgrade-strategy eager'"
 }
