@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>spledy CI pipeline</title>
+
+<!-- DATA: node = { name, desc?, agent?, collapsed?, source?, code[]?, steps[] | parallel[] }.
+     A node with neither steps nor parallel is a leaf. collapsed:true → starts folded.
+     code[] renders as a snippet under `source` in the inspector. -->
+<script id="pipeline-data" type="application/json">
+{
+  "name": "spledy CI", "agent": "controller", "desc": "GitHub Actions workflow (test.yml)",
+  "steps": [
+    { "name": "Trigger", "desc": "starts on push to develop",
+      "source": ".github/workflows/test.yml",
+      "code": ["on:", "  push:", "    branches: [develop]", "  pull_request:", "    branches: [develop]", "  workflow_dispatch:"] },
+
+    { "name": "Build variants", "desc": "matrix variant × os → every variant builds on both nodes",
+      "source": ".github/workflows/test.yml",
+      "code": [
+        "jobs:",
+        "  build:",
+        "    strategy:",
+        "      fail-fast: false",
+        "      matrix:                       # variant × os → 4 parallel jobs",
+        "        variant: [variant_A, variant_B]",
+        "        os:      [ubuntu-24.04, windows-2022]",
+        "    runs-on: ${{ matrix.os }}",
+        "    steps:",
+        "      - uses: actions/checkout@v5",
+        "      - run: pip install pypeline-runner",
+        "      - run: pypeline run --config-file yanga.yaml --step CreateVEnv --single",
+        "      - run: pytest -k \"Test_${{ matrix.variant }}\""
+      ],
+      "parallel": [
+
+      { "name": "variant_A", "desc": "built on both the docker runner and the Windows VM",
+        "parallel": [
+
+          { "name": "docker runner", "agent": {"kind":"docker","label":"ubuntu-24.04"}, "desc": "builds variant_A on the docker runner", "steps": [
+            { "name": "checkout", "desc": "fetch the spledy sources" },
+            { "name": "pytest -k Test_variant_A", "collapsed": true, "desc": "runs each test (a yanga run) sequentially — shared venv, so no parallelism here", "steps": [
+              { "name": "Test_variant_A.test_build[gtest]", "desc": "build & test on the gtest platform", "steps": [
+                { "name": "yanga run --variant variant_A --platform gtest --target report", "collapsed": true, "desc": "execute the yanga pipeline, then exit",
+                  "source": "yanga.yaml",
+                  "code": [
+                    "pipeline:",
+                    "  install:",
+                    "    - step: CreateVEnv             # create the venv",
+                    "    - step: PoksInstall            # toolchain: clang, cmake, ninja, gcc",
+                    "    - step: WestInstall            # external deps (googletest, …)",
+                    "    - step: GenerateEnvSetupScript",
+                    "  gen:",
+                    "    - step: KConfigGen             # feature model → headers",
+                    "  build:",
+                    "    - step: GenerateBuildSystemFiles",
+                    "    - step: GenerateReportConfig",
+                    "    - step: ExecuteBuild           # compile, test, coverage, report"
+                  ],
+                  "steps": [
+                  { "name": "CreateVEnv", "desc": "create the Python virtual environment" },
+                  { "name": "PoksInstall", "desc": "install toolchain (clang, cmake, ninja, gcc)" },
+                  { "name": "WestInstall", "desc": "fetch external deps (googletest, …)" },
+                  { "name": "GenerateEnvSetupScript", "desc": "write the environment setup script" },
+                  { "name": "KConfigGen", "desc": "resolve the feature model → headers" },
+                  { "name": "GenerateBuildSystemFiles", "desc": "run the CMake generators" },
+                  { "name": "GenerateReportConfig", "desc": "prepare the Sphinx report config" },
+                  { "name": "ExecuteBuild", "desc": "compile, test, coverage, render report" }
+                ]}
+              ]},
+              { "name": "Test_variant_A.test_build[pc_terminal]", "desc": "build & run on the pc_terminal platform", "steps": [
+                { "name": "yanga run --variant variant_A --platform pc_terminal --target report", "collapsed": true, "desc": "execute the yanga pipeline, then exit",
+                  "source": "yanga.yaml",
+                  "code": [
+                    "pipeline:",
+                    "  install:",
+                    "    - step: CreateVEnv             # create the venv",
+                    "    - step: PoksInstall            # toolchain: clang, cmake, ninja, gcc",
+                    "    - step: WestInstall            # external deps (googletest, …)",
+                    "    - step: GenerateEnvSetupScript",
+                    "  gen:",
+                    "    - step: KConfigGen             # feature model → headers",
+                    "  build:",
+                    "    - step: GenerateBuildSystemFiles",
+                    "    - step: GenerateReportConfig",
+                    "    - step: ExecuteBuild           # compile, test, coverage, report"
+                  ],
+                  "steps": [
+                  { "name": "CreateVEnv", "desc": "create the Python virtual environment" },
+                  { "name": "PoksInstall", "desc": "install toolchain (clang, cmake, ninja, gcc)" },
+                  { "name": "GenerateEnvSetupScript", "desc": "write the environment setup script" },
+                  { "name": "KConfigGen", "desc": "resolve the feature model → headers" },
+                  { "name": "GenerateBuildSystemFiles", "desc": "run the CMake generators" },
+                  { "name": "GenerateReportConfig", "desc": "prepare the Sphinx report config" },
+                  { "name": "ExecuteBuild", "desc": "compile, run, render report" }
+                ]}
+              ]}
+            ]}
+          ]},
+
+          { "name": "win vm runner", "agent": {"kind":"vm","label":"win-2022"}, "desc": "builds variant_A on the Windows VM", "steps": [
+            { "name": "checkout", "desc": "fetch the spledy sources" },
+            { "name": "pytest -k Test_variant_A", "collapsed": true, "desc": "runs each test (a yanga run) sequentially — shared venv, so no parallelism here", "steps": [
+              { "name": "Test_variant_A.test_build[gtest]", "desc": "build & test on the gtest platform", "steps": [
+                { "name": "yanga run --variant variant_A --platform gtest --target report", "collapsed": true, "desc": "execute the yanga pipeline, then exit",
+                  "source": "yanga.yaml",
+                  "code": [
+                    "pipeline:",
+                    "  install:",
+                    "    - step: CreateVEnv             # create the venv",
+                    "    - step: PoksInstall            # toolchain: clang, cmake, ninja, gcc",
+                    "    - step: WestInstall            # external deps (googletest, …)",
+                    "    - step: GenerateEnvSetupScript",
+                    "  gen:",
+                    "    - step: KConfigGen             # feature model → headers",
+                    "  build:",
+                    "    - step: GenerateBuildSystemFiles",
+                    "    - step: GenerateReportConfig",
+                    "    - step: ExecuteBuild           # compile, test, coverage, report"
+                  ],
+                  "steps": [
+                  { "name": "CreateVEnv", "desc": "create the Python virtual environment" },
+                  { "name": "PoksInstall", "desc": "install toolchain (clang, cmake, ninja, gcc)" },
+                  { "name": "WestInstall", "desc": "fetch external deps (googletest, …)" },
+                  { "name": "GenerateEnvSetupScript", "desc": "write the environment setup script" },
+                  { "name": "KConfigGen", "desc": "resolve the feature model → headers" },
+                  { "name": "GenerateBuildSystemFiles", "desc": "run the CMake generators" },
+                  { "name": "GenerateReportConfig", "desc": "prepare the Sphinx report config" },
+                  { "name": "ExecuteBuild", "desc": "compile, test, coverage, render report" }
+                ]}
+              ]},
+              { "name": "Test_variant_A.test_build[pc_terminal]", "desc": "build & run on the pc_terminal platform", "steps": [
+                { "name": "yanga run --variant variant_A --platform pc_terminal --target report", "collapsed": true, "desc": "execute the yanga pipeline, then exit",
+                  "source": "yanga.yaml",
+                  "code": [
+                    "pipeline:",
+                    "  install:",
+                    "    - step: CreateVEnv             # create the venv",
+                    "    - step: PoksInstall            # toolchain: clang, cmake, ninja, gcc",
+                    "    - step: WestInstall            # external deps (googletest, …)",
+                    "    - step: GenerateEnvSetupScript",
+                    "  gen:",
+                    "    - step: KConfigGen             # feature model → headers",
+                    "  build:",
+                    "    - step: GenerateBuildSystemFiles",
+                    "    - step: GenerateReportConfig",
+                    "    - step: ExecuteBuild           # compile, test, coverage, report"
+                  ],
+                  "steps": [
+                  { "name": "CreateVEnv", "desc": "create the Python virtual environment" },
+                  { "name": "PoksInstall", "desc": "install toolchain (clang, cmake, ninja, gcc)" },
+                  { "name": "GenerateEnvSetupScript", "desc": "write the environment setup script" },
+                  { "name": "KConfigGen", "desc": "resolve the feature model → headers" },
+                  { "name": "GenerateBuildSystemFiles", "desc": "run the CMake generators" },
+                  { "name": "GenerateReportConfig", "desc": "prepare the Sphinx report config" },
+                  { "name": "ExecuteBuild", "desc": "compile, run, render report" }
+                ]}
+              ]}
+            ]}
+          ]}
+        ]
+      },
+
+      { "name": "variant_B", "desc": "built on both the docker runner and the Windows VM",
+        "parallel": [
+
+          { "name": "docker runner", "agent": {"kind":"docker","label":"ubuntu-24.04"}, "desc": "builds variant_B on the docker runner", "steps": [
+            { "name": "checkout", "desc": "fetch the spledy sources" },
+            { "name": "pytest -k Test_variant_B", "collapsed": true, "desc": "runs each test (a yanga run) sequentially — shared venv, so no parallelism here", "steps": [
+              { "name": "Test_variant_B.test_build[gtest]", "desc": "build & test on the gtest platform", "steps": [
+                { "name": "yanga run --variant variant_B --platform gtest --target report", "collapsed": true, "desc": "execute the yanga pipeline, then exit",
+                  "source": "yanga.yaml",
+                  "code": [
+                    "pipeline:",
+                    "  install:",
+                    "    - step: CreateVEnv             # create the venv",
+                    "    - step: PoksInstall            # toolchain: clang, cmake, ninja, gcc",
+                    "    - step: WestInstall            # external deps (googletest, …)",
+                    "    - step: GenerateEnvSetupScript",
+                    "  gen:",
+                    "    - step: KConfigGen             # feature model → headers",
+                    "  build:",
+                    "    - step: GenerateBuildSystemFiles",
+                    "    - step: GenerateReportConfig",
+                    "    - step: ExecuteBuild           # compile, test, coverage, report"
+                  ],
+                  "steps": [
+                  { "name": "CreateVEnv", "desc": "create the Python virtual environment" },
+                  { "name": "PoksInstall", "desc": "install toolchain (clang, cmake, ninja, gcc)" },
+                  { "name": "WestInstall", "desc": "fetch external deps (googletest, …)" },
+                  { "name": "GenerateEnvSetupScript", "desc": "write the environment setup script" },
+                  { "name": "KConfigGen", "desc": "resolve the feature model → headers" },
+                  { "name": "GenerateBuildSystemFiles", "desc": "run the CMake generators" },
+                  { "name": "GenerateReportConfig", "desc": "prepare the Sphinx report config" },
+                  { "name": "ExecuteBuild", "desc": "compile, test, coverage, render report" }
+                ]}
+              ]},
+              { "name": "Test_variant_B.test_build[pc_terminal]", "desc": "build & run on the pc_terminal platform", "steps": [
+                { "name": "yanga run --variant variant_B --platform pc_terminal --target report", "collapsed": true, "desc": "execute the yanga pipeline, then exit",
+                  "source": "yanga.yaml",
+                  "code": [
+                    "pipeline:",
+                    "  install:",
+                    "    - step: CreateVEnv             # create the venv",
+                    "    - step: PoksInstall            # toolchain: clang, cmake, ninja, gcc",
+                    "    - step: WestInstall            # external deps (googletest, …)",
+                    "    - step: GenerateEnvSetupScript",
+                    "  gen:",
+                    "    - step: KConfigGen             # feature model → headers",
+                    "  build:",
+                    "    - step: GenerateBuildSystemFiles",
+                    "    - step: GenerateReportConfig",
+                    "    - step: ExecuteBuild           # compile, test, coverage, report"
+                  ],
+                  "steps": [
+                  { "name": "CreateVEnv", "desc": "create the Python virtual environment" },
+                  { "name": "PoksInstall", "desc": "install toolchain (clang, cmake, ninja, gcc)" },
+                  { "name": "GenerateEnvSetupScript", "desc": "write the environment setup script" },
+                  { "name": "KConfigGen", "desc": "resolve the feature model → headers" },
+                  { "name": "GenerateBuildSystemFiles", "desc": "run the CMake generators" },
+                  { "name": "GenerateReportConfig", "desc": "prepare the Sphinx report config" },
+                  { "name": "ExecuteBuild", "desc": "compile, run, render report" }
+                ]}
+              ]}
+            ]}
+          ]},
+
+          { "name": "win vm runner", "agent": {"kind":"vm","label":"win-2022"}, "desc": "builds variant_B on the Windows VM", "steps": [
+            { "name": "checkout", "desc": "fetch the spledy sources" },
+            { "name": "pytest -k Test_variant_B", "collapsed": true, "desc": "runs each test (a yanga run) sequentially — shared venv, so no parallelism here", "steps": [
+              { "name": "Test_variant_B.test_build[gtest]", "desc": "build & test on the gtest platform", "steps": [
+                { "name": "yanga run --variant variant_B --platform gtest --target report", "collapsed": true, "desc": "execute the yanga pipeline, then exit",
+                  "source": "yanga.yaml",
+                  "code": [
+                    "pipeline:",
+                    "  install:",
+                    "    - step: CreateVEnv             # create the venv",
+                    "    - step: PoksInstall            # toolchain: clang, cmake, ninja, gcc",
+                    "    - step: WestInstall            # external deps (googletest, …)",
+                    "    - step: GenerateEnvSetupScript",
+                    "  gen:",
+                    "    - step: KConfigGen             # feature model → headers",
+                    "  build:",
+                    "    - step: GenerateBuildSystemFiles",
+                    "    - step: GenerateReportConfig",
+                    "    - step: ExecuteBuild           # compile, test, coverage, report"
+                  ],
+                  "steps": [
+                  { "name": "CreateVEnv", "desc": "create the Python virtual environment" },
+                  { "name": "PoksInstall", "desc": "install toolchain (clang, cmake, ninja, gcc)" },
+                  { "name": "WestInstall", "desc": "fetch external deps (googletest, …)" },
+                  { "name": "GenerateEnvSetupScript", "desc": "write the environment setup script" },
+                  { "name": "KConfigGen", "desc": "resolve the feature model → headers" },
+                  { "name": "GenerateBuildSystemFiles", "desc": "run the CMake generators" },
+                  { "name": "GenerateReportConfig", "desc": "prepare the Sphinx report config" },
+                  { "name": "ExecuteBuild", "desc": "compile, test, coverage, render report" }
+                ]}
+              ]},
+              { "name": "Test_variant_B.test_build[pc_terminal]", "desc": "build & run on the pc_terminal platform", "steps": [
+                { "name": "yanga run --variant variant_B --platform pc_terminal --target report", "collapsed": true, "desc": "execute the yanga pipeline, then exit",
+                  "source": "yanga.yaml",
+                  "code": [
+                    "pipeline:",
+                    "  install:",
+                    "    - step: CreateVEnv             # create the venv",
+                    "    - step: PoksInstall            # toolchain: clang, cmake, ninja, gcc",
+                    "    - step: WestInstall            # external deps (googletest, …)",
+                    "    - step: GenerateEnvSetupScript",
+                    "  gen:",
+                    "    - step: KConfigGen             # feature model → headers",
+                    "  build:",
+                    "    - step: GenerateBuildSystemFiles",
+                    "    - step: GenerateReportConfig",
+                    "    - step: ExecuteBuild           # compile, test, coverage, report"
+                  ],
+                  "steps": [
+                  { "name": "CreateVEnv", "desc": "create the Python virtual environment" },
+                  { "name": "PoksInstall", "desc": "install toolchain (clang, cmake, ninja, gcc)" },
+                  { "name": "GenerateEnvSetupScript", "desc": "write the environment setup script" },
+                  { "name": "KConfigGen", "desc": "resolve the feature model → headers" },
+                  { "name": "GenerateBuildSystemFiles", "desc": "run the CMake generators" },
+                  { "name": "GenerateReportConfig", "desc": "prepare the Sphinx report config" },
+                  { "name": "ExecuteBuild", "desc": "compile, run, render report" }
+                ]}
+              ]}
+            ]}
+          ]}
+        ]
+      }
+    ]},
+
+    { "name": "Collect & combine", "agent": {"kind":"docker","label":"ubuntu-24.04"}, "desc": "aggregate every variant report into the SPL report",
+      "source": "spl_pypeline.yaml",
+      "code": [
+        "pipeline:",
+        "  collect:",
+        "    - step: FindVariants           # download each variant's report from the release",
+        "    - step: GenerateSplConfig      # assemble the SPL-scope report config",
+        "  publish:",
+        "    - step: SphinxBuild            # render the SPL overview site",
+        "    - step: PublishToOrphanBranch  # push to gh-pages"
+      ],
+      "steps": [
+      { "name": "find-variants", "desc": "discover variant artefacts on the release" },
+      { "name": "generate-spl-config", "desc": "assemble the SPL-scope report config" },
+      { "name": "publish gh-pages", "desc": "publish the SPL site to gh-pages" }
+    ]}
+  ]
+}
+</script>
+
+<style>
+  :root{--bg:#f4f7fb;--card:#fff;--ink:#1b2733;--muted:#5b6b7b;--line:#e3e9f0;--dot:#b9c4d0;--accent:#1f7ae0;}
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;}
+  body{background:var(--bg);color:var(--ink);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;}
+  .app{display:grid;height:100vh;}
+  .app.dock-bottom{grid-template-areas:"top" "canvas" "insp";grid-template-rows:auto 1fr minmax(210px,34vh);grid-template-columns:1fr;}
+  .app.dock-right {grid-template-areas:"top top" "canvas insp";grid-template-rows:auto 1fr;grid-template-columns:1fr minmax(340px,30vw);}
+  .topbar{grid-area:top;display:flex;align-items:center;gap:8px;padding:8px 14px;background:#fff;border-bottom:1px solid var(--line);}
+  .title{font-weight:700;font-size:14px;white-space:nowrap;}
+  .hint{color:var(--muted);font-size:12px;white-space:nowrap;}
+  .tb-spacer{flex:1;}
+  .canvas{grid-area:canvas;overflow:auto;padding:18px 20px 26px;}
+  .inspector{grid-area:insp;overflow:auto;background:#fff;padding:14px 16px;}
+  .app.dock-bottom .inspector{border-top:1px solid var(--line);}
+  .app.dock-right  .inspector{border-left:1px solid var(--line);}
+  .tbtn{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 10px;font-size:12px;cursor:pointer;white-space:nowrap;}
+  .tbtn:hover{background:#f1f5fa;}
+  /* tree */
+  @keyframes appear{from{opacity:0;transform:translateY(4px) scale(.97)}to{opacity:1;transform:none}}
+  .leaf,.containerbox,.agentbox{animation:appear .22s ease both;}
+  .seq{display:flex;align-items:center;gap:7px;}
+  .par{display:flex;flex-direction:column;gap:10px;}
+  .arrow{color:#b6c1cd;font-size:14px;flex:none;align-self:center;}
+  .containerbox{border:1px solid #e1e8f1;border-radius:10px;padding:6px 8px 8px;}
+  .agentbox{border:1.5px dashed #c2cedd;border-radius:12px;padding:7px 10px 9px;background:#f6f9fd;}
+  .hrow{display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;color:#5d6b7d;}
+  .agentbox > .hrow{color:#5a6b9a;}
+  .tog{cursor:pointer;user-select:none;width:16px;height:16px;line-height:14px;border:1px solid #cdd7e2;border-radius:4px;
+       background:#fff;color:#5d6b7d;text-align:center;flex:none;font-size:13px;font-weight:700;}
+  .tog:hover{background:#f1f5fa;border-color:#aab8c9;}
+  .hrow .d{width:8px;height:8px;border-radius:50%;background:var(--dot);flex:none;}
+  .hrow .nm{cursor:pointer;} .hrow .nm:hover{color:var(--accent);}
+  .badge{background:#e7eefb;border:1px solid #d2def3;border-radius:20px;padding:1px 8px;font-size:10.5px;}
+  .csum{color:#94a2b2;font-size:10px;font-weight:400;}
+  .cdesc{font-size:10px;color:#9aa7b6;margin:1px 0 6px 18px;}
+  .leaf{border:1px solid var(--line);border-radius:9px;padding:6px 11px;font-size:12.5px;background:#fff;cursor:pointer;white-space:nowrap;
+        display:flex;align-items:center;gap:7px;}
+  .leaf .d{width:8px;height:8px;border-radius:50%;background:var(--dot);flex:none;}
+  .leaf:hover{border-color:#b9c9dd;}
+  .sel{outline:2px solid var(--accent);outline-offset:1px;}
+  /* inspector — description focused */
+  .insp-name{font-size:17px;font-weight:700;line-height:1.3;}
+  .insp-agent{font-size:11.5px;color:#5a6b9a;margin-top:5px;}
+  .insp-agent .badge{background:#e7eefb;border:1px solid #d2def3;border-radius:20px;padding:1px 8px;}
+  .insp-desc{font-size:14px;line-height:1.6;color:var(--ink);margin-top:12px;}
+  .insp-code{margin-top:14px;border:1px solid var(--line);border-radius:9px;overflow:hidden;}
+  .code-src{background:#eef3f9;border-bottom:1px solid var(--line);padding:5px 10px;font:11.5px ui-monospace,Menlo,monospace;color:#4a5a6b;}
+  .insp-code pre{margin:0;padding:10px 12px;overflow:auto;font:12px/1.55 ui-monospace,Menlo,Consolas,monospace;color:#26313c;}
+  .insp-code .cm{color:#9aa7b6;}
+  .cfg{font-size:10px;margin-left:5px;opacity:.65;}
+  .insp-children{margin-top:16px;border-top:1px solid var(--line);}
+  .insp-children .lbl{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:12px 0 4px;}
+  .kid{padding:8px 0;border-bottom:1px solid #eef2f7;cursor:pointer;}
+  .kid:hover .kn{color:var(--accent);}
+  .kid .kn{font-weight:600;font-size:12.5px;}
+  .kid .kd{color:var(--muted);font-size:12px;margin-top:2px;}
+  .canvas::-webkit-scrollbar{width:10px;height:10px;}
+  .canvas::-webkit-scrollbar-thumb{background:#cbd6e2;border-radius:6px;}
+</style>
+</head>
+<body>
+<div class="app dock-bottom" id="app">
+  <header class="topbar">
+    <span class="title">spledy CI pipeline</span>
+    <span class="hint">— click a box to inspect · + to expand</span>
+    <span class="tb-spacer"></span>
+    <button class="tbtn" id="collapse">Collapse all</button>
+    <button class="tbtn" id="expand">Expand all</button>
+    <button class="tbtn" id="dock">Dock: bottom</button>
+  </header>
+
+  <main class="canvas" id="canvas"></main>
+
+  <aside class="inspector">
+    <div class="insp-name" id="sel-name">select a node</div>
+    <div class="insp-agent" id="sel-agent"></div>
+    <div class="insp-desc" id="sel-desc">click any box in the pipeline to read what it does</div>
+    <div class="insp-code" id="sel-code" style="display:none"></div>
+  </aside>
+</div>
+
+<script>
+"use strict";
+const ICON={docker:"🐳",vm:"🖥",node:"🧰"};
+const ROOT=JSON.parse(document.getElementById("pipeline-data").textContent);
+const isAgent=n=>n.agent&&typeof n.agent==="object";
+const kids=n=>n.steps||n.parallel||null;
+function meta(n){return n.parallel?`${n.parallel.length} parallel`:`${n.steps.length} steps`;}
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function effAgent(n){while(n){if(n.agent)return n.agent;n=n._parent;}return null;}
+function codeHtml(lines){return lines.map(l=>{const i=l.indexOf("#");return i>=0?esc(l.slice(0,i))+`<span class="cm">${esc(l.slice(i))}</span>`:esc(l);}).join("\n");}
+
+let SEL=null;
+const updaters=[], CONTAINERS=[];
+function div(cls){const d=document.createElement("div");if(cls)d.className=cls;return d;}
+function build(n,isRoot,depth,parent){
+  depth=depth||0; n._parent=parent;
+  if(!kids(n)){ const leaf=div("leaf"); leaf.innerHTML=`<span class="d"></span>${esc(n.name)}${n.code?'<span class="cfg">📄</span>':''}`; leaf.title=n.desc||""; leaf.onclick=()=>select(n);
+    updaters.push(()=>leaf.classList.toggle("sel",SEL===n)); return leaf;
+  }
+  n._collapsed=!!n.collapsed;
+  const wrap=div("block"); let head=null,body;
+  if(!isRoot){
+    CONTAINERS.push(n);
+    head=div("hrow");
+    const tog=div("tog");tog.onclick=e=>{e.stopPropagation();n._collapsed=!n._collapsed;render();};head.appendChild(tog);
+    if(isAgent(n)){wrap.classList.add("agentbox");const b=document.createElement("span");b.className="badge";b.textContent=`${ICON[n.agent.kind]||"🧰"} ${n.agent.kind} · ${n.agent.label}`;head.appendChild(b);}
+    else {wrap.classList.add("containerbox");wrap.style.background=`hsl(214 42% ${99-depth*1.3}%)`;}
+    head.insertAdjacentHTML("beforeend",'<span class="d"></span>');
+    const nm=document.createElement("span");nm.className="nm";nm.textContent=n.name;nm.onclick=()=>select(n);head.appendChild(nm);
+    if(n.code)head.insertAdjacentHTML("beforeend",'<span class="cfg">📄</span>');
+    const cs=div("csum");head.appendChild(cs);n._cs=cs;n._tog=tog;
+    wrap.appendChild(head);
+    if(n.desc){const d=div("cdesc");d.textContent=n.desc;wrap.appendChild(d);n._cd=d;}
+  }
+  if(n.steps){ body=div("seq"); n.steps.forEach((k,i)=>{ if(i)body.insertAdjacentHTML("beforeend",'<span class="arrow">→</span>'); body.appendChild(build(k,false,depth+1,n)); }); }
+  else { body=div("par"); n.parallel.forEach(k=>body.appendChild(build(k,false,depth+1,n))); }
+  wrap.appendChild(body);
+  updaters.push(()=>{
+    wrap.classList.toggle("sel",SEL===n);
+    if(head){ const col=n._collapsed; body.style.display=col?"none":""; n._tog.textContent=col?"+":"−";
+      if(n._cd)n._cd.style.display=col?"none":""; n._cs.textContent=col?`(${meta(n)})`:""; }
+  });
+  return wrap;
+}
+
+function render(){
+  updaters.forEach(f=>f());
+  const nameEl=document.getElementById("sel-name"), agentEl=document.getElementById("sel-agent"),
+        descEl=document.getElementById("sel-desc"), codeEl=document.getElementById("sel-code");
+  if(!SEL){nameEl.textContent="select a node";agentEl.innerHTML="";descEl.textContent="click any box in the pipeline to read what it does";codeEl.style.display="none";return;}
+  nameEl.textContent=SEL.name;
+  const ag=effAgent(SEL);
+  agentEl.innerHTML = ag ? (ag==="controller"
+      ? "⚙ runs on the CI controller (orchestration only)"
+      : `runs on <span class="badge">${ICON[ag.kind]||"🧰"} ${ag.kind} · ${ag.label}</span>`) : "";
+  descEl.textContent=SEL.desc||"";
+  if(SEL.code){codeEl.style.display="";codeEl.innerHTML=`<div class="code-src">📄 ${esc(SEL.source||"config")}</div><pre>${codeHtml(SEL.code)}</pre>`;}
+  else codeEl.style.display="none";
+}
+function select(n){SEL=n;render();}
+function setAll(v){CONTAINERS.forEach(n=>n._collapsed=v);render();}
+
+document.getElementById("canvas").appendChild(build(ROOT,true,0,null));
+document.getElementById("collapse").onclick=()=>setAll(true);
+document.getElementById("expand").onclick=()=>setAll(false);
+const app=document.getElementById("app"), dockBtn=document.getElementById("dock");
+dockBtn.onclick=()=>{const bottom=app.classList.toggle("dock-bottom");app.classList.toggle("dock-right",!bottom);dockBtn.textContent="Dock: "+(bottom?"bottom":"right");};
+render();
+</script>
+</body>
+</html>

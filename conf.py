@@ -87,6 +87,11 @@ html_theme_options = {
 
 html_logo = "doc/_figures/SPLED_logo.png"
 
+# Copy the standalone CI pipeline page into the report output as-is.
+# It is referenced from the toctree as `CI Pipeline <./ci_pipeline.html#http://>`
+# and the fix_html_links step rewrites the link to the correct relative path.
+html_extra_path = ["doc/ci_pipeline.html"]
+
 # extensions and their configuration #########################################
 extensions = []
 

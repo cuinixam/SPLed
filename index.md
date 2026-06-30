@@ -24,6 +24,7 @@
 
 /doc/software_architecture/index
 /doc/components
+CI Pipeline <./ci_pipeline.html#http://>
 {% for file in report_data.get_variant_files_list() %}
 {{ file }}
 {% endfor %}
