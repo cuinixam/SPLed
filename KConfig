@@ -1,5 +1,3 @@
-mainmenu "SPLed"
-
 menu "Features"
     config BLINKING
         bool "Blinking Feature"
@@ -29,7 +27,7 @@ menu "Features"
             This option allows you to set the period for brightness adjustment.
             The value is in seconds and can be set between 1 and 60 seconds.
 
-    source "platforms/KConfig"
-    source "components/light_controller/KConfig"
+    rsource "platforms/KConfig"
+    rsource "components/light_controller/KConfig"
 
 endmenu
