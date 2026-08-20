@@ -1,0 +1,20 @@
+{
+    "buckets": [
+        {
+            "name": "poks-bucket",
+            "url": "https://github.com/cuinixam/poks-bucket.git"
+        }
+    ],
+    "apps": [
+        {
+            "name": "tricore-elf-gcc",
+            "version": "13.4.1",
+            "bucket": "poks-bucket",
+            "os": [
+                "linux",
+                "windows",
+                "macos"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+manifest:
+  remotes:
+    - name: cuinixam
+      url-base: https://github.com/cuinixam
+  projects:
+    # The bare-metal base: Boot Mode Header, per-core startup, SFR headers and
+    # iLLD, all under the Boost Software License 1.0 grant Infineon puts in every
+    # file header.
+    #
+    # This is a mirror of one directory of Infineon/AURIX_code_examples rather
+    # than the upstream repository itself. Upstream ships a full iLLD copy inside
+    # each of its 547 example directories, so cloning it costs ~15 GB of working
+    # tree to reach the 21 MB the build compiles from, and git gives west no way
+    # to fetch a subtree.
+    - name: aurix-tc375-bsp
+      remote: cuinixam
+      revision: v0.1.0
+      path: AurixTc375Bsp

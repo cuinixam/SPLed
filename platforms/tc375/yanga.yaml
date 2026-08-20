@@ -1,0 +1,173 @@
+components:
+  # The bare-metal base: Boot Mode Header, per-core startup, SFR headers and iLLD,
+  # from a mirror of one Infineon example directory (see platforms/tc375/west.yaml
+  # for why it is a mirror). Every file carries a Boost Software License 1.0 grant
+  # in its header. The source list is deliberately minimal - it was grown from
+  # link errors, not copied wholesale - so adding a peripheral means adding its
+  # iLLD file here.
+  - name: tc375_infineon
+    external: aurix-tc375-bsp
+    path: Blinky_LED_1_KIT_TC375_SB
+    sources:
+    - Configurations/Ifx_Cfg_Ssw.c
+    - Configurations/Ifx_Cfg_SswBmhd.c
+    - Libraries/Infra/Ssw/TC37A/Tricore/Ifx_Ssw_Infra.c
+    - Libraries/Infra/Ssw/TC37A/Tricore/Ifx_Ssw_Tc0.c
+    - Libraries/Infra/Ssw/TC37A/Tricore/Ifx_Ssw_Tc1.c
+    - Libraries/Infra/Ssw/TC37A/Tricore/Ifx_Ssw_Tc2.c
+    - Libraries/Infra/Platform/Tricore/Compilers/CompilerGnuc.c
+    - Libraries/Service/CpuGeneric/SysSe/Bsp/Bsp.c
+    - Libraries/iLLD/TC37A/Tricore/Cpu/Std/IfxCpu.c
+    - Libraries/iLLD/TC37A/Tricore/Pms/Std/IfxPmsEvr.c
+    - Libraries/iLLD/TC37A/Tricore/Port/Std/IfxPort.c
+    - Libraries/iLLD/TC37A/Tricore/Scu/Std/IfxScuCcu.c
+    - Libraries/iLLD/TC37A/Tricore/Scu/Std/IfxScuWdt.c
+    - Libraries/iLLD/TC37A/Tricore/Stm/Std/IfxStm.c
+    - Libraries/iLLD/TC37A/Tricore/_Impl/IfxCpu_cfg.c
+    - Libraries/iLLD/TC37A/Tricore/_Impl/IfxPort_cfg.c
+    - Libraries/iLLD/TC37A/Tricore/_Impl/IfxScu_cfg.c
+    - Libraries/iLLD/TC37A/Tricore/_Impl/IfxStm_cfg.c
+    include_directories:
+    - path: Configurations
+      scope: PUBLIC
+    - path: Configurations/Debug
+      scope: PUBLIC
+    - path: Libraries
+      scope: PUBLIC
+    - path: Libraries/Infra
+      scope: PUBLIC
+    - path: Libraries/Infra/Platform
+      scope: PUBLIC
+    - path: Libraries/Infra/Platform/Tricore
+      scope: PUBLIC
+    - path: Libraries/Infra/Platform/Tricore/Compilers
+      scope: PUBLIC
+    - path: Libraries/Infra/Sfr
+      scope: PUBLIC
+    - path: Libraries/Infra/Sfr/TC37A
+      scope: PUBLIC
+    - path: Libraries/Infra/Sfr/TC37A/_Reg
+      scope: PUBLIC
+    - path: Libraries/Infra/Ssw
+      scope: PUBLIC
+    - path: Libraries/Infra/Ssw/TC37A
+      scope: PUBLIC
+    - path: Libraries/Infra/Ssw/TC37A/Tricore
+      scope: PUBLIC
+    - path: Libraries/Service
+      scope: PUBLIC
+    - path: Libraries/Service/CpuGeneric
+      scope: PUBLIC
+    - path: Libraries/Service/CpuGeneric/If
+      scope: PUBLIC
+    - path: Libraries/Service/CpuGeneric/StdIf
+      scope: PUBLIC
+    - path: Libraries/Service/CpuGeneric/SysSe
+      scope: PUBLIC
+    - path: Libraries/Service/CpuGeneric/SysSe/Bsp
+      scope: PUBLIC
+    - path: Libraries/Service/CpuGeneric/SysSe/General
+      scope: PUBLIC
+    - path: Libraries/Service/CpuGeneric/_Utilities
+      scope: PUBLIC
+    - path: Libraries/iLLD
+      scope: PUBLIC
+    - path: Libraries/iLLD/TC37A
+      scope: PUBLIC
+    - path: Libraries/iLLD/TC37A/Tricore
+      scope: PUBLIC
+    - path: Libraries/iLLD/TC37A/Tricore/_Impl
+      scope: PUBLIC
+    - path: Libraries/iLLD/TC37A/Tricore/_Lib
+      scope: PUBLIC
+    - path: Libraries/iLLD/TC37A/Tricore/_Lib/DataHandling
+      scope: PUBLIC
+    - path: Libraries/iLLD/TC37A/Tricore/_PinMap
+      scope: PUBLIC
+    - path: Libraries/iLLD/TC37A/Tricore/Cpu/Std
+      scope: PUBLIC
+    - path: Libraries/iLLD/TC37A/Tricore/Cpu/Irq
+      scope: PUBLIC
+    - path: Libraries/iLLD/TC37A/Tricore/Cpu/Trap
+      scope: PUBLIC
+    - path: Libraries/iLLD/TC37A/Tricore/Port/Std
+      scope: PUBLIC
+    - path: Libraries/iLLD/TC37A/Tricore/Port/Io
+      scope: PUBLIC
+    - path: Libraries/iLLD/TC37A/Tricore/Scu/Std
+      scope: PUBLIC
+    - path: Libraries/iLLD/TC37A/Tricore/Src/Std
+      scope: PUBLIC
+    - path: Libraries/iLLD/TC37A/Tricore/Stm/Std
+      scope: PUBLIC
+    - path: Libraries/iLLD/TC37A/Tricore/Pms/Std
+      scope: PUBLIC
+    # Vendor code, not this product line's - keep it out of the docs build.
+    docs:
+      exclude_productive_code: true
+
+  - name: tc375_main
+    path: platforms/tc375/src
+    sources:
+    - main.c
+    required_components:
+    - platform_types
+    - tc375_infineon
+    - rte
+    - spled
+    - led_interface
+    - button_interface
+
+  - name: tc375_led
+    path: platforms/tc375/src
+    sources:
+    - led.c
+    required_components:
+    - platform_types
+    - tc375_infineon
+    - led_interface
+
+  - name: tc375_button
+    path: platforms/tc375/src
+    sources:
+    - button.c
+    required_components:
+    - platform_types
+    - tc375_infineon
+    - button_interface
+
+
+platforms:
+  # Infineon AURIX TC375 on KIT-A2G-TC375-ARD-SB (Hitex ShieldBuddy), bare metal.
+  # Linux and Windows only: no free tricore-elf GCC ships a macOS build, so build
+  # this one in the devcontainer.
+  - name: tc375
+    description: Build for the Infineon AURIX TC375 ShieldBuddy with tricore-elf GCC
+    build_targets:
+      - all
+      - build
+      - compile
+      - report
+    configs:
+      - id: west
+        file: platforms/tc375/west.yaml
+      - id: poks
+        file: platforms/tc375/poks.json
+      - id: toolchain
+        file: "platforms/tc375/tc375.cmake"
+    generators:
+      - step: CreateExecutableCMakeGenerator
+        module: yanga.cmake.create_executable
+        config:
+          use_global_includes: false
+      - step: TricoreLinkerScriptCMakeGenerator
+        file: platforms/tc375/steps.py
+      - step: CreateTricoreHexCMakeGenerator
+        file: platforms/tc375/steps.py
+      - step: ObjectsDepsCMakeGenerator
+        module: yanga.cmake.objects_deps
+      - step: TargetsDataCMakeGenerator
+        module: yanga.cmake.targets_data
+      - step: ReportCMakeGenerator
+        module: yanga.cmake.reports
+    components: [tc375_main, tc375_infineon]

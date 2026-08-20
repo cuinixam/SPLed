@@ -13,3 +13,5 @@ variants:
   platforms:
     arduino_uno_r3:
       components: [arduino_button, arduino_led]
+    tc375:
+      components: [tc375_button, tc375_led]
