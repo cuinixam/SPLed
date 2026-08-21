@@ -1,0 +1,58 @@
+components:
+- name: pc_gui_api
+  sources:
+  - src/spled_api.c
+  include_directories:
+  - path: src
+    scope: PUBLIC
+  required_components:
+  - pc_gui_scheduler
+  - gui_adapters
+- name: pc_gui_scheduler
+  sources:
+  - src/os.c
+  include_directories:
+  - path: src
+    scope: PUBLIC
+  required_components:
+  - spled
+  - led_interface
+  - button_interface
+- name: gui_adapters
+  sources:
+  - src/gui_led_adapter.c
+  - src/gui_button_adapter.c
+  include_directories:
+  - path: src
+    scope: PUBLIC
+  required_components:
+  - led_interface
+  - button_interface
+
+platforms:
+  # Build the variant as a shared library and drive it from platforms/pc_gui/gui.py.
+  - name: pc_gui
+    description: Build the variant as a shared library for the Python GUI (Windows/Linux/macOS)
+    build_types:
+      - Debug
+      - Release
+    build_targets:
+      - all
+      - build
+      - compile
+      - report
+    generators:
+      - step: CreateSharedLibraryCMakeGenerator
+        file: platforms/pc_gui/create_shared_library.py
+        config:
+          use_global_includes: false
+      - step: ObjectsDepsCMakeGenerator
+        module: yanga.cmake.objects_deps
+      - step: TargetsDataCMakeGenerator
+        module: yanga.cmake.targets_data
+      - step: ReportCMakeGenerator
+        module: yanga.cmake.reports
+    configs:
+      - id: toolchain
+        file: "platforms/pc_gui/clang.cmake"
+    components: [pc_gui_api, pc_gui_scheduler, gui_adapters]
