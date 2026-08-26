@@ -31,6 +31,9 @@ class Variant:
         self.library.spled_get_led.argtypes = [ctypes.POINTER(ctypes.c_uint8)] * 3
         self.library.spled_set_button.argtypes = [ctypes.c_int, ctypes.c_int]
         self.library.spled_task_period_ms.restype = ctypes.c_int
+        self.library.spled_get_power_state.restype = ctypes.c_int
+        self.library.spled_get_main_knob_value.restype = ctypes.c_int
+        self.library.spled_get_brightness.restype = ctypes.c_int
         self.library.spled_init()
 
     @property
@@ -47,6 +50,18 @@ class Variant:
 
     def set_button(self, key_code: int, pressed: bool) -> None:
         self.library.spled_set_button(key_code, 1 if pressed else 0)
+
+    @property
+    def power_state(self) -> int:
+        return self.library.spled_get_power_state()
+
+    @property
+    def main_knob_value(self) -> int:
+        return self.library.spled_get_main_knob_value()
+
+    @property
+    def brightness(self) -> int:
+        return self.library.spled_get_brightness()
 
 
 def build_dir(project_dir: Path, variant_name: str, build_type: str = "Debug") -> Path:

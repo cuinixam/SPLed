@@ -17,9 +17,12 @@ import argparse
 import json
 import tkinter as tk
 from pathlib import Path
-from typing import Optional
+from typing import Callable, Optional
 
 from spled_lib import KEY_DOWN, KEY_UP, POWER_BUTTON_KEY, Variant, build_dir, find_library
+
+# From PowerState in components/rte/src/rte_types.h.
+POWER_STATE_NAMES = ("OFF", "ON")
 
 
 def read_features(build_dir: Path) -> dict[str, object]:
@@ -60,6 +63,9 @@ class SpledGui:
             period = features.get("BRIGHTNESS_ADJUSTMENT_PERIOD", "?")
             tk.Label(root, text=f"Brightness adjusts automatically every {period} s").pack(padx=12, pady=(8, 0))
 
+        self.debug_fields: list[tuple[tk.Label, Callable[[], str]]] = []
+        self._add_debug_panel(features).pack(padx=12, pady=(12, 0), anchor="w")
+
         selected = [name for name, value in features.items() if value is True]
         tk.Label(root, text="Selected features: " + ", ".join(selected), wraplength=260, justify="left", fg="#606060").pack(padx=12, pady=12)
 
@@ -72,9 +78,28 @@ class SpledGui:
         button.bind("<ButtonRelease-1>", lambda _event: self.variant.set_button(key_code, False))
         return button
 
+    def _add_debug_panel(self, features: dict[str, object]) -> tk.Frame:
+        """One row per piece of RTE state this variant actually has. tick() refreshes them."""
+        readers: list[tuple[str, Callable[[], str]]] = [("Power", lambda: POWER_STATE_NAMES[self.variant.power_state])]
+        if knob_labels(features):
+            readers.append(("Knob", lambda: f"{self.variant.main_knob_value} %"))
+        if features.get("BRIGHTNESS_ADJUSTMENT_ENABLED"):
+            readers.append(("Brightness", lambda: str(self.variant.brightness)))
+        readers.append(("LED", self.variant.led_colour))
+
+        frame = tk.Frame(self.root)
+        for row, (name, read) in enumerate(readers):
+            tk.Label(frame, text=name, fg="#606060").grid(row=row, column=0, sticky="w")
+            value = tk.Label(frame, text="", font="TkFixedFont")
+            value.grid(row=row, column=1, sticky="w", padx=(12, 0))
+            self.debug_fields.append((value, read))
+        return frame
+
     def tick(self) -> None:
         self.variant.step()
         self.led.itemconfig(self.led_shape, fill=self.variant.led_colour())
+        for value, read in self.debug_fields:
+            value.config(text=read())
         self.root.after(self.variant.task_period_ms, self.tick)
 
 
