@@ -14,53 +14,12 @@ Build it first with:
 """
 
 import argparse
-import ctypes
 import json
 import tkinter as tk
 from pathlib import Path
 from typing import Optional
 
-PLATFORM = "pc_gui"
-LIBRARY_SUFFIXES = (".dll", ".so", ".dylib")
-
-# From components/rte/src/rte_types.h.
-KEY_UP = 0x26
-KEY_DOWN = 0x28
-POWER_BUTTON_KEY = ord("P")
-
-
-class Variant:
-    """The shared library, with the exported ABI bound to Python types."""
-
-    def __init__(self, library_file: Path) -> None:
-        self.library = ctypes.CDLL(str(library_file))
-        self.library.spled_get_led.argtypes = [ctypes.POINTER(ctypes.c_uint8)] * 3
-        self.library.spled_set_button.argtypes = [ctypes.c_int, ctypes.c_int]
-        self.library.spled_task_period_ms.restype = ctypes.c_int
-        self.library.spled_init()
-
-    @property
-    def task_period_ms(self) -> int:
-        return self.library.spled_task_period_ms()
-
-    def step(self) -> None:
-        self.library.spled_step()
-
-    def led_colour(self) -> str:
-        red, green, blue = (ctypes.c_uint8() for _ in range(3))
-        self.library.spled_get_led(ctypes.byref(red), ctypes.byref(green), ctypes.byref(blue))
-        return f"#{red.value:02x}{green.value:02x}{blue.value:02x}"
-
-    def set_button(self, key_code: int, pressed: bool) -> None:
-        self.library.spled_set_button(key_code, 1 if pressed else 0)
-
-
-def find_library(build_dir: Path, variant_name: str) -> Path:
-    for suffix in LIBRARY_SUFFIXES:
-        candidate = build_dir / f"{variant_name}{suffix}"
-        if candidate.is_file():
-            return candidate
-    raise SystemExit(f"No variant library in {build_dir}. Build it with: yanga run --variant {variant_name} --platform {PLATFORM} --target build")
+from spled_lib import KEY_DOWN, KEY_UP, POWER_BUTTON_KEY, Variant, build_dir, find_library
 
 
 def read_features(build_dir: Path) -> dict[str, object]:
@@ -126,9 +85,9 @@ def main() -> None:
     parser.add_argument("--project-dir", type=Path, default=Path(__file__).resolve().parents[2], help="SPLed project directory.")
     arguments = parser.parse_args()
 
-    build_dir = arguments.project_dir / ".yanga" / "build" / arguments.variant / PLATFORM / arguments.build_type
-    variant = Variant(find_library(build_dir, arguments.variant))
-    features = read_features(build_dir)
+    directory = build_dir(arguments.project_dir, arguments.variant, arguments.build_type)
+    variant = Variant(find_library(directory, arguments.variant))
+    features = read_features(directory)
 
     root = tk.Tk()
     SpledGui(root, variant, arguments.variant, features)

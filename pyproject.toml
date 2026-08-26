@@ -28,7 +28,7 @@ line-length = 180
 create_yanga_build_dir = true
 
 [tool.pytest.ini_options]
-pythonpath = ["test"]
+pythonpath = ["test", "platforms/pc_gui"]
 testpaths = ["test"]
 junit_logging = "all"
 addopts = [
