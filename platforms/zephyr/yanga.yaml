@@ -1,0 +1,66 @@
+platforms:
+  # Zephyr drives the build; yanga contributes the variant as a generated CMake
+  # fragment (variant.cmake) that platforms/zephyr/app/CMakeLists.txt includes.
+  # One platform per board: the board is Zephyr's concept and appears only in
+  # the ZephyrBuild step's config.
+  - name: zephyr_sim
+    description: Zephyr native_sim, host compiler (Linux only)
+    build_targets: [all, flash, menuconfig, guiconfig]
+    components: [platform_types]
+    configs:
+      - id: west
+        file: platforms/zephyr/west.yaml
+      - id: poks
+        file: platforms/zephyr/poks.json
+      # Included by the root CMakeLists.txt before project(): find_package(Zephyr).
+      - id: vars
+        content:
+          PLATFORM_CMAKE_SETUP: platforms/zephyr/zephyr.cmake
+      # Included at the end of variant.cmake: the adapters and Zephyr-side settings.
+      - id: cmake
+        file: platforms/zephyr/app.cmake
+    generators:
+      - step: ZephyrCMakeGenerator
+        file: platforms/zephyr/steps.py
+    pipeline:
+      - include: pipeline/zephyr.yaml
+      - step: ZephyrBuild
+        file: platforms/zephyr/steps.py
+        config:
+          board: native_sim/native/64
+          toolchain: host
+
+  - name: zephyr_esp32h2
+    description: Zephyr on the ESP32-H2 devkit, riscv64-zephyr-elf from poks
+    build_targets: [all, flash, menuconfig, guiconfig]
+    components: [platform_types]
+    configs:
+      - id: west
+        file: platforms/zephyr/west.yaml
+      - id: poks
+        file: platforms/zephyr/poks.json
+      # Included by the root CMakeLists.txt before project(): find_package(Zephyr).
+      - id: vars
+        content:
+          PLATFORM_CMAKE_SETUP: platforms/zephyr/zephyr.cmake
+      # Included at the end of variant.cmake: the adapters and Zephyr-side settings.
+      - id: cmake
+        file: platforms/zephyr/app.cmake
+    generators:
+      - step: ZephyrCMakeGenerator
+        file: platforms/zephyr/steps.py
+    pipeline:
+      - include: pipeline/zephyr.yaml
+      # Espressif ships the radio firmware as binary blobs kept out of git. The
+      # regex narrows 54 blobs to the 4 for this SoC.
+      - step: FetchEspressifBlobs
+        run: west blobs fetch hal_espressif --allow-regex lib/esp32h2/
+      - step: ZephyrBuild
+        file: platforms/zephyr/steps.py
+        config:
+          board: esp32h2_devkitm/esp32h2
+          toolchain: cross-compile
+          toolchain_app: riscv64-zephyr-elf
+          # Zephyr's sysroot detection composes a doubled path when a toolchain
+          # ships more than one libc; naming it skips that code. Relative to the toolchain.
+          sysroot: picolibc/riscv64-zephyr-elf

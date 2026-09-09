@@ -14,6 +14,8 @@ Build a variant first with:
 import ctypes
 from pathlib import Path
 
+from yanga_core.domain.spl_paths import SPLPaths
+
 PLATFORM = "pc_gui"
 LIBRARY_SUFFIXES = (".dll", ".so", ".dylib")
 
@@ -65,7 +67,7 @@ class Variant:
 
 
 def build_dir(project_dir: Path, variant_name: str, build_type: str = "Debug") -> Path:
-    return project_dir / ".yanga" / "build" / variant_name / PLATFORM / build_type
+    return SPLPaths(project_dir, variant_name, PLATFORM, build_type).variant_build_dir
 
 
 def find_library(directory: Path, variant_name: str) -> Path:

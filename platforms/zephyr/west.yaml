@@ -1,0 +1,22 @@
+manifest:
+  remotes:
+    - name: zephyrproject-rtos
+      url-base: https://github.com/zephyrproject-rtos
+
+  projects:
+    - name: zephyr
+      remote: zephyrproject-rtos
+      revision: v4.4.0
+      path: zephyr
+      # Without this `west build`, `west flash` and `west blobs` do not exist:
+      # west learns Zephyr's extension commands from this file.
+      west-commands: scripts/west-commands.yml
+
+    # native_sim needs no vendor HAL; the ESP32-H2 board needs Espressif's.
+    # Listed explicitly at the revision Zephyr v4.4.0 pins (deps/zephyr/west.yml)
+    # rather than through an `import`, so the manifest holds only what a build
+    # here needs and every dependency is pinned in one place.
+    - name: hal_espressif
+      remote: zephyrproject-rtos
+      revision: b7953b8019361d09e613f7011d2ccc41b984d087
+      path: modules/hal/espressif

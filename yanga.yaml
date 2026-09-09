@@ -1,17 +1,8 @@
 pipeline:
   install:
-  - step: CreateVEnv
-    module: pypeline.steps.create_venv
-    config:
-      bootstrap_script: .bootstrap/bootstrap.py
-      python_version: "3.11"
-      python_package_manager: poetry>=2.2
-  - step: PoksInstall
-    module: yanga_core.steps.poks_install
-  - step: WestInstall
-    module: yanga_core.steps.west_install
-    config:
-      revision_scoped_paths: true
+  # The env script is not part of the fragment: a platform may need to publish
+  # variables before it is written (see pipeline/zephyr.yaml).
+  - include: pipeline/bootstrap.yaml
   - step: GenerateEnvSetupScript
     module: pypeline.steps.env_setup_script
   gen:

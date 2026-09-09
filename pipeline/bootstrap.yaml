@@ -1,0 +1,15 @@
+# Shared by the project pipeline and every platform pipeline: everything a build
+# needs before it knows which build system runs.
+pipeline:
+  - step: CreateVEnv
+    module: pypeline.steps.create_venv
+    config:
+      bootstrap_script: .bootstrap/bootstrap.py
+      python_version: "3.13"
+      python_package_manager: poetry>=2.2
+  - step: PoksInstall
+    module: yanga_core.steps.poks_install
+  - step: WestInstall
+    module: yanga_core.steps.west_install
+    config:
+      revision_scoped_paths: true

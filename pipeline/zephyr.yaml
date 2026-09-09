@@ -1,0 +1,24 @@
+# Shared by the Zephyr platforms. Each platform appends its own ZephyrBuild step,
+# which is where the board lives. No `gen` stage: Zephyr solves Kconfig itself.
+pipeline:
+  - include:
+      file: bootstrap.yaml
+      steps: [CreateVEnv, PoksInstall]
+  # Zephyr gets a workspace of its own rather than the shared one under .yanga/ext:
+  # a west workspace has exactly one manifest, and the shared one takes whichever
+  # platform ran last. Zephyr's extension commands (west build, flash, blobs) and
+  # its module discovery (hal_espressif) both read the workspace manifest.
+  - step: WestInstall
+    module: yanga_core.steps.west_install
+    config:
+      workspace_dir: .yanga/zephyr
+      revision_scoped_paths: true
+  # Must come before the env setup script, which bakes the context's variables into it.
+  - step: ZephyrSetup
+    file: platforms/zephyr/steps.py
+  - step: GenerateEnvSetupScript
+    module: pypeline.steps.env_setup_script
+  - step: GenerateBuildSystemFiles
+    module: yanga.cmake.steps
+  - step: GenerateZephyrVariantConfig
+    file: platforms/zephyr/steps.py
