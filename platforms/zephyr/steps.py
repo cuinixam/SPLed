@@ -186,7 +186,9 @@ class ZephyrCMakeGenerator(CreateExecutableCMakeGenerator):
     the static `app` are archived into it, which Zephyr then links whole.
     """
 
-    component_link_libraries = (LinkLibrary("zephyr_interface"),)
+    # zephyr_generated_headers is Zephyr's ordering handle for its build-time generated headers
+    # (kernel.h pulls zephyr/heap_constants.h); Zephyr wires it for its own libraries only.
+    component_link_libraries = (LinkLibrary("zephyr_interface"), LinkLibrary("zephyr_generated_headers"))
 
     @property
     def executable_target_name(self) -> str:

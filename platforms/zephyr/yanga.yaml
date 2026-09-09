@@ -1,3 +1,37 @@
+components:
+  # The Zephyr-side adapters behind the same led_interface / button_interface
+  # seam the Arduino and TC375 adapters use. main.c stays in app.cmake: Zephyr
+  # requires at least one source on its `app` library.
+  - name: zephyr_adapters
+    path: platforms/zephyr/app/src
+    sources:
+    - button_adapter.c
+    - buttons_shell.c
+    required_components:
+    - platform_types
+    - rte
+    - button_interface
+
+  # One LED adapter per board, picked by the platform: an RGB LED on a data
+  # line goes through led_strip, a plain on/off LED through gpio.
+  - name: zephyr_led_gpio
+    path: platforms/zephyr/app/src
+    sources:
+    - led_adapter.c
+    required_components:
+    - platform_types
+    - rte
+    - led_interface
+
+  - name: zephyr_led_ws2812
+    path: platforms/zephyr/app/src
+    sources:
+    - led_adapter_ws2812.c
+    required_components:
+    - platform_types
+    - rte
+    - led_interface
+
 platforms:
   # Zephyr drives the build; yanga contributes the variant as a generated CMake
   # fragment (variant.cmake) that platforms/zephyr/app/CMakeLists.txt includes.
@@ -6,7 +40,7 @@ platforms:
   - name: zephyr_sim
     description: Zephyr native_sim, host compiler (Linux only)
     build_targets: [all, flash, menuconfig, guiconfig]
-    components: [platform_types]
+    components: [platform_types, zephyr_adapters, zephyr_led_gpio]
     configs:
       - id: west
         file: platforms/zephyr/west.yaml
@@ -33,7 +67,7 @@ platforms:
   - name: zephyr_esp32h2
     description: Zephyr on the ESP32-H2 devkit, riscv64-zephyr-elf from poks
     build_targets: [all, flash, menuconfig, guiconfig]
-    components: [platform_types]
+    components: [platform_types, zephyr_adapters, zephyr_led_ws2812]
     configs:
       - id: west
         file: platforms/zephyr/west.yaml
