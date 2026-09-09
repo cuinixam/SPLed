@@ -16,10 +16,18 @@
  *   button S1     A1        P32.4
  *   button S2     A2        P23.1
  *   button S3     A3        P33.9
+ *   seg LATCH     D4        P10.4
+ *   seg CLK       D7        P2.5
+ *   seg DATA      D8        P2.6
  *
  * The board is 5V-only (UM 3.1), which is what a 5V multi-function shield wants,
  * so no level shifting is involved. Two harmless overlaps: the LED pins are also
  * the QSPI0 bus, and P33.9 is also ASC2 TX. Neither peripheral is used here.
+ *
+ * The three display pins come from the same manual table as the rest (Section 4.2,
+ * "Connector Pin Allocation"). That table also lists P2.2 as an alternative for
+ * digital pin 4, but only through R410, which is marked "dnf" - not fitted. So
+ * P10.4 is the one that is actually wired.
  */
 
 #define LED_RED_PORT    &MODULE_P10
@@ -35,5 +43,12 @@
 #define BUTTON_DOWN_PIN    1
 #define BUTTON_POWER_PORT  &MODULE_P33
 #define BUTTON_POWER_PIN   9
+
+#define SEG_LATCH_PORT     &MODULE_P10
+#define SEG_LATCH_PIN      4
+#define SEG_CLK_PORT       &MODULE_P02
+#define SEG_CLK_PIN        5
+#define SEG_DATA_PORT      &MODULE_P02
+#define SEG_DATA_PIN       6
 
 #endif // hw_config_h

@@ -117,6 +117,7 @@ components:
     - spled
     - led_interface
     - button_interface
+    - tc375_display
 
   - name: tc375_led
     path: platforms/tc375/src
@@ -135,6 +136,18 @@ components:
     - platform_types
     - tc375_infineon
     - button_interface
+
+  # 4-digit 7-segment display on the multi-function shield. Platform-private, not
+  # one of the product line's interfaces: it reads the RTE directly and is driven
+  # from this platform's own main loop, so no other platform needs a stub for it.
+  - name: tc375_display
+    path: platforms/tc375/src
+    sources:
+    - display.c
+    required_components:
+    - platform_types
+    - tc375_infineon
+    - rte
 
 
 platforms:
@@ -170,4 +183,4 @@ platforms:
         module: yanga.cmake.targets_data
       - step: ReportCMakeGenerator
         module: yanga.cmake.reports
-    components: [tc375_main, tc375_infineon]
+    components: [tc375_main, tc375_infineon, tc375_display]

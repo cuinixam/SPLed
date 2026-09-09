@@ -2,6 +2,7 @@
 #include "spled.h"
 #include "led_interface.h"
 #include "button_interface.h"
+#include "display.h"
 
 #include "Ifx_Types.h"
 #include "IfxCpu.h"
@@ -14,6 +15,7 @@ static void Hal_Init(void)
 {
     ledInterface_init();
     buttonInterface_init();
+    display_init();
 }
 
 /* Entry point for CPU0. Infineon's startup code (Ifx_Ssw_Tc0.c) calls this, so
@@ -38,6 +40,9 @@ void core0_main(void)
     {
         buttonInterface_update();
         spled();
+        /* Redraws the whole 4-digit frame and blocks for DISPLAY_DIGIT_ON_MS per
+           digit, so the effective cycle is the task period plus about 4 ms. */
+        display_update();
         waitTime(IfxStm_getTicksFromMilliseconds(BSP_DEFAULT_TIMER, CONFIG_OS_TASK_PERIOD));
     }
 }
