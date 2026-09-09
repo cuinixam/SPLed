@@ -46,6 +46,7 @@ jobs:
           - "BaseDev"
           - "Sleep"
           - "Disco"
+          - "Spa"
 
     steps:
       - name: Checkout Code

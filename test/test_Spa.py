@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 
 import pytest
@@ -8,15 +9,26 @@ from yanga_core.commands.run import RunCommand, RunCommandConfig
 class Test_Spa:
     variant_name = "Spa"
 
-    @pytest.mark.parametrize("platform", ["pc_terminal", "pc_gui", "arduino_uno_r3", "gtest"])
-    def test_build(self, platform: str):
+    @pytest.mark.parametrize(
+        ("platform", "target"),
+        [
+            ("pc_terminal", "report"),
+            ("pc_gui", "report"),
+            ("arduino_uno_r3", "report"),
+            ("gtest", "report"),
+            # The riscv64 toolchain comes from poks on every OS; native_sim needs a Linux host.
+            pytest.param("zephyr_sim", "all", marks=pytest.mark.skipif(sys.platform != "linux", reason="native_sim is Linux-only")),
+            ("zephyr_esp32h2", "all"),
+        ],
+    )
+    def test_build(self, platform: str, target: str):
         # Arrange
         config = RunCommandConfig(
             project_dir=Path.cwd(),
             platform=platform,
             variant_name=self.variant_name,
             not_interactive=True,
-            target="report",
+            target=target,
         )
 
         # Act

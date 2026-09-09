@@ -20,5 +20,7 @@
       ],
     },
   },
+  // picocom reads native_sim's LED pseudo terminal and the board's serial console; see doc/platforms/zephyr.md.
+  "onCreateCommand": "sudo apt-get update && sudo apt-get install -y --no-install-recommends picocom",
   "postCreateCommand": "pipx upgrade pypeline-runner --pip-args='--upgrade-strategy eager' && pipx upgrade yanga --pip-args='--upgrade-strategy eager'"
 }

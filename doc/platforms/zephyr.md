@@ -1,0 +1,82 @@
+# Zephyr platforms
+
+Two platforms build the same variants on Zephyr: `zephyr_sim` runs on the host as
+Zephyr's `native_sim` board (Linux only), `zephyr_esp32h2` targets the ESP32-H2 DevKitM.
+Zephyr drives the build; yanga contributes the variant as a generated CMake fragment
+that `platforms/zephyr` includes. Everything below runs through `yanga run`, which
+provisions west, the toolchains from poks and the Zephyr workspace under
+`.yanga/zephyr` on first use.
+
+## Build
+
+```bash
+yanga run --variant Disco --platform zephyr_sim
+yanga run --variant Disco --platform zephyr_esp32h2
+```
+
+The image lands in `.yanga/build/variants/<variant>/<platform>/zephyr/`. Any other
+Zephyr build target goes through `--target`, for example `--target menuconfig` opens
+Zephyr's Kconfig editor over the merged tree. Changes made there land in that build's
+`.config` only; the product's features live in `variants/<variant>/config.txt` and are
+edited with `yanga features --edit`.
+
+## Run the simulator
+
+```bash
+.yanga/build/variants/Disco/zephyr_sim/zephyr/zephyr.exe
+```
+
+The shell starts in that terminal. The application boots powered off, like every other
+platform. There is no keyboard, so the shell presses the buttons:
+
+```
+uart:~$ spled power     # on, and again for off
+uart:~$ spled up        # faster blinking (Disco) or brighter (Sleep, Spa)
+uart:~$ spled down
+uart:~$ spled state     # power, light and button state
+```
+
+Each command holds the emulated pin pressed long enough to pass the debounce.
+`--stop-at=<seconds>` runs the simulator for that much simulated time and exits;
+the Disco pytest uses it as a boot check.
+
+### Watch the LED
+
+The LED display gets a pseudo terminal of its own. On start the binary prints:
+
+```
+uart_1 connected to pseudotty: /dev/pts/3
+```
+
+Open it in a second terminal:
+
+```bash
+picocom /dev/pts/3        # the number changes every run; Ctrl-A Ctrl-X quits
+```
+
+That is `pc_terminal`'s display: a block whose background is the RGB value, redrawn
+whenever the colour changes, with the value printed next to it. Use `picocom`
+(the dev container installs it, `apt-get install picocom` elsewhere): it relays the
+bytes untouched, so the 24-bit colour escape reaches the terminal. `screen` re-renders
+and quantises the colour to a grey block that never appears to change, and `cat` does
+not open the pseudo terminal slave reliably.
+
+## Flash the ESP32-H2
+
+```bash
+yanga run --variant Disco --platform zephyr_esp32h2 --target flash
+picocom /dev/ttyACM1 -b 115200        # Ctrl-A Ctrl-X quits
+```
+
+`flash` runs `west flash`, which uses esptool from the venv; the runner picks the port
+itself, or takes `ESPTOOL_PORT` from the environment. No button press is needed: the board
+drives BOOT and reset from DTR and RTS. The same `spled` commands work over the console.
+
+Board notes:
+
+- Serial access needs the `dialout` group: `sudo usermod -aG dialout $USER`, then log
+  out and in. In a Parallels VM hand the USB device to the guest first.
+- Two `/dev/ttyACM*` devices enumerate. The CH343 bridge (USB vendor `1a86`) carries the
+  console; the SoC's own USB (`303a`) has nothing routed to it and opens a terminal that
+  never prints. Tell them apart with
+  `udevadm info -q property -n /dev/ttyACM1 | grep ID_VENDOR_ID`.
