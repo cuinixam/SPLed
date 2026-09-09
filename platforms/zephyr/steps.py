@@ -32,6 +32,11 @@ def variant_conf_file(execution_context: ExecutionContext) -> Path:
 class ZephyrSetup(PipelineStep[ExecutionContext]):
     """Publishes ZEPHYR_BASE from the Zephyr checkout WestInstall registered, so west finds the workspace from any directory."""
 
+    @property
+    def output_dir(self) -> Path:
+        # Cache per variant and platform, like yanga-core's own steps; pypeline's default is the shared build dir.
+        return self.execution_context.spl_paths.variant_build_dir
+
     def run(self) -> None:
         return None
 
@@ -63,6 +68,11 @@ class GenerateZephyrVariantConfig(PipelineStep[ExecutionContext]):
         super().__init__(execution_context, group_name, config)
         self.kconfig = kconfiglib.Kconfig((self.project_root_dir / "KConfig").as_posix(), warn_to_stderr=False)
         self.output_file = variant_conf_file(execution_context)
+
+    @property
+    def output_dir(self) -> Path:
+        # Cache per variant and platform, like yanga-core's own steps; pypeline's default is the shared build dir.
+        return self.execution_context.spl_paths.variant_build_dir
 
     @property
     def features_file(self) -> Path:
