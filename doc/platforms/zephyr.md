@@ -14,7 +14,9 @@ yanga run --variant Disco --platform zephyr_sim
 yanga run --variant Disco --platform zephyr_esp32h2
 ```
 
-The image lands in `.yanga/build/variants/<variant>/<platform>/zephyr/`. Any other
+The image lands in `.yanga/build/variants/<variant>/<platform>/zephyr/`. `--target report`
+builds the variant report (component docs, targets, objects dependencies; the objects graph
+includes Zephyr's own libraries) under `reports/`. Any other
 Zephyr build target goes through `--target`, for example `--target menuconfig` opens
 Zephyr's Kconfig editor over the merged tree. Changes made there land in that build's
 `.config` only; the product's features live in `variants/<variant>/config.txt` and are

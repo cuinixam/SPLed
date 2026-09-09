@@ -22,3 +22,6 @@ pipeline:
     module: yanga.cmake.steps
   - step: GenerateZephyrVariantConfig
     file: platforms/zephyr/steps.py
+  # Reads what the generators registered, so it comes after GenerateBuildSystemFiles.
+  - step: GenerateReportConfig
+    module: yanga_core.steps.generate_report_config

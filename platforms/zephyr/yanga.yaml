@@ -39,7 +39,7 @@ platforms:
   # the ZephyrBuild step's config.
   - name: zephyr_sim
     description: Zephyr native_sim, host compiler (Linux only)
-    build_targets: [all, flash, menuconfig, guiconfig]
+    build_targets: [all, flash, report, menuconfig, guiconfig]
     components: [platform_types, zephyr_adapters, zephyr_led_gpio]
     configs:
       - id: west
@@ -56,6 +56,12 @@ platforms:
     generators:
       - step: ZephyrCMakeGenerator
         file: platforms/zephyr/steps.py
+      - step: ObjectsDepsCMakeGenerator
+        module: yanga.cmake.objects_deps
+      - step: TargetsDataCMakeGenerator
+        module: yanga.cmake.targets_data
+      - step: ReportCMakeGenerator
+        module: yanga.cmake.reports
     pipeline:
       - include: pipeline/zephyr.yaml
       - step: ZephyrBuild
@@ -66,7 +72,7 @@ platforms:
 
   - name: zephyr_esp32h2
     description: Zephyr on the ESP32-H2 devkit, riscv64-zephyr-elf from poks
-    build_targets: [all, flash, menuconfig, guiconfig]
+    build_targets: [all, flash, report, menuconfig, guiconfig]
     components: [platform_types, zephyr_adapters, zephyr_led_ws2812]
     configs:
       - id: west
@@ -83,6 +89,12 @@ platforms:
     generators:
       - step: ZephyrCMakeGenerator
         file: platforms/zephyr/steps.py
+      - step: ObjectsDepsCMakeGenerator
+        module: yanga.cmake.objects_deps
+      - step: TargetsDataCMakeGenerator
+        module: yanga.cmake.targets_data
+      - step: ReportCMakeGenerator
+        module: yanga.cmake.reports
     pipeline:
       - include: pipeline/zephyr.yaml
       # Espressif ships the radio firmware as binary blobs kept out of git. The
