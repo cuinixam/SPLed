@@ -39,8 +39,7 @@ uart:~$ spled state     # power, light and button state
 ```
 
 Each command holds the emulated pin pressed long enough to pass the debounce.
-`--stop-at=<seconds>` runs the simulator for that much simulated time and exits;
-the Disco pytest uses it as a boot check.
+`--stop-at=<seconds>` runs the simulator for that much simulated time and exits.
 
 ### Watch the LED
 

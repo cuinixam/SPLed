@@ -14,7 +14,7 @@ class Test_Spa:
         [
             ("pc_terminal", "report"),
             ("pc_gui", "report"),
-            ("arduino_uno_r3", "report"),
+            pytest.param("arduino_uno_r3", "report", marks=pytest.mark.skipif(sys.platform == "darwin", reason="poks has no avr-gcc for macOS")),
             ("gtest", "report"),
             # The riscv64 toolchain comes from poks on every OS; native_sim needs a Linux host.
             pytest.param("zephyr_sim", "all", marks=pytest.mark.skipif(sys.platform != "linux", reason="native_sim is Linux-only")),
